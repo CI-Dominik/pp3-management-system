@@ -217,7 +217,7 @@ After the deployment, a link to the deployed page can be found on the front page
 
 <br>
 
-![Screenshot of the live view link](docs/---------------------------------.jpg)
+![Screenshot of the live view link](docs/deployment5.jpg)
 
 ## Heroku
 
