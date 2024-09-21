@@ -63,6 +63,9 @@ The live system can be viewed here: [Link to the Restaurant Management System](h
 
 [**DEPLOYMENT**](#deployment)
   * [GitHub](#github-1)
+    * [Visual Studio Code connection](#visual-studio-code-connection)
+    * [Cloning, committing and pushing via Visual Studio Code](#cloning-committing-and-pushing-via-visual-studio-code)
+    * [Deployed page on GitHub](#deployed-page-on-github)
   * [Heroku](#heroku)
     
 <br>
@@ -200,36 +203,10 @@ Once you start Visual Studio Code with no connection, you simply need to click o
 
 ![Screenshot of the menu to commit changes to GitHub](docs/vscode-commit.jpg)
 
-### Deployment via GitHub Pages
-* Once a version that should be visible on the internet has been established, to deploy a page, one needs to visit the GitHub repository that is used to store all data of the project.
+### Deployed page on GitHub
+* The system is hosted via Heroku, but still available in the pages menu of GitHub.
 
-<br>
-
-![Screenshot of the settings menu in GitHub](docs/deployment4.jpg)
-
-On the top, there is an option that says *Settings*. In this menu, it is possible to deploy the page using the *Pages* sub-menu.
-
-<br>
-
-![Screenshot of the settings list with Pages circled](docs/deployment2.jpg)
-
-Once one clicks on the *Pages* sub-menu, a new page will appear. On this one, one can select the branch of the project which contains the main data to deploy to GitHub Pages. In this case, the branch *Main* was used.
-
-<br>
-
-![Screenshot of the branch selection in GitHub Pages](docs/deployment3.jpg)
-
-With the right branch selected, the input needs to be saved via the *Save* button.
-
-<br>
-
-![Screenshot of the deployed homepage menu](docs/deployment1.jpg)
-
-After the deployment, a link to the deployed page can be found on the front page of the GitHub repository. With a click on it to reveal the link that takes the visitor to the live page.
-
-<br>
-
-![Screenshot of the live view link](docs/deployment5.jpg)
+![Screenshot of the deployed page in GitHub](docs/deployment-pages.jpg)
 
 ## Heroku
 
@@ -257,5 +234,5 @@ PH ---------------------------------
 ## [Visual Studio Code](https://code.visualstudio.com/)
 * Used for code editing.
 
-## [All-Inkl](https://https://all-inkl.com/)
+## [All-Inkl](https://all-inkl.com/)
 * Used to host the MySQL database.
