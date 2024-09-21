@@ -14,6 +14,11 @@ The live system can be viewed here: [Link to the Restaurant Management System](h
 
 <br>
 
+[**PLANNING**](#planning)
+  * PH
+
+<br>
+
 [**USER EXPERIENCE**](#user-experience)
   * PH
     
@@ -74,6 +79,13 @@ The live system can be viewed here: [Link to the Restaurant Management System](h
 ---
 
 ## **BRIEFING**
+
+## Heading
+* PH
+
+---
+
+## **PLANNING**
 
 ## Heading
 * PH
