@@ -30,11 +30,6 @@ try:
         password=db_pass
     )
 
-    """ Check if connection was successful """
-
-    if connection.is_connected():
-        print("Connection to database established.")
-
     """ Create cursor for usage with MySQL """
 
     cursor = connection.cursor()
@@ -44,3 +39,59 @@ try:
 except Error as e:
     
     print(f"ERROR CONNECTING TO DATABASE: {e}")
+
+def main_menu():
+
+    """ Function to show the Main Menu of the system and get a choice for the next move """
+    
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("Welcome to Happy Life's Management System\n")
+    print("")
+
+    """ Display the Main Menu """
+
+    while True:
+        
+        print("+------- MAIN MENU -------+")
+        print("|                         |")
+        print("| 1. Customer Management  |")
+        print("| 2. Bookings / Tables    |")
+        print("| 3. Sales / Carts        |")
+        print("| 4. Returns              |")
+        print("| 5. Products             |")
+        print("|                         |")
+        print("---------------------------")
+        print("")
+
+        """ Get input and check for errors and invalid numbers """
+
+        try:
+            main_input = int(input("Please select a topic: \n"))
+
+        except ValueError:
+            print("Please enter a number.\n")
+            continue
+
+        if(main_input == 1):
+            print(f"Your input was {main_input}\n")
+
+        elif(main_input == 2):
+            print(f"Your input was {main_input}\n")
+
+        elif(main_input == 3):
+            print(f"Your input was {main_input}\n")
+
+        elif(main_input == 4):
+            print(f"Your input was {main_input}\n")
+
+        elif(main_input == 5):
+            print(f"Your input was {main_input}\n")
+        
+        else:
+            print("Please insert a valid number.\n")
+        
+
+def main():
+    main_menu()
+
+main()
