@@ -65,28 +65,29 @@ def main_menu():
         """ Get input and check for errors and invalid numbers """
 
         try:
-            main_input = int(input("Please select a topic: \n"))
+            response = int(input("Please select a topic: \n"))
 
         except ValueError:
             print("Please enter a number.\n")
             continue
 
-        if(main_input == 1):
+        if(response == 1):
             print("")
+            #customer_management_menu()
             customer_management_menu()
             break
 
-        elif(main_input == 2):
-            print(f"Your input was {main_input}\n")
+        elif(response == 2):
+            print(f"Your input was {response}\n")
 
-        elif(main_input == 3):
-            print(f"Your input was {main_input}\n")
+        elif(response == 3):
+            print(f"Your input was {response}\n")
 
-        elif(main_input == 4):
-            print(f"Your input was {main_input}\n")
+        elif(response == 4):
+            print(f"Your input was {response}\n")
 
-        elif(main_input == 5):
-            print(f"Your input was {main_input}\n")
+        elif(response == 5):
+            print(f"Your input was {response}\n")
         
         else:
             print("Please insert a valid number.\n")
@@ -114,26 +115,26 @@ def customer_management_menu():
         """ Get input and check for errors and invalid numbers """
 
         try:
-            main_input = int(input("Please select a topic: \n"))
+            response = int(input("Please select a topic: \n"))
 
         except ValueError:
             print("Please enter a number.\n")
             continue
 
-        if(main_input == 1):
-            customer_management_menu()
+        if(response == 1):
+            search_customer()
             break
 
-        elif(main_input == 2):
-            print(f"Your input was {main_input}\n")
+        elif(response == 2):
+            print(f"Your input was {response}\n")
 
-        elif(main_input == 3):
-            print(f"Your input was {main_input}\n")
+        elif(response == 3):
+            print(f"Your input was {response}\n")
 
-        elif(main_input == 4):
-            print(f"Your input was {main_input}\n")
+        elif(response == 4):
+            print(f"Your input was {response}\n")
 
-        elif(main_input == 5):
+        elif(response == 5):
             print("")
             main_menu()
             break
@@ -152,6 +153,70 @@ def returns_menu():
 
 def products_menu():
     pass
+
+def search_customer():
+
+    """ Search customer menu """
+
+    while True:
+
+        print("+------- SEARCH CUSTOMER -------+")
+        print("|                               |")
+        print("| By which parameter do you     |")
+        print("| want to search?               |")
+        print("|                               |")
+        print("| 1. Name (possible duplicates) |")
+        print("| 2. By email address           |")
+        print("| 3. By phone number            |")
+        print("| 4. By ID                      |")
+        print("| 4. Main Menu                  |")
+        print("|                               |")
+        print("---------------------------------")
+
+        try:
+
+            response = int(input("Please select a way to search: \n"))
+
+        except ValueError:
+
+            print("Please enter a number.\n")
+            continue
+
+        if(response == 1):
+            search_customer_attribute("name")
+            pass
+            
+        elif(response == 2):
+            print(f"Your input was {response}\n")
+
+        elif(response == 3):
+            print(f"Your input was {response}\n")
+
+        elif(response == 4):
+            print(f"Your input was {response}\n")
+
+        elif(response == 5):
+            print("")
+            main_menu()
+            break
+
+def search_customer_attribute(type):
+
+    """ Search customer by passed attribute """
+
+    while True:
+
+        if(type == "name"):
+            pass
+
+        elif(type == "email"):
+            pass
+
+        elif(type == "phone_number"):
+            pass
+
+        elif(type == "customer_id"):
+            pass     
 
 def main():
     os.system('cls' if os.name == 'nt' else 'clear')
