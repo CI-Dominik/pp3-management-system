@@ -8,6 +8,9 @@ import os
 import mysql.connector
 from mysql.connector import Error
 from dotenv import load_dotenv
+from colorama import Fore, Back, Style, init
+
+init(autoreset=True)
 
 """ Load .env file to authenticate in database """
 
@@ -254,13 +257,59 @@ def search_customer_attribute(type=None, callable_type=None):
         result = cursor.fetchall()
 
     if(len(result) == 1):
-        print(f"Result:\nCustomer ID: {result[0]["customer_id"]}, Name: {result[0]["first_name"]} {result[0]["last_name"]}, Email address: {result[0]["email"]}, Phone number: {result[0]["phone_number"]}")
+        print("")
+        print(Fore.GREEN + f"Result:\nCustomer ID: {result[0]["customer_id"]}, Name: {result[0]["first_name"]} {result[0]["last_name"]}, Email address: {result[0]["email"]}, Phone number: {result[0]["phone_number"]}")
+        print("")
 
-    if (len(result) > 0):
+    elif (len(result) > 1):
         # ------------------------------------------------ TODO: FILTER RESULT
-        pass
+
+        print("")
+        print(Fore.YELLOW + f"Multiple entries have been found. Please use another filtering method or select by typing the ID of a result to use that entry.")
+
+        id_entries = []
+
+        for i in range(len(result)):
+            print("")
+            print(Fore.GREEN + f"Result {i + 1}:\nCustomer ID: {result[i]["customer_id"]}, Name: {result[i]["first_name"]} {result[i]["last_name"]}, Email address: {result[i]["email"]}, Phone number: {result[i]["phone_number"]}")
+            id_entries.append(result[i]["customer_id"])
+            print(id_entries)
+            print("")
+        
+        print(Fore.YELLOW + "Do you want to use another attribute or use an ID?")
+        print(Fore.YELLOW + "1. Use ID")
+        print(Fore.YELLOW + "2. Use another attribute")
+        
+        while True:
+
+            try:
+                choice = int(input("Please insert a number: \n"))
+
+            except ValueError:
+                print("please only use numbers.")
+
+            if(choice == 1):
+
+                id_choice = int(input(Fore.YELLOW + "Please insert ID of the customer to select: \n"))
+
+                if(id_choice in id_entries):
+                    print(f"You have chosen the entry with the customer ID {id_choice}:")
+                    cursor.execute("SELECT * FROM customers WHERE customer_id=%s", (id_choice,))
+                    chosen_entry = cursor.fetchone()
+                    print(Fore.GREEN + f"Customer ID: {chosen_entry["customer_id"]}, Name: {chosen_entry["first_name"]} {chosen_entry["last_name"]}, Email address: {chosen_entry["email"]}, Phone number: {chosen_entry["phone_number"]}")
+                    check = input(Fore.YELLOW + "Is this correct? [y/n]\n")
+
+                    pass # ---------------------- TODO: RETURN
+
+                else:
+                    print("No entry with that ID found.")
+                    continue
 
     else:
+        print("")
+        print(Fore.RED + "No entries found.")
+        print(Style.RESET_ALL)
+        print("")
         return None
 
 
