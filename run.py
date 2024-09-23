@@ -245,10 +245,6 @@ def search_customer_attribute(type=None, callable_type=None):
 
         result = cursor.fetchall()
 
-        # ------------------------------ TODO: INSERT CHECK FOR DUPLICATES
-
-        pass
-
     else:
                 
         type_input = input(f"Please insert {callable_type} to search by: \n")
@@ -257,13 +253,15 @@ def search_customer_attribute(type=None, callable_type=None):
 
         result = cursor.fetchall()
 
-        print(result)
+    if(len(result) == 1):
+        print(f"Result:\nCustomer ID: {result[0]["customer_id"]}, Name: {result[0]["first_name"]} {result[0]["last_name"]}, Email address: {result[0]["email"]}, Phone number: {result[0]["phone_number"]}")
 
-        if (len(result) > 0):
-            return result
+    if (len(result) > 0):
+        # ------------------------------------------------ TODO: FILTER RESULT
+        pass
 
-        else:
-            return None
+    else:
+        return None
 
 
 
