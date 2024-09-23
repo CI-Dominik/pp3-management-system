@@ -129,7 +129,7 @@ def customer_management_menu():
             print(f"Your input was {response}\n")
 
         elif(response == 3):
-            print(f"Your input was {response}\n")
+            result = search_customer_attribute()
 
         elif(response == 4):
             print(f"Your input was {response}\n")
@@ -169,7 +169,7 @@ def search_customer():
         print("| 2. By email address           |")
         print("| 3. By phone number            |")
         print("| 4. By ID                      |")
-        print("| 4. Main Menu                  |")
+        print("| 5. Main Menu                  |")
         print("|                               |")
         print("---------------------------------")
 
@@ -184,39 +184,88 @@ def search_customer():
 
         if(response == 1):
             search_customer_attribute("name")
-            pass
             
         elif(response == 2):
-            print(f"Your input was {response}\n")
+            search_customer_attribute("email", "email address")
 
         elif(response == 3):
-            print(f"Your input was {response}\n")
+            search_customer_attribute("phone_number", "phone number")
 
         elif(response == 4):
-            print(f"Your input was {response}\n")
+            search_customer_attribute("customer_id", "customer ID")
 
         elif(response == 5):
             print("")
             main_menu()
             break
 
-def search_customer_attribute(type):
+def search_customer_attribute(type=None, callable_type=None):
 
-    """ Search customer by passed attribute """
+    """ Search customer by attribute """
 
-    while True:
+    if(type == None):
 
-        if(type == "name"):
-            pass
+        print("")
+        print("Please choose attribute to get customer by:\n")
+        print("1. Name (Possible duplicates)\n")
+        print("2. Email address\n")
+        print("3. Phone number\n")
+        print("4. Customer ID\n")
+        print("5. Back to main menu\n")
 
-        elif(type == "email"):
-            pass
+        while True:
 
-        elif(type == "phone_number"):
-            pass
+            try:
+                search_input = int(input("Please type a number: \n"))
 
-        elif(type == "customer_id"):
-            pass     
+            except TypeError:
+                print("Please only insert numbers.")
+                continue
+
+            if(search_input == 1):
+                type = "name"
+                break
+            elif(search_input == 2):
+                type="email"
+                callable_type="email address"
+                break
+            elif(search_input == 3):
+                type="phone_number"
+                callable_type="phone number"
+                break
+            elif(search_input == 4):
+                type="customer_id"
+                callable_type="customer ID"
+                break
+
+    if(type == "name"):
+                
+        f_name = input("Please insert a first name to search by: \n")
+        l_name = input("Please insert a last name to search by: \n")
+
+        cursor.execute("SELECT * FROM customers WHERE first_name=%s AND last_name=%s", (f_name, l_name))
+
+        result = cursor.fetchall()
+
+        # ------------------------------ TODO: INSERT CHECK FOR DUPLICATES
+
+        pass
+
+    else:
+                
+        type_input = input(f"Please insert {callable_type} to search by: \n")
+
+        cursor.execute(f"SELECT * FROM customers WHERE {type}=%s", (type_input,))
+
+        result = cursor.fetchall()
+
+        print(result)
+
+        if (len(result) > 0):
+            return result
+
+        else:
+            return None
 
 def main():
     os.system('cls' if os.name == 'nt' else 'clear')
