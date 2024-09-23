@@ -9,6 +9,7 @@ import mysql.connector
 from mysql.connector import Error
 from dotenv import load_dotenv
 from colorama import Fore, Back, Style, init
+import re
 
 init(autoreset=True)
 
@@ -124,11 +125,10 @@ def customer_management_menu():
             continue
 
         if(response == 1):
-            search_customer()
-            break
+            search_customer_attribute()
 
         elif(response == 2):
-            print(f"Your input was {response}\n")
+            add_customer()
 
         elif(response == 3):
             result = search_customer_attribute()
@@ -155,6 +155,8 @@ def returns_menu():
 
 def products_menu():
     pass
+
+# -------------------------------------------------------------- 
 
 def search_customer():
 
@@ -345,6 +347,63 @@ def search_customer_attribute(type=None, callable_type=None):
         print(Style.RESET_ALL)
         print("")
         return None
+
+
+def add_customer():
+
+    """ Function to add a new customer to the database """
+
+    while True:
+
+        f_name_input = input("Please insert the customer's first name: \n")
+        l_name_input = input("Please insert the customer's last name: \n")
+
+        """ Check email address format """
+
+        while True:
+            
+            email_input = input("Please insert the customer's email address: \n")
+
+            cursor.execute("SELECT email FROM customers WHERE email=%s", (email_input,))
+            
+            if(cursor.fetchone() == None):
+            
+                pattern = r"^[a-z0-9]+[\._-]?[a-z0-9]+[@]\w+[.]\w+$"
+
+                if(re.match(pattern, email_input)):
+                    break
+
+                else:
+                    print(Fore.RED + "Wrong email format. Example: value@mail.com.\n")
+                    continue
+
+            else:
+                print(Fore.RED + "Customer's email address already exists. Creation cancelled.\n")
+            break
+        
+        """ Check phone number format """
+
+        while True:
+
+            pattern = r"^(?:\+44|0044|0)\s?7\d{3}\s?\d{6}$|^(?:\+44|0044|0)\s?\d{2,4}\s?\d{3,4}\s?\d{4}$"
+
+            phone_number_input = input("Please insert the customer's phone number (UK format): \n")
+
+            if (re.match(pattern, phone_number_input)):
+                break
+
+            else:
+                print(Fore.RED + "Wrong phone number format. Please use a UK formatted number.\n")
+                continue
+
+        cursor.execute("INSERT INTO customers (first_name, last_name, email, phone_number, bonus_points) VALUES (%s, %s, %s, %s, %s)",(f_name_input, l_name_input, email_input, phone_number_input.replace(" ", ""), 0))
+        connection.commit()
+
+        print(Fore.GREEN + "Customer successfully added to database.\n")
+        break
+
+
+
 
 def main():
     os.system('cls' if os.name == 'nt' else 'clear')
