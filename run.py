@@ -206,6 +206,8 @@ def search_customer_attribute(type=None, callable_type=None):
 
     if(type == None):
 
+        """ If no attribute is provided, choose one here """
+
         print("")
         print("Please choose attribute to get customer by:\n")
         print("1. Name (Possible duplicates)\n")
@@ -218,11 +220,9 @@ def search_customer_attribute(type=None, callable_type=None):
 
             try:
                 search_input = int(input("Please type a number: \n"))
-
             except TypeError:
                 print("Please only insert numbers.")
                 continue
-
             if(search_input == 1):
                 type = "name"
                 break
@@ -238,36 +238,53 @@ def search_customer_attribute(type=None, callable_type=None):
                 type="customer_id"
                 callable_type="customer ID"
                 break
+            elif(search_input == 5):
+                main_menu()
+                break
+            else:
+                print(Fore.RED + "Invalid input.")
+
+    """ If an attribute is provided, function starts here """
 
     if(type == "name"):
                 
         f_name = input("Please insert a first name to search by: \n")
         l_name = input("Please insert a last name to search by: \n")
-
         cursor.execute("SELECT * FROM customers WHERE first_name=%s AND last_name=%s", (f_name, l_name))
-
         result = cursor.fetchall()
 
     else:
                 
         type_input = input(f"Please insert {callable_type} to search by: \n")
-
         cursor.execute(f"SELECT * FROM customers WHERE {type}=%s", (type_input,))
-
         result = cursor.fetchall()
+
+    """ Return customer when exactly one entry was found """
 
     if(len(result) == 1):
         print("")
         print(Fore.GREEN + f"Result:\nCustomer ID: {result[0]["customer_id"]}, Name: {result[0]["first_name"]} {result[0]["last_name"]}, Email address: {result[0]["email"]}, Phone number: {result[0]["phone_number"]}")
         print("")
 
+        while True:
+            check = input("Is this correct? [y/n]\n")
+            if(check.lower() == "y"):
+                return result[0]         
+            elif(check.lower() == "n"):
+                break
+            else:
+                print("Please enter y or n for your answer.")
+
+        """ Display and check when multiple values were found """
+
     elif (len(result) > 1):
-        # ------------------------------------------------ TODO: FILTER RESULT
 
         print("")
         print(Fore.YELLOW + f"Multiple entries have been found. Please use another filtering method or select by typing the ID of a result to use that entry.")
 
         id_entries = []
+
+        """ Cycle through results and save found IDs in array """
 
         for i in range(len(result)):
             print("")
@@ -279,17 +296,18 @@ def search_customer_attribute(type=None, callable_type=None):
         print(Fore.YELLOW + "Do you want to use another attribute or use an ID?")
         print(Fore.YELLOW + "1. Use ID")
         print(Fore.YELLOW + "2. Use another attribute")
+        print(Fore.RED + "0. Cancel")
+
+        """ Choice what to do when multiple entries are found """
         
         while True:
 
             try:
                 choice = int(input("Please insert a number: \n"))
-
             except ValueError:
                 print("please only use numbers.")
-
-            if(choice == 1):
-
+            if (choice == 1):
+                """ Choice to pick entry by ID """
                 id_choice = int(input(Fore.YELLOW + "Please insert ID of the customer to select: \n"))
 
                 if(id_choice in id_entries):
@@ -297,13 +315,29 @@ def search_customer_attribute(type=None, callable_type=None):
                     cursor.execute("SELECT * FROM customers WHERE customer_id=%s", (id_choice,))
                     chosen_entry = cursor.fetchone()
                     print(Fore.GREEN + f"Customer ID: {chosen_entry["customer_id"]}, Name: {chosen_entry["first_name"]} {chosen_entry["last_name"]}, Email address: {chosen_entry["email"]}, Phone number: {chosen_entry["phone_number"]}")
-                    check = input(Fore.YELLOW + "Is this correct? [y/n]\n")
 
-                    pass # ---------------------- TODO: RETURN
+                    while True:
 
+                        check = input("Is this correct? [y/n]\n")
+                        if(check.lower() == "y"):
+                            return chosen_entry
+                        elif(check.lower() == "n"):
+                            break
+                        else:
+                            print("Please enter y or n for your answer.")
                 else:
                     print("No entry with that ID found.")
                     continue
+
+            if(choice == 2):
+                search_customer_attribute()
+                break
+
+            if(choice == 0):
+                break
+
+            else:
+                print(Fore.RED + "Invalid input.")
 
     else:
         print("")
@@ -311,11 +345,6 @@ def search_customer_attribute(type=None, callable_type=None):
         print(Style.RESET_ALL)
         print("")
         return None
-
-
-
-
-
 
 def main():
     os.system('cls' if os.name == 'nt' else 'clear')
