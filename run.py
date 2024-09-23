@@ -73,7 +73,6 @@ def main_menu():
 
         if(response == 1):
             print("")
-            #customer_management_menu()
             customer_management_menu()
             break
 
@@ -169,7 +168,7 @@ def search_customer():
         print("| 2. By email address           |")
         print("| 3. By phone number            |")
         print("| 4. By ID                      |")
-        print("| 5. Main Menu                  |")
+        print("| 5. Customer Management        |")
         print("|                               |")
         print("---------------------------------")
 
@@ -195,8 +194,7 @@ def search_customer():
             search_customer_attribute("customer_id", "customer ID")
 
         elif(response == 5):
-            print("")
-            main_menu()
+            customer_management_menu()
             break
 
 def search_customer_attribute(type=None, callable_type=None):
@@ -266,6 +264,11 @@ def search_customer_attribute(type=None, callable_type=None):
 
         else:
             return None
+
+
+
+
+
 
 def main():
     os.system('cls' if os.name == 'nt' else 'clear')
