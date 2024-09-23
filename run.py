@@ -156,52 +156,6 @@ def returns_menu():
 def products_menu():
     pass
 
-# -------------------------------------------------------------- 
-
-def search_customer():
-
-    """ Search customer menu """
-
-    while True:
-
-        print("+------- SEARCH CUSTOMER -------+")
-        print("|                               |")
-        print("| By which parameter do you     |")
-        print("| want to search?               |")
-        print("|                               |")
-        print("| 1. Name (possible duplicates) |")
-        print("| 2. By email address           |")
-        print("| 3. By phone number            |")
-        print("| 4. By ID                      |")
-        print("| 5. Customer Management        |")
-        print("|                               |")
-        print("---------------------------------")
-
-        try:
-
-            response = int(input("Please select a way to search: \n"))
-
-        except ValueError:
-
-            print("Please enter a number.\n")
-            continue
-
-        if(response == 1):
-            search_customer_attribute("name")
-            
-        elif(response == 2):
-            search_customer_attribute("email", "email address")
-
-        elif(response == 3):
-            search_customer_attribute("phone_number", "phone number")
-
-        elif(response == 4):
-            search_customer_attribute("customer_id", "customer ID")
-
-        elif(response == 5):
-            customer_management_menu()
-            break
-
 def search_customer_attribute(type=None, callable_type=None):
 
     """ Search customer by attribute """
