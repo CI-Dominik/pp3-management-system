@@ -309,46 +309,57 @@ def add_customer():
 
     while True:
 
-        f_name_input = input("Please insert the customer's first name: \n")
-        l_name_input = input("Please insert the customer's last name: \n")
+        f_name_input = input("Please insert the customer's first name or enter 0 to exit: \n")
+
+        if (f_name_input == "0"):
+            break
+
+        l_name_input = input("Please insert the customer's last name or enter 0 to exit: \n")
+
+        if (l_name_input == "0"):
+            break
 
         """ Check email address format """
-
-        while True:
             
-            email_input = input("Please insert the customer's email address: \n")
+        email_input = input("Please insert the customer's email address or enter 0 to exit: \n")
 
-            cursor.execute("SELECT email FROM customers WHERE email=%s", (email_input,))
+        if (email_input == "0"):
+            break
+
+        cursor.execute("SELECT email FROM customers WHERE email=%s", (email_input,))
             
-            if(cursor.fetchone() == None):
+        if(cursor.fetchone() == None):
             
-                pattern = r"^[a-z0-9]+[\._-]?[a-z0-9]+[@]\w+[.]\w+$"
+            email_pattern = r"^[a-z0-9]+[\._-]?[a-z0-9]+[@]\w+[.]\w+$"
 
-                if(re.match(pattern, email_input)):
-                    break
+            if(re.match(email_pattern, email_input) == None):
+                print(Fore.RED + "Wrong email format. Example: value@mail.com.\n")
+                break
 
-                else:
-                    print(Fore.RED + "Wrong email format. Example: value@mail.com.\n")
-                    continue
-
-            else:
-                print(Fore.RED + "Customer's email address already exists. Creation cancelled.\n")
+        else:
+            print(Fore.RED + "Customer's email address already exists. Creation cancelled.\n")
             break
         
         """ Check phone number format """
 
-        while True:
+        phone_pattern = r"^(?:\+44|0044|0)\s?7\d{3}\s?\d{6}$|^(?:\+44|0044|0)\s?\d{2,4}\s?\d{3,4}\s?\d{4}$"
 
-            pattern = r"^(?:\+44|0044|0)\s?7\d{3}\s?\d{6}$|^(?:\+44|0044|0)\s?\d{2,4}\s?\d{3,4}\s?\d{4}$"
+        phone_number_input = input("Please insert the customer's phone number (UK format) or enter 0 to exit: \n")
 
-            phone_number_input = input("Please insert the customer's phone number (UK format): \n")
+        if (phone_number_input == "0"):
+            break
 
-            if (re.match(pattern, phone_number_input)):
+        cursor.execute("SELECT email FROM customers WHERE phone_number=%s", (phone_number_input,))
+            
+        if(cursor.fetchone() == None):
+
+            if (re.match(phone_pattern, phone_number_input) == None):
+                print(Fore.RED + "Wrong phone number format. Please use a UK formatted number.\n")
                 break
 
-            else:
-                print(Fore.RED + "Wrong phone number format. Please use a UK formatted number.\n")
-                continue
+        else:
+            print(Fore.RED + "Customer's phone number already exists. Creation cancelled.\n")
+            break
 
         cursor.execute("INSERT INTO customers (first_name, last_name, email, phone_number, bonus_points) VALUES (%s, %s, %s, %s, %s)",(f_name_input, l_name_input, email_input, phone_number_input.replace(" ", ""), 0))
         connection.commit()
