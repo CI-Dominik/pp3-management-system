@@ -482,7 +482,7 @@ def bookings_tables_menu():
         print("| 1. Book Table                       |")
         print("| 2. View available Tables            |")
         print("| 3. Create single purchase           |")
-        print("| 4. View bookings                    |")
+        print("| 4. View open bookings               |")
         print("| 5. Main Menu                        |")
         print("|                                     |")
         print("---------------------------------------")
@@ -513,7 +513,7 @@ def bookings_tables_menu():
             pass
 
         elif(response == 4):
-            pass
+            check_bookings()
 
         elif(response == 5):
             print("")
@@ -656,13 +656,60 @@ def table_booking(customer, table_select, number_of_people):
 
     bookings_tables_menu()
 
-
 def check_available_tables(number_of_people):
 
     cursor.execute("SELECT * FROM tables WHERE availability=1 AND number_of_seats >= %s", (number_of_people,))
     tables_available = cursor.fetchall()
 
     return tables_available
+
+def check_bookings():
+    while True:
+
+        print("Please specify a booking filter option.")
+        print("1. By booking ID")
+        print("2. By customer ID")
+        print("3. By table ID")
+        print("4. Cancel")
+
+        try:
+            check_input = int(input("Please enter a number: \n"))
+        
+        except ValueError:
+            print("Please only use numbers.")
+            continue
+
+        if (check_input == 1):
+            check_booking_by_value("booking_id", "booking ID")
+            break
+
+        if (check_input == 2):
+            check_booking_by_value("customer_id", "customer ID")
+            break
+
+        if (check_input == 3):
+            check_booking_by_value("table_id", "table ID")
+            break
+
+        if (check_input == 4):
+            break
+
+def check_booking_by_value(value, callable_value):
+
+    booking_input = input(f"Please enter {callable_value} to search by: \n")
+    
+    cursor.execute("SELECT * FROM bookings WHERE " + value + "=%s AND active = 1", (booking_input,))
+    check = cursor.fetchall()
+
+    if (len(check) > 0):
+
+        print("Open bookings:")
+
+        for booking in check:
+            print(Fore.GREEN + f"Booking ID: {booking['booking_id']}, Customer ID: {booking['customer_id']}, Table ID: {booking['table_id']}, Date: {booking['date']}")
+
+    else:
+        print(Fore.RED + "No entries found.")
 
 """ Booking Functions End"""
 
