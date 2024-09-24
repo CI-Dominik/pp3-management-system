@@ -66,6 +66,10 @@ def main_menu():
         print("| 5. Products             |")
         print("|                         |")
         print("---------------------------")
+        print("|                         |")
+        print("| DEV: 6. Reset Tables    |")
+        print("|                         |")
+        print("---------------------------")
         print("")
 
         """ Get input and check for errors and invalid numbers """
@@ -95,6 +99,13 @@ def main_menu():
 
         elif(response == 5):
             print(f"Your input was {response}\n")
+
+            """ DEVELOPMENT COMMANDS """
+
+        elif(response == 6):
+
+            cursor.execute("UPDATE tables SET availability=1")
+            connection.commit()
         
         else:
             print("Please insert a valid number.\n")
