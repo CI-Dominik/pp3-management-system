@@ -367,7 +367,12 @@ def add_customer():
         connection.commit()
 
         print(Fore.GREEN + "Customer successfully added to database.\n")
-        break
+        
+        cursor.execute("SELECT * FROM customers WHERE first_name=%s AND last_name=%s AND email=%s AND phone_number=%s", (f_name_input, l_name_input, email_input, phone_number_input))
+
+        customer = cursor.fetchone()
+
+        return customer
 
 def update_customer():
     customer = search_customer_attribute()
@@ -480,7 +485,8 @@ def bookings_tables_menu():
             continue
 
         if(response == 1):
-            pass
+            book_table()
+            break
 
         elif(response == 2):
             pass
@@ -498,6 +504,43 @@ def bookings_tables_menu():
         
         else:
             print("Please insert a valid number.\n")
+
+def book_table():
+
+    cursor.execute("SELECT * FROM tables WHERE availability=1")
+
+    available_tables = cursor.fetchall()
+    
+    while True:
+
+        print("Do you want to book a table for a new customer, a registered customer or a guest?")
+        print("1. New customer")
+        print("2. Existing customer")
+        print("3. Guest")
+        print(Fore.RED + "4. Cancel")
+
+        try:
+            choice = int(input("Please insert a number: \n"))
+        
+        except ValueError:
+            print("Please only insert numbers.")
+
+        if (choice == 1):
+            customer = add_customer()
+            table_booking(customer)
+        
+        if (choice == 2):
+            customer = search_customer_attribute()
+            table_booking(customer)
+
+        if (choice == 3):
+            table_booking()
+
+        if (choice == 4):
+            break
+
+def table_booking(customer="guest"):
+    pass
 
 """ Booking Functions End"""
 
