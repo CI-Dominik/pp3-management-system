@@ -44,6 +44,8 @@ except Error as e:
     
     print(f"ERROR CONNECTING TO DATABASE!")
 
+""" Main Menu Start """
+
 def main_menu():
 
     """ Function to show the Main Menu of the system and get a choice for the next move """
@@ -81,7 +83,9 @@ def main_menu():
             break
 
         elif(response == 2):
-            print(f"Your input was {response}\n")
+            print("")
+            bookings_tables_menu()
+            break
 
         elif(response == 3):
             print(f"Your input was {response}\n")
@@ -94,6 +98,8 @@ def main_menu():
         
         else:
             print("Please insert a valid number.\n")
+
+""" Main Menu End """
 
 """ Customer Functions Start """
 
@@ -434,7 +440,53 @@ def update_customer_data(customer, value, callable_value):
 """ Booking Functions Start """
 
 def bookings_tables_menu():
-    pass
+
+    """ Display the Bookings / Table Management Menu """
+
+    print("You entered the Bookings / Tables Management System.\n")
+    print("")
+
+    while True:
+
+        print("+--------- BOOKINGS / TABLES ---------+")
+        print("|                                     |")
+        print("| 1. Book Table                       |")
+        print("| 2. View available Tables            |")
+        print("| 3. Create single purchase           |")
+        print("| 4. View bookings                    |")
+        print("| 5. Main Menu                        |")
+        print("|                                     |")
+        print("---------------------------------------")
+        print("")
+
+        """ Get input and check for errors and invalid numbers """
+
+        try:
+            response = int(input("Please select a topic: \n"))
+
+        except ValueError:
+            print("Please enter a number.\n")
+            continue
+
+        if(response == 1):
+            pass
+
+        elif(response == 2):
+            pass
+
+        elif(response == 3):
+            pass
+
+        elif(response == 4):
+            pass
+
+        elif(response == 5):
+            print("")
+            main_menu()
+            break
+        
+        else:
+            print("Please insert a valid number.\n")
 
 """ Booking Functions End"""
 
