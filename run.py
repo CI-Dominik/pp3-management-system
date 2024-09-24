@@ -525,74 +525,82 @@ def book_table():
         finally:
             break
 
-    available_tables = check_available_tables(number_of_people)
+    if(number_of_people >= 1):
 
-    print("The following tables are available:\n")
-    
-    table_id_selection = []
+        available_tables = check_available_tables(number_of_people)
 
-    for table in available_tables:
-        print(f"Table ID: {table['table_id']}, Number of seats: {table['number_of_seats']}")
-        table_id_selection.append(table['table_id'])
+        print("The following tables are available:\n")
+        
+        table_id_selection = []
 
-    if(len(available_tables) > 0):
+        for table in available_tables:
+            print(f"Table ID: {table['table_id']}, Number of seats: {table['number_of_seats']}")
+            table_id_selection.append(table['table_id'])
 
-        """ Select table ID from the available tables """
+        if(len(available_tables) > 0):
 
-        while True:
+            """ Select table ID from the available tables """
 
-            try: 
-                table_select = int(input("Please select a table ID: \n"))
+            while True:
 
-            except ValueError:
-                print("Please only use numbers.")
-                continue
-            else:
-                if(table_select not in table_id_selection):
-                    print("A table with that number is not available.")
+                try: 
+                    table_select = int(input("Please select a table ID or 0 to cancel: \n"))
+                    if (table_select == 0):
+                        break
+
+                except ValueError:
+                    print("Please only use numbers.")
                     continue
                 else:
+                    if(table_select not in table_id_selection):
+                        print("A table with that number is not available.")
+                        continue
+                    else:
+                        break
+            
+            while True:
+
+                print("Do you want to book a table for a new customer, a registered customer or a guest?")
+                print("1. New customer")
+                print("2. Existing customer")
+                print("3. Guest")
+                print(Fore.RED + "4. Cancel")
+
+                try:
+                    choice = int(input("Please insert a number: \n"))
+                
+                except ValueError:
+                    print("Please only insert numbers.")
+
+                if (choice == 1):
+                    customer = add_customer()
+                    table_booking(customer, table_select, number_of_people)
+                
+                if (choice == 2):
+                    customer = search_customer_attribute()
+                    table_booking(customer, table_select, number_of_people)
+
+                if (choice == 3):
+                    table_booking("guest", table_select, number_of_people)
+
+                if (choice == 4):
+                    bookings_tables_menu()
                     break
-        
-        while True:
 
-            print("Do you want to book a table for a new customer, a registered customer or a guest?")
-            print("1. New customer")
-            print("2. Existing customer")
-            print("3. Guest")
-            print(Fore.RED + "4. Cancel")
+                else:
+                    print("Invalid number.")
+                    continue
 
-            try:
-                choice = int(input("Please insert a number: \n"))
-            
-            except ValueError:
-                print("Please only insert numbers.")
-
-            if (choice == 1):
-                customer = add_customer()
-                table_booking(customer, table_select, number_of_people)
-            
-            if (choice == 2):
-                customer = search_customer_attribute()
-                table_booking(customer, table_select, number_of_people)
-
-            if (choice == 3):
-                table_booking("guest", table_select, number_of_people)
-
-            if (choice == 4):
-                bookings_tables_menu()
-                break
-
-            else:
-                print("Invalid number.")
-                continue
+        else:
+            print("There are currently no tables available for your entered amount of people.")
+            bookings_tables_menu()
 
     else:
-        print("There are currently no tables available for your entered amount of people.")
+        print("Number cannot be negative or 0.")
         bookings_tables_menu()
 
 def table_booking(customer, table_select, number_of_people):
-    pass # ----------------------------------------------------------- TODO: NEXT
+    pass # ----------------------------------------------------------- TODO: NEXT + BREAK
 
 def check_available_tables(number_of_people):
 
@@ -623,8 +631,6 @@ def products_menu():
     pass
 
 """ Product Functions End """
-
-
 
 def main():
     os.system('cls' if os.name == 'nt' else 'clear')
