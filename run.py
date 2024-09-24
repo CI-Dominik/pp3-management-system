@@ -507,40 +507,70 @@ def bookings_tables_menu():
 
 def book_table():
 
-    cursor.execute("SELECT * FROM tables WHERE availability=1")
-
-    available_tables = cursor.fetchall()
-    
     while True:
 
-        print("Do you want to book a table for a new customer, a registered customer or a guest?")
-        print("1. New customer")
-        print("2. Existing customer")
-        print("3. Guest")
-        print(Fore.RED + "4. Cancel")
-
         try:
-            choice = int(input("Please insert a number: \n"))
-        
+
+            number_of_people = int(input("Please enter the number of people: \n"))
+
         except ValueError:
+
             print("Please only insert numbers.")
 
-        if (choice == 1):
-            customer = add_customer()
-            table_booking(customer)
-        
-        if (choice == 2):
-            customer = search_customer_attribute()
-            table_booking(customer)
-
-        if (choice == 3):
-            table_booking()
-
-        if (choice == 4):
+        finally:
             break
 
-def table_booking(customer="guest"):
+    available_tables = check_available_tables(number_of_people)
+
+    if(len(available_tables) > 0):
+        
+        while True:
+
+            print("Do you want to book a table for a new customer, a registered customer or a guest?")
+            print("1. New customer")
+            print("2. Existing customer")
+            print("3. Guest")
+            print(Fore.RED + "4. Cancel")
+
+            try:
+                choice = int(input("Please insert a number: \n"))
+            
+            except ValueError:
+                print("Please only insert numbers.")
+
+            if (choice == 1):
+                customer = add_customer()
+                table_booking(customer, available_tables, number_of_people)
+            
+            if (choice == 2):
+                customer = search_customer_attribute()
+                table_booking(customer, available_tables, number_of_people)
+
+            if (choice == 3):
+                table_booking("guest", available_tables, number_of_people)
+
+            if (choice == 4):
+                break
+
+    else:
+        print("There are currently no tables available for your entered amount of people.")
+        bookings_tables_menu()
+
+def table_booking(customer, available_tables, number_of_people):
     pass
+
+def check_available_tables(number_of_people):
+
+    cursor.execute("SELECT * FROM tables WHERE availability=1")
+    tables_available = cursor.fetchall()
+
+    table_amount = []
+
+    for table in tables_available:
+        if(table["number_of_seats"] >= number_of_people):
+            table_amount.append(table)
+
+    return table_amount
 
 """ Booking Functions End"""
 
