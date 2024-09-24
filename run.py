@@ -111,8 +111,7 @@ def customer_management_menu():
         print("| 1. Search Customer      |")
         print("| 2. Add new Customer     |")
         print("| 3. Update Customer      |")
-        print("| 4. Delete Customer      |")
-        print("| 5. Main Menu            |")
+        print("| 4. Main Menu            |")
         print("|                         |")
         print("---------------------------")
         print("")
@@ -136,9 +135,6 @@ def customer_management_menu():
             update_customer()
 
         elif(response == 4):
-            print(f"Your input was {response}\n")
-
-        elif(response == 5):
             print("")
             main_menu()
             break
@@ -414,13 +410,24 @@ def update_customer_data(customer, value, callable_value):
 
             value_input = value_input.replace(" ", "")
 
-        cursor.execute("UPDATE customers SET " + value + "=%s WHERE customer_id=%s", (value_input, customer["customer_id"]))
-        connection.commit()
-        print(f"The new {callable_value} for {customer["first_name"]} {customer["last_name"]} was set to {value_input}.")
-        break
+        cursor.execute("SELECT email, phone_number FROM customers")
 
-def delete_customer():
-    pass
+        database_results = cursor.fetchall()
+        database_check_email = []
+        database_check_phone_number = []
+
+        for row in database_results:
+            database_check_email.append(row["email"])
+            database_check_phone_number.append(row["phone_number"])
+
+        if (value_input in database_check_email or value_input in database_check_phone_number):
+            print(Fore.RED + "Entry already in database. No duplicates allowed.")
+            break
+        else:
+            cursor.execute("UPDATE customers SET " + value + "=%s WHERE customer_id=%s", (value_input, customer["customer_id"]))
+            connection.commit()
+            print(f"The new {callable_value} for {customer["first_name"]} {customer["last_name"]} was set to {value_input}.")
+            break
 
 """ Customer Functions End """
 
