@@ -525,10 +525,32 @@ def book_table():
 
     print("The following tables are available:\n")
     
+    table_id_selection = []
+
     for table in available_tables:
         print(f"Table ID: {table['table_id']}, Number of seats: {table['number_of_seats']}")
+        table_id_selection.append(table['table_id'])
 
     if(len(available_tables) > 0):
+
+        """ Select table ID from the available tables """
+
+        while True:
+
+            try: 
+                table_select = int(input("Please select a table ID: \n"))
+
+            except ValueError:
+                print("Please only use numbers.")
+                continue
+            else:
+                if(table_select not in table_id_selection):
+                    print("A table with that number is not available.")
+                    continue
+                else:
+                    break
+            
+        # ------------------------------------------------- TODO: CHECK IF NUMBER IS USABLE AND IN LIST
         
         while True:
 
