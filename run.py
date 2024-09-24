@@ -42,7 +42,7 @@ try:
     
 except Error as e:
     
-    print(f"ERROR CONNECTING TO DATABASE: {e}")
+    print(f"ERROR CONNECTING TO DATABASE!")
 
 def main_menu():
 
@@ -95,6 +95,8 @@ def main_menu():
         else:
             print("Please insert a valid number.\n")
 
+""" Customer Functions Start """
+
 def customer_management_menu():
 
     """ Display the Customer Management Menu """
@@ -143,20 +145,6 @@ def customer_management_menu():
         
         else:
             print("Please insert a valid number.\n")
-
-def bookings_tables_menu():
-    pass
-
-def sales_carts_menu():
-    pass
-
-def returns_menu():
-    pass
-
-def products_menu():
-    pass
-
-""" Customer Functions Start """
 
 def search_customer_attribute(type=None, callable_type=None):
 
@@ -431,10 +419,38 @@ def update_customer_data(customer, value, callable_value):
         print(f"The new {callable_value} for {customer["first_name"]} {customer["last_name"]} was set to {value_input}.")
         break
 
+def delete_customer():
+    pass
 
+""" Customer Functions End """
 
+""" Booking Functions Start """
 
+def bookings_tables_menu():
+    pass
 
+""" Booking Functions End"""
+
+""" Sale Functions Start """
+
+def sales_carts_menu():
+    pass
+
+""" Sale Functions End """
+
+""" Return Functions Start """
+
+def returns_menu():
+    pass
+
+""" Return Functions End """
+
+""" Product Functions Start """
+
+def products_menu():
+    pass
+
+""" Product Functions End """
 
 
 
