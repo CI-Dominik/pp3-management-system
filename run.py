@@ -489,7 +489,8 @@ def bookings_tables_menu():
             break
 
         elif(response == 2):
-            pass
+            check_available_tables()
+            continue
 
         elif(response == 3):
             pass
@@ -522,6 +523,11 @@ def book_table():
 
     available_tables = check_available_tables(number_of_people)
 
+    print("The following tables are available:\n")
+    
+    for table in available_tables:
+        print(f"Table ID: {table['table_id']}, Number of seats: {table['number_of_seats']}")
+
     if(len(available_tables) > 0):
         
         while True:
@@ -550,7 +556,12 @@ def book_table():
                 table_booking("guest", available_tables, number_of_people)
 
             if (choice == 4):
+                bookings_tables_menu()
                 break
+
+            else:
+                print("Invalid number.")
+                continue
 
     else:
         print("There are currently no tables available for your entered amount of people.")
@@ -561,16 +572,10 @@ def table_booking(customer, available_tables, number_of_people):
 
 def check_available_tables(number_of_people):
 
-    cursor.execute("SELECT * FROM tables WHERE availability=1")
+    cursor.execute("SELECT * FROM tables WHERE availability=1 AND number_of_seats >= %s", (number_of_people,))
     tables_available = cursor.fetchall()
 
-    table_amount = []
-
-    for table in tables_available:
-        if(table["number_of_seats"] >= number_of_people):
-            table_amount.append(table)
-
-    return table_amount
+    return tables_available
 
 """ Booking Functions End"""
 
