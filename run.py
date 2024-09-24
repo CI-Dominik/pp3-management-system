@@ -489,7 +489,11 @@ def bookings_tables_menu():
             break
 
         elif(response == 2):
-            check_available_tables()
+            tables_return = check_available_tables(0)
+            print("The following tables are available:\n")
+            for table in tables_return:
+                print(Fore.GREEN + f"Table ID: {table['table_id']}, Number of seats: {table['number_of_seats']}")
+            print("")
             continue
 
         elif(response == 3):
@@ -549,8 +553,6 @@ def book_table():
                     continue
                 else:
                     break
-            
-        # ------------------------------------------------- TODO: CHECK IF NUMBER IS USABLE AND IN LIST
         
         while True:
 
@@ -568,14 +570,14 @@ def book_table():
 
             if (choice == 1):
                 customer = add_customer()
-                table_booking(customer, available_tables, number_of_people)
+                table_booking(customer, table_select, number_of_people)
             
             if (choice == 2):
                 customer = search_customer_attribute()
-                table_booking(customer, available_tables, number_of_people)
+                table_booking(customer, table_select, number_of_people)
 
             if (choice == 3):
-                table_booking("guest", available_tables, number_of_people)
+                table_booking("guest", table_select, number_of_people)
 
             if (choice == 4):
                 bookings_tables_menu()
@@ -589,8 +591,8 @@ def book_table():
         print("There are currently no tables available for your entered amount of people.")
         bookings_tables_menu()
 
-def table_booking(customer, available_tables, number_of_people):
-    pass
+def table_booking(customer, table_select, number_of_people):
+    pass # ----------------------------------------------------------- TODO: NEXT
 
 def check_available_tables(number_of_people):
 
