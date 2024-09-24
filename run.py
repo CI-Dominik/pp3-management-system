@@ -696,6 +696,8 @@ def check_bookings():
 
 def check_booking_by_value(value, callable_value):
 
+    """ Check open bookings """
+
     booking_input = input(f"Please enter {callable_value} to search by: \n")
     
     cursor.execute("SELECT * FROM bookings WHERE " + value + "=%s AND active = 1", (booking_input,))
@@ -716,7 +718,53 @@ def check_booking_by_value(value, callable_value):
 """ Sale Functions Start """
 
 def sales_carts_menu():
-    pass
+
+    """ Display the Sales / Carts Management Menu """
+
+    print("You entered the Sales / Carts Management System.\n")
+    print("")
+
+    while True:
+
+        print("+------- SALES / CARTS -------+")
+        print("|                             |")
+        print("| 1. Add product to cart      |")
+        print("| 2. Remove product from cart |")
+        print("| 3. Complete purchase        |")
+        print("| 4. Delete cart              |")
+        print("| 5. Main Menu                |")
+        print("|                             |")
+        print("-------------------------------")
+        print("")
+
+        """ Get input and check for errors and invalid numbers """
+
+        try:
+            response = int(input("Please select a topic: \n"))
+
+        except ValueError:
+            print("Please enter a number.\n")
+            continue
+
+        if(response == 1):
+            pass # ------------------- TODO: select_cart() WITH PARAMETERS TO USE ELSEWHERE / LIKE SINGLE PURCHASE OR AFTER NEW CUSTOMER OR BOOKING
+
+        elif(response == 2):
+            pass
+
+        elif(response == 3):
+            pass
+        
+        elif(response == 4):
+            pass
+
+        elif(response == 5):
+            print("")
+            main_menu()
+            break
+        
+        else:
+            print("Please insert a valid number.\n")
 
 """ Sale Functions End """
 
