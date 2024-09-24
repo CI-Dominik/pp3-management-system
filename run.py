@@ -131,7 +131,7 @@ def customer_management_menu():
             add_customer()
 
         elif(response == 3):
-            result = search_customer_attribute()
+            update_customer()
 
         elif(response == 4):
             print(f"Your input was {response}\n")
@@ -225,7 +225,7 @@ def search_customer_attribute(type=None, callable_type=None):
         while True:
             check = input("Is this correct? [y/n]\n")
             if(check.lower() == "y"):
-                return result[0]         
+                return result[0]
             elif(check.lower() == "n"):
                 break
             else:
@@ -367,6 +367,41 @@ def add_customer():
         print(Fore.GREEN + "Customer successfully added to database.\n")
         break
 
+def update_customer():
+    customer = search_customer_attribute()
+
+    print("Which attribute do you want to change?")
+    print("1. First name")
+    print("2. Last name")
+    print("3. Email address")
+    print("4. Phone number")
+    print(Fore.RED + "5. Cancel")
+
+    while True:
+
+        try:
+
+            choice = int(input("Please make a selection: \n"))
+
+        except ValueError:
+            print("Please insert only numbers.")
+
+        
+        if (choice == 1):
+
+            f_name_input = input("Please enter a new value or 0 to cancel: \n")
+
+            print("Please only insert numbers.")
+
+            if (f_name_input == 0):
+                break
+
+            cursor.execute("UPDATE customers SET first_name=%s WHERE customer_id=%s", (f_name_input, customer["customer_id"]))
+            connection.commit()
+
+            print(f"The new name for {customer["first_name"]} {customer["last_name"]} was set to {f_name_input}.")
+
+            break
 
 
 
