@@ -10,6 +10,7 @@ from mysql.connector import Error
 from dotenv import load_dotenv
 from colorama import Fore, Back, Style, init
 import re
+from datetime import datetime
 
 init(autoreset=True)
 
@@ -68,6 +69,8 @@ def main_menu():
         print("---------------------------")
         print("|                         |")
         print("| DEV: 6. Reset Tables    |")
+        print("| DEV: 7. Clear Bookings  |")
+        print("| DEV: 8. Clear Carts     |")
         print("|                         |")
         print("---------------------------")
         print("")
@@ -105,6 +108,16 @@ def main_menu():
         elif(response == 6):
 
             cursor.execute("UPDATE tables SET availability=1")
+            connection.commit()
+
+        elif(response == 7):
+
+            cursor.execute("DELETE FROM bookings")
+            connection.commit()
+
+        elif(response == 8):
+
+            cursor.execute("DELETE FROM cart")
             connection.commit()
         
         else:
@@ -179,7 +192,7 @@ def search_customer_attribute(type=None, callable_type=None):
 
             try:
                 search_input = int(input("Please type a number: \n"))
-            except TypeError:
+            except ValueError:
                 print("Please only insert numbers.")
                 continue
             if(search_input == 1):
@@ -357,7 +370,7 @@ def add_customer():
 
             if (re.match(phone_pattern, phone_number_input) == None):
                 print(Fore.RED + "Wrong phone number format. Please use a UK formatted number.\n")
-                break
+                continue
 
         else:
             print(Fore.RED + "Customer's phone number already exists. Creation cancelled.\n")
@@ -368,7 +381,7 @@ def add_customer():
 
         print(Fore.GREEN + "Customer successfully added to database.\n")
         
-        cursor.execute("SELECT * FROM customers WHERE first_name=%s AND last_name=%s AND email=%s AND phone_number=%s", (f_name_input, l_name_input, email_input, phone_number_input))
+        cursor.execute("SELECT * FROM customers ORDER BY customer_id DESC LIMIT 1")
 
         customer = cursor.fetchone()
 
@@ -517,13 +530,12 @@ def book_table():
         try:
 
             number_of_people = int(input("Please enter the number of people: \n"))
+            break
 
         except ValueError:
 
             print("Please only insert numbers.")
-
-        finally:
-            break
+            continue
 
     if(number_of_people >= 1):
 
@@ -557,39 +569,53 @@ def book_table():
                         continue
                     else:
                         break
-            
-            while True:
+            if (table_select != 0):
+                while True:
 
-                print("Do you want to book a table for a new customer, a registered customer or a guest?")
-                print("1. New customer")
-                print("2. Existing customer")
-                print("3. Guest")
-                print(Fore.RED + "4. Cancel")
+                    print("Do you want to book a table for a new customer, a registered customer or a guest?")
+                    print("1. New customer")
+                    print("2. Existing customer")
+                    print("3. Guest")
+                    print(Fore.RED + "4. Cancel")
 
-                try:
-                    choice = int(input("Please insert a number: \n"))
-                
-                except ValueError:
-                    print("Please only insert numbers.")
+                    try:
+                        choice = int(input("Please insert a number: \n"))
+                    
+                    except ValueError:
+                        print("Please only insert numbers.")
 
-                if (choice == 1):
-                    customer = add_customer()
-                    table_booking(customer, table_select, number_of_people)
-                
-                if (choice == 2):
-                    customer = search_customer_attribute()
-                    table_booking(customer, table_select, number_of_people)
+                    if (choice == 1):
+                        customer = add_customer()
 
-                if (choice == 3):
-                    table_booking("guest", table_select, number_of_people)
+                        if (customer != None):
+                            table_booking(customer, table_select, number_of_people)
+                            break
+                        else:
+                            bookings_tables_menu()
+                            break
+                    
+                    if (choice == 2):
+                        customer = search_customer_attribute()
+                        if (customer != None):
+                            table_booking(customer, table_select, number_of_people)
+                            break
+                        else:
+                            bookings_tables_menu()
+                            break
 
-                if (choice == 4):
-                    bookings_tables_menu()
-                    break
+                    if (choice == 3):
+                        table_booking("guest", table_select, number_of_people)
+                        break
 
-                else:
-                    print("Invalid number.")
-                    continue
+                    if (choice == 4):
+                        bookings_tables_menu()
+                        break
+
+                    else:
+                        print("Invalid number.")
+                        continue
+            else:
+                bookings_tables_menu()
 
         else:
             print("There are currently no tables available for your entered amount of people.")
@@ -600,7 +626,36 @@ def book_table():
         bookings_tables_menu()
 
 def table_booking(customer, table_select, number_of_people):
-    pass # ----------------------------------------------------------- TODO: NEXT + BREAK
+
+    if(customer != "guest"):
+
+        cursor.execute("INSERT INTO bookings (customer_id, table_id, amount_of_people, date, active) VALUES (%s, %s, %s, %s, %s)", (customer['customer_id'], table_select, number_of_people, datetime.today().strftime('%Y-%m-%d'), 1))
+        connection.commit()
+
+    else:
+        cursor.execute("INSERT INTO bookings (table_id, amount_of_people, date, active) VALUES (%s, %s, %s, %s)", (table_select, number_of_people, datetime.today().strftime('%Y-%m-%d'), 1))
+        connection.commit()
+
+    print(f"Booking successfully created for {number_of_people} people. Each guest will receive a cart for their seat.")
+
+    cursor.execute("SELECT booking_id FROM bookings ORDER BY booking_id DESC LIMIT 1")
+    last_booking = cursor.fetchone()
+    
+    if(customer != "guest"):
+
+        for i in range(number_of_people):
+
+            cursor.execute("INSERT INTO cart (customer_id, booking_id) VALUES (%s, %s)", (customer['customer_id'], last_booking['booking_id']))
+            connection.commit()
+
+    else:
+        for i in range(number_of_people):
+
+            cursor.execute("INSERT INTO cart (booking_id) VALUES (%s)", (last_booking['booking_id'],))
+            connection.commit()
+
+    bookings_tables_menu()
+
 
 def check_available_tables(number_of_people):
 
