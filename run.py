@@ -156,6 +156,8 @@ def returns_menu():
 def products_menu():
     pass
 
+""" Customer Functions Start """
+
 def search_customer_attribute(type=None, callable_type=None):
 
     """ Search customer by attribute """
@@ -302,7 +304,6 @@ def search_customer_attribute(type=None, callable_type=None):
         print("")
         return None
 
-
 def add_customer():
 
     """ Function to add a new customer to the database """
@@ -370,14 +371,14 @@ def add_customer():
 def update_customer():
     customer = search_customer_attribute()
 
-    print("Which attribute do you want to change?")
-    print("1. First name")
-    print("2. Last name")
-    print("3. Email address")
-    print("4. Phone number")
-    print(Fore.RED + "5. Cancel")
-
     while True:
+
+        print("Which attribute do you want to change?")
+        print("1. First name")
+        print("2. Last name")
+        print("3. Email address")
+        print("4. Phone number")
+        print(Fore.RED + "5. Cancel")
 
         try:
 
@@ -388,20 +389,52 @@ def update_customer():
 
         
         if (choice == 1):
+            update_customer_data(customer, "first_name", "first name")
+        if (choice == 2):
+            update_customer_data(customer, "last_name", "last name")
+        if (choice == 3):
+            update_customer_data(customer, "email", "email address")
+        if (choice == 4):
+            update_customer_data(customer, "phone_number", "phone number")
+        if (choice == 5):
+            break
 
-            f_name_input = input("Please enter a new value or 0 to cancel: \n")
+def update_customer_data(customer, value, callable_value):
+    
+    while True:
 
-            print("Please only insert numbers.")
+        value_input = input(f"Please enter a new value for the {callable_value} or 0 to cancel: \n")
 
-            if (f_name_input == 0):
+        if (value_input == "0"):
+            break
+
+        if(value == "email" and value_input != "0"):
+            
+            email_pattern = r"^[a-z0-9]+[\._-]?[a-z0-9]+[@]\w+[.]\w+$"
+
+            if(re.match(email_pattern, value_input) == None):
+                print(Fore.RED + "Wrong email format. Example: value@mail.com.\n")
                 break
 
-            cursor.execute("UPDATE customers SET first_name=%s WHERE customer_id=%s", (f_name_input, customer["customer_id"]))
-            connection.commit()
+        if(value == "phone_number" and value_input != 0):
 
-            print(f"The new name for {customer["first_name"]} {customer["last_name"]} was set to {f_name_input}.")
+            phone_pattern = r"^(?:\+44|0044|0)\s?7\d{3}\s?\d{6}$|^(?:\+44|0044|0)\s?\d{2,4}\s?\d{3,4}\s?\d{4}$"
 
-            break
+            if (re.match(phone_pattern, value_input) == None):
+                print(Fore.RED + "Wrong phone number format. Please use a UK formatted number.\n")
+                break
+
+            value_input = value_input.replace(" ", "")
+
+        cursor.execute("UPDATE customers SET " + value + "=%s WHERE customer_id=%s", (value_input, customer["customer_id"]))
+        connection.commit()
+        print(f"The new {callable_value} for {customer["first_name"]} {customer["last_name"]} was set to {value_input}.")
+        break
+
+
+
+
+
 
 
 
