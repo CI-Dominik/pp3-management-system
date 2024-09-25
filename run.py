@@ -101,7 +101,7 @@ def main_menu():
             print(f"Your input was {response}\n")
 
         elif(response == 5):
-            print(f"Your input was {response}\n")
+            products_menu()
 
             """ DEVELOPMENT COMMANDS """
 
@@ -922,7 +922,7 @@ def products_menu():
             continue
 
         if(response == 1):
-            pass
+            add_product()
 
         elif(response == 2):
             pass
@@ -944,8 +944,78 @@ def products_menu():
         else:
             print("Please insert a valid number.\n")
 
-def get_product_list():
+def add_product():
+
     while True:
+
+        print("Please select the category of product you want to add.")
+        print("1. Cakes")
+        print("2. Cookies")
+        print("3. Main dishes")
+        print("4. Drinks")
+        print("5. Cancel")
+
+        try:
+
+            product_add_input = int(input("Please choose a category: \n"))
+
+        except ValueError:
+            print("Please only use numbers.\n")
+            continue
+
+        if (product_add_input == 1):
+
+            add_product_by_category("cake", "cake")
+
+        if (product_add_input == 2):
+            
+            pass
+
+        if (product_add_input == 3):
+            
+            pass
+
+        if (product_add_input == 4):
+            
+            pass
+
+        if (product_add_input == 5):
+            break
+
+        else:
+            print(Fore.RED + "Invalid input.")
+            continue
+
+def add_product_by_category(value, callable_value):
+
+    while True:
+
+        name_input = input(f"Please insert the name of the {callable_value} to add or 0 to cancel: \n")
+
+        if (name_input == "0"):
+            add_product()
+            break
+
+        try:
+
+            amount_input = int(input("Please insert the stock amount or 0 to cancel: \n"))
+
+        except ValueError:
+            print("Please only use numbers.\n")
+            continue
+
+        if(amount_input == 0):
+            break
+
+        if (amount_input < 0):
+            print("Number cannot be negative.")
+            continue
+
+
+def get_product_list():
+
+    while True:
+
         print("Please select the category of items you want to show.")
         print("1. Cakes")
         print("2. Cookies")
@@ -954,6 +1024,7 @@ def get_product_list():
         print("5. Cancel")
 
 def get_product_by_category(value, callable_value):
+
     pass # ------------------------------------------ TODO
 
 """ Product Functions End """
