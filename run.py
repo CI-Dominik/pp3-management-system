@@ -95,7 +95,7 @@ def main_menu():
             break
 
         elif(response == 3):
-            print(f"Your input was {response}\n")
+            sales_carts_menu()
 
         elif(response == 4):
             print(f"Your input was {response}\n")
@@ -631,27 +631,34 @@ def table_booking(customer, table_select, number_of_people):
 
         cursor.execute("INSERT INTO bookings (customer_id, table_id, amount_of_people, date, active) VALUES (%s, %s, %s, %s, %s)", (customer['customer_id'], table_select, number_of_people, datetime.today().strftime('%Y-%m-%d'), 1))
         connection.commit()
+        cursor.execute("UPDATE tables SET availability = 0 WHERE table_id =%s", (table_select,))
+        connection.commit()
 
     else:
         cursor.execute("INSERT INTO bookings (table_id, amount_of_people, date, active) VALUES (%s, %s, %s, %s)", (table_select, number_of_people, datetime.today().strftime('%Y-%m-%d'), 1))
+        connection.commit()
+        cursor.execute("UPDATE tables SET availability = 0 WHERE table_id=%s", (table_select,))
         connection.commit()
 
     print(f"Booking successfully created for {number_of_people} people. Each guest will receive a cart for their seat.")
 
     cursor.execute("SELECT booking_id FROM bookings ORDER BY booking_id DESC LIMIT 1")
     last_booking = cursor.fetchone()
+
+    seat_counter = 1
     
     if(customer != "guest"):
 
         for i in range(number_of_people):
 
-            cursor.execute("INSERT INTO cart (customer_id, booking_id) VALUES (%s, %s)", (customer['customer_id'], last_booking['booking_id']))
+            cursor.execute("INSERT INTO cart (customer_id, booking_id, seat_number, table_id) VALUES (%s, %s, %s, %s)", (customer['customer_id'], last_booking['booking_id'], seat_counter, table_select))
+            seat_counter += 1
             connection.commit()
 
     else:
         for i in range(number_of_people):
 
-            cursor.execute("INSERT INTO cart (booking_id) VALUES (%s)", (last_booking['booking_id'],))
+            cursor.execute("INSERT INTO cart (booking_id, seat_number) VALUES (%s, %s, %s)", (last_booking['booking_id'], seat_counter, table_select))
             connection.commit()
 
     bookings_tables_menu()
@@ -747,7 +754,7 @@ def sales_carts_menu():
             continue
 
         if(response == 1):
-            pass # ------------------- TODO: select_cart() WITH PARAMETERS TO USE ELSEWHERE / LIKE SINGLE PURCHASE OR AFTER NEW CUSTOMER OR BOOKING
+            select_cart()
 
         elif(response == 2):
             pass
@@ -765,6 +772,104 @@ def sales_carts_menu():
         
         else:
             print("Please insert a valid number.\n")
+
+def select_cart():
+
+    while True:
+
+        print("Please select a table ID or booking ID to find open carts.")
+        print("1. Booking ID")
+        print("2. Table ID")
+        print("3. Cancel")
+
+        try:
+            selection_input = int(input("Please enter a number: \n"))
+
+        except ValueError:
+            print("Please only use numbers.")
+            continue
+
+        if (selection_input == 1):
+            search_type = "booking_id"
+            search_value = select_cart_by_value("booking ID")
+            break
+
+        if (selection_input == 2):
+            search_type = "table_id"
+            search_value = select_cart_by_value("table ID")
+            break
+
+        if (selection_input == 3):
+            break
+
+        else:
+            print("Invalid value.")
+            continue
+    
+    if (selection_input != 3):
+
+        cursor.execute("SELECT * FROM cart WHERE payed=0 AND " + search_type + "=%s", (search_value,))
+        open_carts = cursor.fetchall()
+
+    else:
+        sales_carts_menu()
+
+    if(len(open_carts) > 0):
+
+        cart_ids = []
+
+        for cart in open_carts:
+            cart_ids.append(cart['cart_id'])
+
+        while True:
+
+            print("The following carts are currently open:\n")
+
+            for cart in open_carts:
+                print(f"Seat number: {cart['seat_number']}: Cart ID: {cart['cart_id']}, Customer ID: {cart['customer_id'] if cart['customer_id'] is not None else "Guest booking"}, Booking ID: {cart['booking_id'] if cart['booking_id'] is not None else "Guest booking"}")
+            try:
+
+                cart_input = int(input("Please select a cart ID to add a product to or 0 to cancel: \n"))
+
+            except ValueError:
+                print("Please only use numbers.")
+                continue
+
+            if (cart_input == 0):
+                break
+
+            if (cart_input in cart_ids):
+                pass # ------------------------------------------------------- TODO: NEXT
+
+    else:
+        print(Fore.RED + "No carts found.")
+        sales_carts_menu()
+
+def add_product_to_cart(cart_id):
+    pass
+
+
+def select_cart_by_value(callable_value):
+
+    while True:
+        try:
+            value_input = int(input("Please input a " + callable_value + " to search by:\n"))
+
+        except ValueError:
+            print("Please only use numbers.")
+            continue
+
+        if (value_input == 0):
+            break
+
+        else:
+            return value_input
+
+
+
+
+    else:
+        print("There are currently no open carts.")
 
 """ Sale Functions End """
 
