@@ -517,11 +517,16 @@ def bookings_tables_menu():
 
         elif(response == 2):
             tables_return = check_available_tables(0)
-            print("The following tables are available:\n")
-            for table in tables_return:
-                print(Fore.GREEN + f"Table ID: {table['table_id']}, Number of seats: {table['number_of_seats']}")
-            print("")
-            continue
+            if (len(tables_return) > 0):
+
+                print("The following tables are available:\n")
+                for table in tables_return:
+                    print(Fore.GREEN + f"Table ID: {table['table_id']}, Number of seats: {table['number_of_seats']}")
+                print("")
+                continue
+            else:
+                print(Fore.RED + "There are currently no tables available.")
+                continue
 
         elif(response == 3):
             pass
@@ -633,11 +638,11 @@ def book_table():
                 bookings_tables_menu()
 
         else:
-            print("There are currently no tables available for your entered amount of people.")
+            print(Fore.RED + "There are currently no tables available for your entered amount of people.")
             bookings_tables_menu()
 
     else:
-        print("Number cannot be negative or 0.")
+        print(Fore.RED + "Number cannot be negative or 0.")
         bookings_tables_menu()
 
 def table_booking(customer, table_select, number_of_people):
@@ -666,14 +671,14 @@ def table_booking(customer, table_select, number_of_people):
 
         for i in range(number_of_people):
 
-            cursor.execute("INSERT INTO cart (customer_id, booking_id, seat_number, table_id) VALUES (%s, %s, %s, %s)", (customer['customer_id'], last_booking['booking_id'], seat_counter, table_select))
+            cursor.execute("INSERT INTO cart (customer_id, booking_id, seat_number, table_id, walk_in) VALUES (%s, %s, %s, %s, %s)", (customer['customer_id'], last_booking['booking_id'], seat_counter, table_select, 0))
             seat_counter += 1
             connection.commit()
 
     else:
         for i in range(number_of_people):
 
-            cursor.execute("INSERT INTO cart (booking_id, seat_number) VALUES (%s, %s, %s)", (last_booking['booking_id'], seat_counter, table_select))
+            cursor.execute("INSERT INTO cart (booking_id, seat_number, table_id, walk_in) VALUES (%s, %s, %s, %s)", (last_booking['booking_id'], seat_counter, table_select, 0))
             connection.commit()
 
     bookings_tables_menu()
@@ -795,7 +800,8 @@ def select_cart():
         print("Please select a table ID or booking ID to find open carts.")
         print("1. Booking ID")
         print("2. Table ID")
-        print("3. Cancel")
+        print("3. Guest payments")
+        print("4. Cancel")
 
         try:
             selection_input = int(input("Please enter a number: \n"))
@@ -815,13 +821,18 @@ def select_cart():
             break
 
         if (selection_input == 3):
+            search_type = "walk_in"
+            search_value = 1
+            break
+
+        if (selection_input == 4):
             break
 
         else:
             print("Invalid value.")
             continue
     
-    if (selection_input != 3):
+    if (selection_input != 4):
 
         cursor.execute("SELECT * FROM cart WHERE payed=0 AND " + search_type + "=%s", (search_value,))
         open_carts = cursor.fetchall()
@@ -841,7 +852,7 @@ def select_cart():
             print("The following carts are currently open:\n")
 
             for cart in open_carts:
-                print(f"Seat number: {cart['seat_number']}: Cart ID: {cart['cart_id']}, Customer ID: {cart['customer_id'] if cart['customer_id'] is not None else "Guest booking"}, Booking ID: {cart['booking_id'] if cart['booking_id'] is not None else "Guest booking"}")
+                print(f"Seat number: {cart['seat_number']}: Cart ID: {cart['cart_id']}, Customer ID: {cart['customer_id'] if cart['customer_id'] is not None else "Guest booking"}, Booking ID: {cart['booking_id']}")
             try:
 
                 cart_input = int(input("Please select a cart ID to add a product to or 0 to cancel: \n"))
