@@ -905,9 +905,8 @@ def products_menu():
         print("| 1. Add product               |")
         print("| 2. Update product            |")
         print("| 3. Delete product            |")
-        print("| 4. Update stock              |")
-        print("| 5. Check wares               |")
-        print("| 6. Main menu                 |")
+        print("| 4. Check wares               |")
+        print("| 5. Main menu                 |")
         print("|                              |")
         print("--------------------------------")
         print("")
@@ -934,9 +933,6 @@ def products_menu():
             pass
 
         elif(response == 5):
-            pass
-
-        elif(response == 6):
             print("")
             main_menu()
             break
@@ -1034,9 +1030,6 @@ def add_product_by_category(value, callable_value):
         print("Product successfully added to database.")
         break
 
-
-
-
 def get_product_list():
 
     while True:
@@ -1047,6 +1040,8 @@ def get_product_list():
         print("3. Main dishes")
         print("4. Drinks")
         print("5. Cancel")
+
+        # --------------------------------------------- TODO: FOR OTHER FUNCTIONS
 
 def get_product_by_category(value, callable_value):
 
