@@ -38,8 +38,11 @@ The live system can be viewed here: [Link to the Restaurant Management System](h
   * [Python](#python)
   * [MySQL](#mysql)
   * [MySQL Connector](#mysql-connector)
-  * [OS](#os)
+  * [OS module](#os-module)
+  * [RE module](#re-module)
   * [dotenv](#dotenv)
+  * [Colorama](#colorama)
+  * [datetime](#datetime)
   * [Visual Studio Code](#visual-studio-code)
   * [GitHub](#github)
   * [All-Inkl](#all-inkl)
@@ -83,22 +86,38 @@ The live system can be viewed here: [Link to the Restaurant Management System](h
 
 ## **BRIEFING**
 
-## Heading
-* PH
+## Happy Life's Management System
+* Happy Life, a local coffee shop reached out regarding their plan to implement a management system for their business. As their business is growing, they want to decrease their workload for bureaucratic affairs. Several topics were mentioned that needed improvement.
+
+### Management of customers
+* People regularly contact Happy Life to book tables and the company wants to simplify the process. When a potential customer contacts them, they want to be able to register a new customer and edit their information. It should also be possible to assign a person to a table and give the process a booking ID.
+
+### Bookings
+* Happy Life's booking system should be able to book a table for a registered customer or guests. It should also take the amount of customers in consideration and reply with open tables for the given amount. The team should always be able to get an overview over the amount of tables available and the bookings made in their system that are not yet finished.
+
+### Sales
+* The employees should be able to add a product to a cart that each of their visitors gets assigned, either through a booking or a direct purchase. The removal of said products should also be possible to manage returns and unwanted or unusable items. The purchase should be finished through their system, taking into account the table ID, booking ID and the visitor's carts.
+
+### Products
+* Happy Life's product catalog is changing from time to time, so a flexible system should adapt to their needs. It should be possible to add a product to the system, update it, delete it, update the stock or check on the amount that is left in their storage.
 
 ---
 
 ## **PLANNING**
 
-## Heading
-* PH
+## The needs for Happy Life's management system
+* The company has needs that need to be fulfilled, so a strategical planning process was made. The platform will be used by coffee staff only, so the interface should include only management topics as customers will not operate the system. Several categories will simplify and divide the menu into controllable, user-friendly chunks.<br>
+A database will save all needed pieces of information as a reliable and secure source. MySQL will be used, as it provides the ability to separate the data into clear columns that have the ability of being nullable or not.<br>
+A password should protect the system, in case a customer gets access to the terminal.
 
 ---
 
 ## **USER EXPERIENCE**
 
-## Heading
-* PH
+## Easy access and clear division
+* The user will immediately be able to complete their needed task without unnecessary pieces of information. A menu with all categories welcomes them. With the help of numbers, the user will be able to navigate through the several menus.<br>
+The structure is divided into management for customers, bookings, sales and products. Each of those menus will have their own set of bullet points. For example, in the customer panel, it is possible to add a new customer, edit their data or search for a specific person, based on provided pieces of information like a name, email address or phone number.<br>
+To inform the user of possible mistakes, every menu input is secured by catching wrong inputs or wrong types of inputs like texts instead of a whole number.
 
 ---
 
@@ -135,11 +154,20 @@ The live system can be viewed here: [Link to the Restaurant Management System](h
 ### MySQL Connector
 * The Python module mysql-connector was used to connect to the MySQL database and display errors for bugfixing.
 
-### OS
+### OS module
 * The Python module os was used to access operating system files.
+
+### RE module
+* The RE module was used to check for incorrect inputs for email addresses or phone numbers.
 
 ### dotenv
 * The Python module dotenv was used to import environmental variables to secure the database login and read the needed data.
+
+### Colorama
+* Colorama was used to highlight texts in several colors to give emphasis.
+
+### datetime
+* datetime was imported to get the current date and insert it into a database table.
 
 ### Visual Studio Code
 * Visual Studio Code was used to clone the GitHub repository, edit the homepage's code and commit / push the results to GitHub.

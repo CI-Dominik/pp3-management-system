@@ -1052,7 +1052,7 @@ def get_product_list():
         print("4. Drinks")
         print("5. Cancel")
 
-        # --------------------------------------------- TODO: FOR OTHER FUNCTIONS
+        # --------------------------------------------- TODO: FOR OTHER FUNCTIONS / RE-USE FOR UPDATE / DELETE / SALE / GET
 
 def get_product_by_category(value, callable_value):
 
