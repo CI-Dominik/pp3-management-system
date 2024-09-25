@@ -81,7 +81,7 @@ def main_menu():
             response = int(input("Please select a topic: \n"))
 
         except ValueError:
-            print("Please enter a number.\n")
+            print("Please only enter numbers.\n")
             continue
 
         if(response == 1):
@@ -152,7 +152,7 @@ def customer_management_menu():
             response = int(input("Please select a topic: \n"))
 
         except ValueError:
-            print("Please enter a number.\n")
+            print("Please only enter numbers.\n")
             continue
 
         if(response == 1):
@@ -192,27 +192,34 @@ def search_customer_attribute(type=None, callable_type=None):
 
             try:
                 search_input = int(input("Please type a number: \n"))
+
             except ValueError:
-                print("Please only insert numbers.")
+                print("Please only enter numbers.\n")
                 continue
+
             if(search_input == 1):
                 type = "name"
                 break
+
             elif(search_input == 2):
                 type="email"
                 callable_type="email address"
                 break
+
             elif(search_input == 3):
                 type="phone_number"
                 callable_type="phone number"
                 break
+
             elif(search_input == 4):
                 type="customer_id"
                 callable_type="customer ID"
                 break
+
             elif(search_input == 5):
                 main_menu()
                 break
+
             else:
                 print(Fore.RED + "Invalid input.")
 
@@ -276,8 +283,11 @@ def search_customer_attribute(type=None, callable_type=None):
 
             try:
                 choice = int(input("Please insert a number: \n"))
+
             except ValueError:
-                print("please only use numbers.")
+                print("Please only enter numbers.\n")
+                continue
+
             if (choice == 1):
                 """ Choice to pick entry by ID """
                 id_choice = int(input(Fore.YELLOW + "Please insert ID of the customer to select: \n"))
@@ -404,17 +414,21 @@ def update_customer():
             choice = int(input("Please make a selection: \n"))
 
         except ValueError:
-            print("Please insert only numbers.")
-
+            print("Please only enter numbers.\n")
+            continue
         
         if (choice == 1):
             update_customer_data(customer, "first_name", "first name")
+
         if (choice == 2):
             update_customer_data(customer, "last_name", "last name")
+
         if (choice == 3):
             update_customer_data(customer, "email", "email address")
+
         if (choice == 4):
             update_customer_data(customer, "phone_number", "phone number")
+
         if (choice == 5):
             break
 
@@ -494,7 +508,7 @@ def bookings_tables_menu():
             response = int(input("Please select a topic: \n"))
 
         except ValueError:
-            print("Please enter a number.\n")
+            print("Please only enter numbers.\n")
             continue
 
         if(response == 1):
@@ -534,7 +548,7 @@ def book_table():
 
         except ValueError:
 
-            print("Please only insert numbers.")
+            print("Please only enter numbers.\n")
             continue
 
     if(number_of_people >= 1):
@@ -561,7 +575,7 @@ def book_table():
                         break
 
                 except ValueError:
-                    print("Please only use numbers.")
+                    print("Please only enter numbers.\n")
                     continue
                 else:
                     if(table_select not in table_id_selection):
@@ -582,7 +596,8 @@ def book_table():
                         choice = int(input("Please insert a number: \n"))
                     
                     except ValueError:
-                        print("Please only insert numbers.")
+                        print("Please only enter numbers.\n")
+                        continue
 
                     if (choice == 1):
                         customer = add_customer()
@@ -683,7 +698,7 @@ def check_bookings():
             check_input = int(input("Please enter a number: \n"))
         
         except ValueError:
-            print("Please only use numbers.")
+            print("Please only enter numbers.\n")
             continue
 
         if (check_input == 1):
@@ -750,7 +765,7 @@ def sales_carts_menu():
             response = int(input("Please select a topic: \n"))
 
         except ValueError:
-            print("Please enter a number.\n")
+            print("Please only enter numbers.\n")
             continue
 
         if(response == 1):
@@ -786,7 +801,7 @@ def select_cart():
             selection_input = int(input("Please enter a number: \n"))
 
         except ValueError:
-            print("Please only use numbers.")
+            print("Please only enter numbers.\n")
             continue
 
         if (selection_input == 1):
@@ -832,22 +847,23 @@ def select_cart():
                 cart_input = int(input("Please select a cart ID to add a product to or 0 to cancel: \n"))
 
             except ValueError:
-                print("Please only use numbers.")
+                print("Please only enter numbers.\n")
                 continue
 
             if (cart_input == 0):
                 break
 
             if (cart_input in cart_ids):
-                pass # ------------------------------------------------------- TODO: NEXT
+                add_product_to_cart()
+                break
 
     else:
         print(Fore.RED + "No carts found.")
         sales_carts_menu()
 
 def add_product_to_cart(cart_id):
-    pass
 
+    pass # --------------------------------------- TODO: NEXT SALES
 
 def select_cart_by_value(callable_value):
 
@@ -856,7 +872,7 @@ def select_cart_by_value(callable_value):
             value_input = int(input("Please input a " + callable_value + " to search by:\n"))
 
         except ValueError:
-            print("Please only use numbers.")
+            print("Please only enter numbers.\n")
             continue
 
         if (value_input == 0):
@@ -873,22 +889,83 @@ def select_cart_by_value(callable_value):
 
 """ Sale Functions End """
 
-""" Return Functions Start """
-
-def returns_menu():
-    pass
-
-""" Return Functions End """
-
 """ Product Functions Start """
 
 def products_menu():
-    pass
+
+    """ Display the Products Management Menu """
+
+    print("You entered the Products Management System.\n")
+    print("")
+
+    while True:
+
+        print("+---------- PRODUCTS ----------+")
+        print("|                              |")
+        print("| 1. Add product               |")
+        print("| 2. Update product            |")
+        print("| 3. Delete product            |")
+        print("| 4. Update stock              |")
+        print("| 5. Check wares               |")
+        print("| 6. Main menu                 |")
+        print("|                              |")
+        print("--------------------------------")
+        print("")
+
+        """ Get input and check for errors and invalid numbers """
+
+        try:
+            response = int(input("Please select a topic: \n"))
+
+        except ValueError:
+            print("Please only enter numbers.\n")
+            continue
+
+        if(response == 1):
+            pass
+
+        elif(response == 2):
+            pass
+
+        elif(response == 3):
+            pass
+        
+        elif(response == 4):
+            pass
+
+        elif(response == 5):
+            pass
+
+        elif(response == 6):
+            print("")
+            main_menu()
+            break
+        
+        else:
+            print("Please insert a valid number.\n")
+
+def get_product_list():
+    while True:
+        print("Please select the category of items you want to show.")
+        print("1. Cakes")
+        print("2. Cookies")
+        print("3. Main dishes")
+        print("4. Drinks")
+        print("5. Cancel")
+
+def get_product_by_category(value, callable_value):
+    pass # ------------------------------------------ TODO
 
 """ Product Functions End """
+
+""" Main Cycle Start """
 
 def main():
     os.system('cls' if os.name == 'nt' else 'clear')
     main_menu()
+
+""" Main Cycle End """
+
+""" Call Main Cycle """
 
 main()
