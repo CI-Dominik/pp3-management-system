@@ -966,18 +966,19 @@ def add_product():
         if (product_add_input == 1):
 
             add_product_by_category("cake", "cake")
+            break
 
         if (product_add_input == 2):
-            
-            pass
+            add_product_by_category("cookie", "cookie")
+            break
 
         if (product_add_input == 3):
-            
-            pass
+            add_product_by_category("main_dish", "main dish")
+            break
 
         if (product_add_input == 4):
-            
-            pass
+            add_product_by_category("drink", "drink")
+            break
 
         if (product_add_input == 5):
             break
@@ -993,7 +994,6 @@ def add_product_by_category(value, callable_value):
         name_input = input(f"Please insert the name of the {callable_value} to add or 0 to cancel: \n")
 
         if (name_input == "0"):
-            add_product()
             break
 
         try:
@@ -1010,6 +1010,31 @@ def add_product_by_category(value, callable_value):
         if (amount_input < 0):
             print("Number cannot be negative.")
             continue
+
+        pattern = r"^\d+\.\d{2}$"
+
+        try:
+        
+            price_input = input("Please enter the price or 0 to cancel: \n")
+
+        except ValueError:
+
+            print("Please enter a floating-point number.")
+
+        if(price_input == "0"):
+            break
+
+        if(re.fullmatch(pattern, price_input) == None):
+            print(Fore.RED + "Wrong format. Example: 4.99")
+            continue
+
+        cursor.execute("INSERT INTO products (name, category, available_amount, price) VALUES (%s, %s, %s, %s)", (name_input, value, amount_input, float(price_input)))
+        connection.commit()
+
+        print("Product successfully added to database.")
+        break
+
+
 
 
 def get_product_list():
