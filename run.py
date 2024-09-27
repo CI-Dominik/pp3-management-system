@@ -1230,8 +1230,21 @@ def update_product_by_value(product, value, callable_value):
 
         elif (value == "available_amount"):
 
+            try:
+                update_input = int(update_input)
+            except ValueError:
+                print(Fore.RED + "Please only use whole numbers.\n")
+                continue
 
-            pass # ------------------- TODO: CHECK FOR NEGATIVE
+            if (update_input < 0):
+                print(Fore.RED + "A negative amount is not allowed.")
+
+            else:
+                cursor.execute("UPDATE products SET available_amount=%s WHERE product_id=%s", (update_input, product['product_id']))
+                connection.commit()
+                print(Fore.GREEN + f"Available amount of {product['name']} successfully updated to {update_input}.")
+                break
+
 
 def select_another_product():
     pass # ---------------------------------------------- TODO: FOR SALES
