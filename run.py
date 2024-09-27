@@ -1070,29 +1070,32 @@ def get_product_list(view_only=False):
             else:
                 return None
 
-        if (product_input == 2):
+        elif (product_input == 2):
             product = get_product_by_category("cookie", "cookie", view_only)
             if(product != None):
                 return product
             else:
                 return None
 
-        if (product_input == 3):
+        elif (product_input == 3):
             product = get_product_by_category("main dish", "main dish", view_only)
             if(product != None):
                 return product
             else:
                 return None
 
-        if (product_input == 4):
+        elif (product_input == 4):
             product = get_product_by_category("drink", "drink", view_only)
             if(product != None):
                 return product
             else:
                 return None
 
-        if (product_input == 5):
+        elif (product_input == 5):
             break
+
+        else:
+            print(Fore.RED + "Invalid input.")
 
 def get_product_by_category(value, callable_value, view_only):
 
@@ -1179,9 +1182,9 @@ def update_product_by_value(product, value, callable_value):
 
     while True:
 
-        update_input = input(f"Please enter the new {callable_value} for {product['name']} or 0 to cancel:\n")
+        update_input = input(f"Please enter the new {callable_value} for {product['name']} or type cancel to cancel:\n")
 
-        if (update_input == "0"):
+        if (update_input == "cancel"):
             products_menu()
             break
 
@@ -1192,7 +1195,7 @@ def update_product_by_value(product, value, callable_value):
             print(Fore.GREEN + f"Name of {product['name']} was successfully changed to {update_input}.")
             break
 
-        if (value == "category"):
+        elif (value == "category"):
 
             if (update_input.lower() in categories):
                 cursor.execute("UPDATE products SET category=%s WHERE product_id=%s", (update_input.lower(), product['product_id']))
@@ -1205,9 +1208,9 @@ def update_product_by_value(product, value, callable_value):
                 print(Fore.RED + "Please only use the categories cake, cookie, main dish or drink.")
                 continue
 
-        if (value == "price"):
+        elif (value == "price"):
 
-            pattern = r"^-?\d+\.\d{2}$"
+            pattern = r"^-?(0|\d+)\.\d{2}$"
 
             if(re.fullmatch(pattern, update_input) == None):
                 print(Fore.RED + "Wrong format. Example: 4.99")
@@ -1215,8 +1218,8 @@ def update_product_by_value(product, value, callable_value):
 
             float(update_input)
 
-            if (float(update_input) < 0):
-                print(Fore.RED + "The value cannot be negative.")
+            if (float(update_input) <= 0):
+                print(Fore.RED + "The value cannot be 0 or negative.")
                 continue
 
             else:
@@ -1225,7 +1228,9 @@ def update_product_by_value(product, value, callable_value):
                 print(Fore.GREEN + f"Price of {product['name']} successfully updated to ${update_input}.")
                 break
 
-        if (value == "available_amount"):
+        elif (value == "available_amount"):
+
+
             pass # ------------------- TODO: CHECK FOR NEGATIVE
 
 def select_another_product():
