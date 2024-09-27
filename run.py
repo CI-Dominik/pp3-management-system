@@ -941,7 +941,7 @@ def products_menu():
             pass
         
         elif(response == 4):
-            pass
+            get_product_list()
 
         elif(response == 5):
             print("")
@@ -1052,11 +1052,54 @@ def get_product_list():
         print("4. Drinks")
         print("5. Cancel")
 
-        # --------------------------------------------- TODO: FOR OTHER FUNCTIONS / RE-USE FOR UPDATE / DELETE / SALE / GET
+        try:
+            product_input = int(input("Please insert a number: \n"))
+
+        except ValueError:
+            print("Please only use numbers.\n")
+            continue
+                # -------------------------------------------------------- TODO: Write if condition if product != None and save in variable for another function to use
+        if (product_input == 1):
+            get_product_by_category("cake", "cake")
+            break
+
+        if (product_input == 2):
+            get_product_by_category("cookie", "cookie")
+            break
+
+        if (product_input == 3):
+            get_product_by_category("main_dish", "main dish")
+            break
+
+        if (product_input == 4):
+            get_product_by_category("drink", "drink")
+            break
+
+        if (product_input == 5):
+            break
 
 def get_product_by_category(value, callable_value):
 
-    pass # ------------------------------------------ TODO
+    cursor.execute("SELECT * FROM products WHERE category=%s",(value,))
+    product_result = cursor.fetchall()
+    product_ids = []
+
+    print(f"The following items have been found in the category {callable_value}:\n")
+
+    if (len(product_result) > 0):
+
+        for product in product_result:
+            print(Fore.GREEN + f"Product ID: {product['product_id']}, Product name: {product['name']}, Available amount: {product['available_amount']}, Price: {product['price']}\n")
+            product_ids.append(product['product_id'])
+
+    else:
+        print("No product has been found in that category.")
+        return None
+
+    
+
+def select_another_product():
+    pass # ---------------------------------------------- ???
 
 """ Product Functions End """
 
