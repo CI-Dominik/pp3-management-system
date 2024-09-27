@@ -754,10 +754,11 @@ def sales_carts_menu():
         print("+------- SALES / CARTS -------+")
         print("|                             |")
         print("| 1. Add product to cart      |")
-        print("| 2. Remove product from cart |")
-        print("| 3. Complete purchase        |")
-        print("| 4. View Sales               |")    
-        print("| 5. Main Menu                |")
+        print("| 2. Book walk-in purchase    |")
+        print("| 3. Remove product from cart |")
+        print("| 4. Complete purchase        |")
+        print("| 5. View Sales               |")    
+        print("| 6. Main Menu                |")
         print("|                             |")
         print("-------------------------------")
         print("")
@@ -784,6 +785,9 @@ def sales_carts_menu():
             pass
 
         elif(response == 5):
+            pass
+
+        elif(response == 6):
             print("")
             main_menu()
             break
@@ -862,7 +866,7 @@ def select_cart():
             if (cart_input == 0):
                 break
 
-            if (cart_input in cart_ids):
+            elif (cart_input in cart_ids):
                 add_product_to_cart(cart_input)
                 break
 
