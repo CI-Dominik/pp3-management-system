@@ -497,9 +497,8 @@ def bookings_tables_menu():
         print("|                                     |")
         print("| 1. Book Table                       |")
         print("| 2. View available Tables            |")
-        print("| 3. Create single purchase           |")
-        print("| 4. View open bookings               |")
-        print("| 5. Main Menu                        |")
+        print("| 3. View open bookings               |")
+        print("| 4. Main Menu                        |")
         print("|                                     |")
         print("---------------------------------------")
         print("")
@@ -531,12 +530,9 @@ def bookings_tables_menu():
                 continue
 
         elif(response == 3):
-            pass
-
-        elif(response == 4):
             check_bookings()
 
-        elif(response == 5):
+        elif(response == 4):
             print("")
             main_menu()
             break
@@ -662,7 +658,7 @@ def table_booking(customer, table_select, number_of_people):
         cursor.execute("UPDATE tables SET availability = 0 WHERE table_id=%s", (table_select,))
         connection.commit()
 
-    print(f"Booking successfully created for {number_of_people} people. Each guest will receive a cart for their seat.")
+    print(f"Booking successfully created for {number_of_people} people. Each guest will receive a cart for their seat at table {table_select}.")
 
     cursor.execute("SELECT booking_id FROM bookings ORDER BY booking_id DESC LIMIT 1")
     last_booking = cursor.fetchone()
@@ -1230,7 +1226,7 @@ def update_product_by_value(product, value, callable_value):
                 break
 
         if (value == "available_amount"):
-            pass # ------------------- CHECK FOR NEGATIVE
+            pass # ------------------- TODO: CHECK FOR NEGATIVE
 
 def select_another_product():
     pass # ---------------------------------------------- TODO: FOR SALES
