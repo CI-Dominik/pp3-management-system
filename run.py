@@ -935,11 +935,15 @@ def products_menu():
 
         elif(response == 2):
             product = get_product_list()
-            update_product(product)
-            break
+            if (product != None):
+                update_product(product)
+                break
+            else:
+                continue
         
         elif(response == 3):
             get_product_list(True)
+            continue
 
         elif(response == 4):
             print("")
@@ -978,7 +982,7 @@ def add_product():
             break
 
         if (product_add_input == 3):
-            add_product_by_category("main_dish", "main dish")
+            add_product_by_category("main dish", "main dish")
             break
 
         if (product_add_input == 4):
@@ -1059,19 +1063,31 @@ def get_product_list(view_only=False):
                 # -------------------------------------------------------- TODO: Write if condition if product != None and save in variable for another function to use
         if (product_input == 1):
             product = get_product_by_category("cake", "cake", view_only)
-            return product
+            if(product != None):
+                return product
+            else:
+                return None
 
         if (product_input == 2):
             product = get_product_by_category("cookie", "cookie", view_only)
-            return product
+            if(product != None):
+                return product
+            else:
+                return None
 
         if (product_input == 3):
-            product = get_product_by_category("main_dish", "main dish", view_only)
-            return product
+            product = get_product_by_category("main dish", "main dish", view_only)
+            if(product != None):
+                return product
+            else:
+                return None
 
         if (product_input == 4):
             product = get_product_by_category("drink", "drink", view_only)
-            return product
+            if(product != None):
+                return product
+            else:
+                return None
 
         if (product_input == 5):
             break
@@ -1129,30 +1145,69 @@ def update_product(product):
         print(Fore.RED + "5. Cancel")
 
         try:
-            input = int(input("Please select a number: \n"))
+            update_input = int(input("Please select a number: \n"))
 
         except ValueError:
             print("Please only use numbers.\n")
             continue
 
-        if (input == 1):
-            pass
+        if (update_input == 1):
+            update_product_by_value(product, "name", "name")
+            break
 
-        if (input == 2):
-            pass
+        if (update_input == 2):
+            update_product_by_value(product, "category", "category")
+            break
 
-        if (input == 3):
-            pass
+        if (update_input == 3):
+            update_product_by_value(product, "price", "price")
+            break
 
-        if (input == 4):
-            pass
+        if (update_input == 4):
+            update_product_by_value(product, "available_amount", "amount")
+            break
 
-        if (input == 5):
+        if (update_input == 5):
+            products_menu()
             break    
 
 def update_product_by_value(product, value, callable_value):
 
-    pass # --------------------------------------------------------------------- TODO: NEXT
+    categories = ["cake", "cookie", "main dish", "drink"]
+
+    while True:
+
+        update_input = input(f"Please enter the new {callable_value} for {product['name']} or 0 to cancel:\n")
+
+        if (update_input == "0"):
+
+            break
+
+        if (value == "name"):
+
+            cursor.execute("UPDATE products SET name=%s WHERE product_id=%s", (update_input, product['product_id']))
+            connection.commit()
+            print(Fore.GREEN + f"Name of {product['name']} was successfully changed to {update_input}.")
+            break
+
+        if (value == "category"):
+
+            if (update_input.lower() in categories):
+                cursor.execute("UPDATE products SET category=%s WHERE product_id=%s", (update_input.lower(), product['product_id']))
+                connection.commit()
+                print(Fore.GREEN + f"Product {product['name']}'s {callable_value} was successfully changed to {update_input}.")
+                break
+
+            else:
+                
+                print(Fore.RED + "Please only use the categories cake, cookie, main dish or drink.")
+                continue
+
+        if (value == "price"):
+            pass # ------------------- CHECK FOR NEGATIVE OR NULL
+
+        if (value == "available_amount"):
+            pass # ------------------- CHECK FOR NEGATIVE
 
 def select_another_product():
     pass # ---------------------------------------------- TODO: FOR SALES
