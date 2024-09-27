@@ -915,9 +915,8 @@ def products_menu():
         print("|                              |")
         print("| 1. Add product               |")
         print("| 2. Update product            |")
-        print("| 3. Delete product            |")
-        print("| 4. Check wares               |")
-        print("| 5. Main menu                 |")
+        print("| 3. Check wares               |")
+        print("| 4. Main menu                 |")
         print("|                              |")
         print("--------------------------------")
         print("")
@@ -935,15 +934,12 @@ def products_menu():
             add_product()
 
         elif(response == 2):
-            pass
-
-        elif(response == 3):
-            pass
+            placeholder = get_product_list()
         
-        elif(response == 4):
-            get_product_list()
+        elif(response == 3):
+            get_product_list(True)
 
-        elif(response == 5):
+        elif(response == 4):
             print("")
             main_menu()
             break
@@ -1041,7 +1037,7 @@ def add_product_by_category(value, callable_value):
         print("Product successfully added to database.")
         break
 
-def get_product_list():
+def get_product_list(view_only=False):
 
     while True:
 
@@ -1060,25 +1056,25 @@ def get_product_list():
             continue
                 # -------------------------------------------------------- TODO: Write if condition if product != None and save in variable for another function to use
         if (product_input == 1):
-            get_product_by_category("cake", "cake")
-            break
+            product = get_product_by_category("cake", "cake", view_only)
+            return product
 
         if (product_input == 2):
-            get_product_by_category("cookie", "cookie")
-            break
+            product = get_product_by_category("cookie", "cookie", view_only)
+            return product
 
         if (product_input == 3):
-            get_product_by_category("main_dish", "main dish")
-            break
+            product = get_product_by_category("main_dish", "main dish", view_only)
+            return product
 
         if (product_input == 4):
-            get_product_by_category("drink", "drink")
-            break
+            product = get_product_by_category("drink", "drink", view_only)
+            return product
 
         if (product_input == 5):
             break
 
-def get_product_by_category(value, callable_value):
+def get_product_by_category(value, callable_value, view_only):
 
     cursor.execute("SELECT * FROM products WHERE category=%s",(value,))
     product_result = cursor.fetchall()
@@ -1092,27 +1088,29 @@ def get_product_by_category(value, callable_value):
             print(Fore.GREEN + f"Product ID: {product['product_id']}, Product name: {product['name']}, Available amount: {product['available_amount']}, Price: {product['price']}\n")
             product_ids.append(product['product_id'])
 
-        while True:
+        if (view_only == False):
 
-            try:
-                selection = int(input("Please select a product by ID or 0 to cancel: \n"))
+            while True:
 
-            except ValueError:
-                print("Please only use numbers.\n")
-                continue
+                try:
+                    selection = int(input("Please select a product by ID or 0 to cancel: \n"))
 
-            if (selection == 0):
-                break
+                except ValueError:
+                    print("Please only use numbers.\n")
+                    continue
 
-            if (selection in product_ids):
-                cursor.execute("SELECT * FROM products WHERE product_id=%s", (selection,))
-                product_return = cursor.fetchone()
-                print(Fore.GREEN + f"You selected {product_return['name']}.")
-                return product_return
+                if (selection == 0):
+                    break
 
-            else:
-                print(Fore.RED + "No product with that number available.")
-                continue
+                if (selection in product_ids):
+                    cursor.execute("SELECT * FROM products WHERE product_id=%s", (selection,))
+                    product_return = cursor.fetchone()
+                    print(Fore.GREEN + f"You selected {product_return['name']}.")
+                    return product_return
+
+                else:
+                    print(Fore.RED + "No product with that number available.")
+                    continue
 
     else:
         print(Fore.RED + "No product has been found in that category.")
