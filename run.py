@@ -1084,8 +1084,6 @@ def get_product_by_category(value, callable_value):
     product_result = cursor.fetchall()
     product_ids = []
 
-    
-
     if (len(product_result) > 0):
 
         print(f"The following items have been found in the category {callable_value}:\n")
@@ -1093,6 +1091,28 @@ def get_product_by_category(value, callable_value):
         for product in product_result:
             print(Fore.GREEN + f"Product ID: {product['product_id']}, Product name: {product['name']}, Available amount: {product['available_amount']}, Price: {product['price']}\n")
             product_ids.append(product['product_id'])
+
+        while True:
+
+            try:
+                selection = int(input("Please select a product by ID or 0 to cancel: \n"))
+
+            except ValueError:
+                print("Please only use numbers.\n")
+                continue
+
+            if (selection == 0):
+                break
+
+            if (selection in product_ids):
+                cursor.execute("SELECT * FROM products WHERE product_id=%s", (selection,))
+                product_return = cursor.fetchone()
+                print(Fore.GREEN + f"You selected {product_return['name']}.")
+                return product_return
+
+            else:
+                print(Fore.RED + "No product with that number available.")
+                continue
 
     else:
         print(Fore.RED + "No product has been found in that category.")
