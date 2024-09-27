@@ -758,8 +758,7 @@ def sales_carts_menu():
         print("| 1. Add product to cart      |")
         print("| 2. Remove product from cart |")
         print("| 3. Complete purchase        |")
-        print("| 4. Delete cart              |")
-        print("| 5. Main Menu                |")
+        print("| 4. Main Menu                |")
         print("|                             |")
         print("-------------------------------")
         print("")
@@ -781,11 +780,8 @@ def sales_carts_menu():
 
         elif(response == 3):
             pass
-        
-        elif(response == 4):
-            pass
 
-        elif(response == 5):
+        elif(response == 4):
             print("")
             main_menu()
             break
@@ -865,8 +861,12 @@ def select_cart():
                 break
 
             if (cart_input in cart_ids):
-                add_product_to_cart()
+                add_product_to_cart(cart_input)
                 break
+
+            else:
+                print(Fore.RED + "Invalid input.")
+                continue
 
     else:
         print(Fore.RED + "No carts found.")
@@ -874,7 +874,7 @@ def select_cart():
 
 def add_product_to_cart(cart_id):
 
-    pass # --------------------------------------- TODO: NEXT SALES
+    pass # --------------------------------------- TODO: NEXT SALES / CHECK IF PRODUCT IS ALREADY IN CART -> UPDATE AMOUNT -> REMOVE AT 0
 
 def select_cart_by_value(callable_value):
 
@@ -934,7 +934,9 @@ def products_menu():
             add_product()
 
         elif(response == 2):
-            placeholder = get_product_list()
+            product = get_product_list()
+            update_product(product)
+            break
         
         elif(response == 3):
             get_product_list(True)
@@ -1116,10 +1118,44 @@ def get_product_by_category(value, callable_value, view_only):
         print(Fore.RED + "No product has been found in that category.")
         return None
 
+def update_product(product):
     
+    while True:
+        print(f"Which attribute of {product['name']} (ID: {product['product_id']}) do you want to change?")
+        print("1. Name")
+        print("2. Category")
+        print("3. Price")
+        print("4. Amount")
+        print(Fore.RED + "5. Cancel")
+
+        try:
+            input = int(input("Please select a number: \n"))
+
+        except ValueError:
+            print("Please only use numbers.\n")
+            continue
+
+        if (input == 1):
+            pass
+
+        if (input == 2):
+            pass
+
+        if (input == 3):
+            pass
+
+        if (input == 4):
+            pass
+
+        if (input == 5):
+            break    
+
+def update_product_by_value(product, value, callable_value):
+
+    pass # --------------------------------------------------------------------- TODO: NEXT
 
 def select_another_product():
-    pass # ---------------------------------------------- ???
+    pass # ---------------------------------------------- TODO: FOR SALES
 
 """ Product Functions End """
 
