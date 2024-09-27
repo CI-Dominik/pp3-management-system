@@ -1186,7 +1186,7 @@ def update_product_by_value(product, value, callable_value):
         update_input = input(f"Please enter the new {callable_value} for {product['name']} or 0 to cancel:\n")
 
         if (update_input == "0"):
-
+            products_menu()
             break
 
         if (value == "name"):
@@ -1210,7 +1210,24 @@ def update_product_by_value(product, value, callable_value):
                 continue
 
         if (value == "price"):
-            pass # ------------------- CHECK FOR NEGATIVE OR NULL
+
+            pattern = r"^-?\d+\.\d{2}$"
+
+            if(re.fullmatch(pattern, update_input) == None):
+                print(Fore.RED + "Wrong format. Example: 4.99")
+                continue
+
+            float(update_input)
+
+            if (float(update_input) < 0):
+                print(Fore.RED + "The value cannot be negative.")
+                continue
+
+            else:
+                cursor.execute("UPDATE products SET price=%s WHERE product_id=%s", (update_input, product['product_id']))
+                connection.commit()
+                print(Fore.GREEN + f"Price of {product['name']} successfully updated to ${update_input}.")
+                break
 
         if (value == "available_amount"):
             pass # ------------------- CHECK FOR NEGATIVE
