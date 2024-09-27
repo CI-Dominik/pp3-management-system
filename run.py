@@ -1084,16 +1084,18 @@ def get_product_by_category(value, callable_value):
     product_result = cursor.fetchall()
     product_ids = []
 
-    print(f"The following items have been found in the category {callable_value}:\n")
+    
 
     if (len(product_result) > 0):
+
+        print(f"The following items have been found in the category {callable_value}:\n")
 
         for product in product_result:
             print(Fore.GREEN + f"Product ID: {product['product_id']}, Product name: {product['name']}, Available amount: {product['available_amount']}, Price: {product['price']}\n")
             product_ids.append(product['product_id'])
 
     else:
-        print("No product has been found in that category.")
+        print(Fore.RED + "No product has been found in that category.")
         return None
 
     
