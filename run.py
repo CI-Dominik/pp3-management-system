@@ -8,7 +8,7 @@ import os
 import mysql.connector
 from mysql.connector import Error
 from dotenv import load_dotenv
-from colorama import Fore, Back, Style, init
+from colorama import Fore, Style, init
 import re
 from datetime import datetime
 
