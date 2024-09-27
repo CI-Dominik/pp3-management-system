@@ -43,7 +43,8 @@ try:
     
 except Error as e:
     
-    print(f"ERROR CONNECTING TO DATABASE!")
+    print(f"Error connecting to database. Shutting down...")
+    exit()
 
 """ Main Menu Start """
 
@@ -63,8 +64,8 @@ def main_menu():
         print("| 1. Customer Management  |")
         print("| 2. Bookings / Tables    |")
         print("| 3. Sales / Carts        |")
-        print("| 4. Returns              |")
-        print("| 5. Products             |")
+        print("| 4. Products             |")
+        print("| 5. Close program        |")
         print("|                         |")
         print("---------------------------")
         print("|                         |")
@@ -98,10 +99,11 @@ def main_menu():
             sales_carts_menu()
 
         elif(response == 4):
-            print(f"Your input was {response}\n")
+            products_menu()
 
         elif(response == 5):
-            products_menu()
+            print(Fore.YELLOW + "Thank you for using Happy Life's Management System. Shutting down...")
+            exit()
 
             """ DEVELOPMENT COMMANDS """
 
@@ -758,7 +760,8 @@ def sales_carts_menu():
         print("| 1. Add product to cart      |")
         print("| 2. Remove product from cart |")
         print("| 3. Complete purchase        |")
-        print("| 4. Main Menu                |")
+        print("| 4. View Sales               |")    
+        print("| 5. Main Menu                |")
         print("|                             |")
         print("-------------------------------")
         print("")
@@ -782,6 +785,9 @@ def sales_carts_menu():
             pass
 
         elif(response == 4):
+            pass
+
+        elif(response == 5):
             print("")
             main_menu()
             break
@@ -1199,7 +1205,7 @@ def update_product_by_value(product, value, callable_value):
                 break
 
             else:
-                
+
                 print(Fore.RED + "Please only use the categories cake, cookie, main dish or drink.")
                 continue
 
