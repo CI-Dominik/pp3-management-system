@@ -753,9 +753,9 @@ def sales_carts_menu():
 
         print("+------- SALES / CARTS -------+")
         print("|                             |")
-        print("| 1. Add product to cart      |") # ------------------- GET PRODUCT LIST TO SELECT PRODUCT / GET CART FUNCTION
-        print("| 2. Book walk-in purchase    |") # -------------------- WALK-IN: 1, TABLE: 0, SEAT: 0
-        print("| 3. Remove product from cart |") # --------------------- GET CART
+        print("| 1. Add product to cart      |")
+        print("| 2. Book walk-in purchase    |") # -------------------- WALK_IN: 1, TABLE: 0, SEAT_NUMBER: 0
+        print("| 3. Remove product from cart |") # -------------------- GET CART
         print("| 4. Complete purchase        |") #--------------------- COMPLETE PURCHASE FOR GUEST AND TABLE BOOKING / CHECK
         print("| 5. View Sales               |")    
         print("| 6. Main Menu                |")
@@ -893,9 +893,33 @@ def select_cart():
 
 def add_product_to_cart(cart, product):
 
-    pass # --------------------------------------- TODO: NEXT SALES / CHECK IF PRODUCT IS ALREADY IN CART -> UPDATE AMOUNT -> REMOVE AT 0
+    while True:
 
+        try:
+            amount_input = int(input("How many items do you wish to add? Please insert a number or 0 to cancel: \n"))
 
+        except ValueError:
+            print("Please only use numbers.\n")
+            continue
+
+        if (amount_input == 0):
+            break
+
+        elif (amount_input < 0):
+            print(Fore.RED + "Amount cannot be negative.")
+            continue
+
+        elif (amount_input > product['available_amount']):
+            print(f"Not enough items left. The amount of the product {product['name']} is {product['available_amount']}.")
+            continue
+
+        else:
+            cursor.execute("INSERT INTO cart_items (cart_id, product_id, product_amount) VALUES (%s, %s, %s)", (cart['cart_id'], product['product_id'], amount_input))
+            connection.commit()
+            cursor.execute("UPDATE products SET available_amount=available_amount - %s WHERE product_id=%s", (amount_input, product['product_id']))
+            connection.commit()
+            print(Fore.GREEN + f"{product['name']} was added {amount_input} times to cart {cart['cart_id']} for seat number {cart['seat_number']}.")
+            break
 
 def select_cart_by_value(callable_value):
 
