@@ -773,6 +773,7 @@ def sales_carts_menu():
             continue
 
         if(response == 1):
+
             cart = select_cart()
             if (cart != None):
                 product = get_product_list()
@@ -789,18 +790,30 @@ def sales_carts_menu():
                 continue
 
         elif(response == 2):
+
             pass # -------------------------- CREATE AND GET GUEST CART, ADD ITEMS? -> product = get_product_list() -> add_product_to_cart(GUEST CART, product)
 
         elif(response == 3):
+
+            cart = select_cart()
+            if (cart != None):
+                remove_product_from_cart(cart)
+            else:
+                print(Fore.RED + "No cart selected.")
+                continue
+
             pass # ----------------------------- CHECK IF EMPTY
 
         elif(response == 4):
+
             pass # ---------------------------------- BOOKING OR GUEST, LIST BOOKINGS AGAIN
 
         elif(response == 5):
+
             pass
 
         elif(response == 6):
+
             print("")
             main_menu()
             break
@@ -925,7 +938,7 @@ def add_product_to_cart(cart, product):
                 products_added.append(i['product_id'])
 
             if (product['product_id'] in products_added):
-                
+
                 cursor.execute("UPDATE cart_items SET product_amount = product_amount + %s WHERE product_id=%s", (amount_input, product['product_id']))
                 connection.commit()
                 cursor.execute("UPDATE products SET available_amount=available_amount - %s WHERE product_id=%s", (amount_input, product['product_id']))
@@ -941,6 +954,39 @@ def add_product_to_cart(cart, product):
                 connection.commit()
                 print(Fore.GREEN + f"{product['name']} was added {amount_input} times to cart {cart['cart_id']} for seat number {cart['seat_number']}.")
                 break
+
+def remove_product_from_cart(cart):
+
+    cursor.execute("SELECT cart_items.cart_id, cart_items.product_id, cart_items.product_amount, products.name FROM cart_items LEFT JOIN products ON cart_items.product_id = products.product_id WHERE cart_items.cart_id=%s", (cart['cart_id'],))
+    items_in_cart = cursor.fetchall()
+
+    item_ids = []
+
+    print(f"Inside cart {cart['cart_id']}, there are the following items:")
+
+    for item in items_in_cart:
+        print(Fore.GREEN + f"Product ID: {item['product_id']}, Product name: {item['name']}, Product amount: {item['product_amount']}")
+        item_ids.append(item['product_id'])
+
+    while True:
+
+        try:
+
+            remove_input = int(input("Please select the item ID of the product to remove or 0 to cancel:\n"))
+
+        except ValueError:
+            print("Please use only numbers.\n")
+            continue
+
+        if (remove_input == 0):
+            break
+
+        elif (remove_input in item_ids):
+            pass # ------------------------------------------- TODO: AMOUNT + CHECK
+
+        else:
+            print(Fore.RED + "Invalid input.")
+            continue
 
 def select_cart_by_value(callable_value):
 
