@@ -798,6 +798,7 @@ def sales_carts_menu():
             cart = select_cart()
             if (cart != None):
                 remove_product_from_cart(cart)
+                break
             else:
                 print(Fore.RED + "No cart selected.")
                 continue
@@ -959,34 +960,42 @@ def remove_product_from_cart(cart):
 
     cursor.execute("SELECT cart_items.cart_id, cart_items.product_id, cart_items.product_amount, products.name FROM cart_items LEFT JOIN products ON cart_items.product_id = products.product_id WHERE cart_items.cart_id=%s", (cart['cart_id'],))
     items_in_cart = cursor.fetchall()
+    
+    if (len(items_in_cart) > 0):
 
-    item_ids = []
+        item_ids = []
 
-    print(f"Inside cart {cart['cart_id']}, there are the following items:")
+        print(f"Inside cart {cart['cart_id']}, there are the following items:")
 
-    for item in items_in_cart:
-        print(Fore.GREEN + f"Product ID: {item['product_id']}, Product name: {item['name']}, Product amount: {item['product_amount']}")
-        item_ids.append(item['product_id'])
+        for item in items_in_cart:
+            print(Fore.GREEN + f"Product ID: {item['product_id']}, Product name: {item['name']}, Product amount: {item['product_amount']}")
+            item_ids.append(item['product_id'])
 
-    while True:
+        while True:
 
-        try:
+            try:
 
-            remove_input = int(input("Please select the item ID of the product to remove or 0 to cancel:\n"))
+                remove_input = int(input("Please select the item ID of the product to remove or 0 to cancel:\n"))
 
-        except ValueError:
-            print("Please use only numbers.\n")
-            continue
+            except ValueError:
+                print("Please use only numbers.\n")
+                continue
 
-        if (remove_input == 0):
-            break
+            if (remove_input == 0):
+                break
 
-        elif (remove_input in item_ids):
-            pass # ------------------------------------------- TODO: AMOUNT + CHECK
+            elif (remove_input in item_ids):
+                pass # ------------------------------------------- TODO: AMOUNT + CHECK
 
-        else:
-            print(Fore.RED + "Invalid input.")
-            continue
+            else:
+                print(Fore.RED + "Invalid input.")
+                continue
+
+    else:
+
+        print(Fore.RED + "Cart is empty.")
+        sales_carts_menu()
+
 
 def select_cart_by_value(callable_value):
 
