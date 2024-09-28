@@ -1047,6 +1047,15 @@ def add_product_by_category(value, callable_value):
 
         name_input = input(f"Please insert the name of the {callable_value} to add or 0 to cancel: \n")
 
+        name_input = name_input.title()
+
+        cursor.execute("SELECT name FROM products WHERE name=%s", (name_input,))
+        check_result = cursor.fetchall()
+
+        if (len(check_result) > 0):
+            print(Fore.RED + "This name is already in use. Please choose another one.")
+            continue
+
         if (name_input == "0"):
             break
 
@@ -1055,14 +1064,14 @@ def add_product_by_category(value, callable_value):
             amount_input = int(input("Please insert the stock amount or 0 to cancel: \n"))
 
         except ValueError:
-            print("Please only use numbers.\n")
+            print(Fore.RED + "Please only use numbers.\n")
             continue
 
         if(amount_input == 0):
             break
 
         if (amount_input < 0):
-            print("Number cannot be negative.")
+            print(Fore.RED + "Number cannot be negative.")
             continue
 
         pattern = r"^\d+\.\d{2}$"
@@ -1073,7 +1082,7 @@ def add_product_by_category(value, callable_value):
 
         except ValueError:
 
-            print("Please enter a floating-point number.")
+            print(Fore.RED + "Please enter a floating-point number.")
 
         if(price_input == "0"):
             break
@@ -1085,7 +1094,7 @@ def add_product_by_category(value, callable_value):
         cursor.execute("INSERT INTO products (name, category, available_amount, price) VALUES (%s, %s, %s, %s)", (name_input, value, amount_input, float(price_input)))
         connection.commit()
 
-        print("Product successfully added to database.")
+        print(Fore.GREEN + "Product successfully added to database.")
         break
 
 def get_product_list(view_only=False):
