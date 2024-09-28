@@ -858,7 +858,7 @@ def select_cart():
             break
 
         else:
-            print("Invalid value.")
+            print(Fore.RED + "Invalid value.")
             continue
     
     if (selection_input != 4):
@@ -985,7 +985,8 @@ def remove_product_from_cart(cart):
                 break
 
             elif (remove_input in item_ids):
-                pass # ------------------------------------------- TODO: AMOUNT + CHECK
+                remove_item(cart, remove_input)
+                break
 
             else:
                 print(Fore.RED + "Invalid input.")
@@ -996,6 +997,26 @@ def remove_product_from_cart(cart):
         print(Fore.RED + "Cart is empty.")
         sales_carts_menu()
 
+def remove_item(cart, product_id):
+
+    while True:
+        
+        try:
+            amount_input = int(input("Please enter the amount to remove or 0 to cancel:\n"))
+
+        except ValueError:
+            print("Please only use numbers.\n")
+            continue
+
+        if (amount_input == 0):
+            break
+
+        elif (amount_input < 0):
+            print(Fore.RED + "Amount cannot be negative")
+            continue
+
+        else:
+            pass # ---------------------------------------- TODO: REMOVE
 
 def select_cart_by_value(callable_value):
 
@@ -1012,12 +1033,6 @@ def select_cart_by_value(callable_value):
 
         else:
             return value_input
-
-
-
-
-    else:
-        print("There are currently no open carts.")
 
 """ Sale Functions End """
 
