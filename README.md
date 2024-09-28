@@ -99,7 +99,7 @@ The live system can be viewed here: [Link to the Restaurant Management System](h
 * The employees should be able to add a product to a cart that each of their visitors gets assigned, either through a booking or a direct purchase. The removal of said products should also be possible to manage returns and unwanted or unusable items. The purchase should be finished through their system, taking into account the table ID, booking ID and the visitor's carts.
 
 ### Products
-* Happy Life's product catalog is changing from time to time, so a flexible system should adapt to their needs. It should be possible to add a product to the system, update it, delete it, update the stock or check on the amount that is left in their storage.
+* Happy Life's product catalog is changing from time to time, so a flexible system should adapt to their needs. It should be possible to add a product to the system, update it, update the stock or check on the amount that is left in their storage.
 
 ---
 
@@ -249,6 +249,12 @@ PH ---------------------------------
 
 ## [PEP8 Linter](https://pypi.org/project/pep8/)
 * Used to verify Python code.
+
+## [drawsql](https://drawsql.app/)
+* Used to create the database diagram.
+
+## [Lucidchart](https://lucid.app/)
+* Used to create flowcharts for the menu structure.
 
 ## [W3Schools](https://www.w3schools.com/)
 * Used to lookup tips for the code.

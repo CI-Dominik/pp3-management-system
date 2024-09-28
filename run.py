@@ -753,10 +753,10 @@ def sales_carts_menu():
 
         print("+------- SALES / CARTS -------+")
         print("|                             |")
-        print("| 1. Add product to cart      |")
-        print("| 2. Book walk-in purchase    |")
-        print("| 3. Remove product from cart |")
-        print("| 4. Complete purchase        |")
+        print("| 1. Add product to cart      |") # ------------------- GET PRODUCT LIST TO SELECT PRODUCT / GET CART FUNCTION
+        print("| 2. Book walk-in purchase    |") # -------------------- WALK-IN: 1, TABLE: 0, SEAT: 0
+        print("| 3. Remove product from cart |") # --------------------- GET CART
+        print("| 4. Complete purchase        |") #--------------------- COMPLETE PURCHASE FOR GUEST AND TABLE BOOKING / CHECK
         print("| 5. View Sales               |")    
         print("| 6. Main Menu                |")
         print("|                             |")
@@ -773,7 +773,16 @@ def sales_carts_menu():
             continue
 
         if(response == 1):
-            select_cart()
+            cart = select_cart()
+            product = get_product_list()
+            if(product != None):
+                if(product['available_amount'] > 0):
+                    add_product_to_cart(cart, product)
+                else:
+                    print(Fore.RED + "Not enough products left.")
+                    continue
+            else:
+                continue
 
         elif(response == 2):
             pass
@@ -867,8 +876,8 @@ def select_cart():
                 break
 
             elif (cart_input in cart_ids):
-                add_product_to_cart(cart_input)
-                break
+                selected_cart = next(cart for cart in open_carts if cart['cart_id'] == cart_input)
+                return selected_cart
 
             else:
                 print(Fore.RED + "Invalid input.")
@@ -878,9 +887,11 @@ def select_cart():
         print(Fore.RED + "No carts found.")
         sales_carts_menu()
 
-def add_product_to_cart(cart_id):
+def add_product_to_cart(cart, product):
 
     pass # --------------------------------------- TODO: NEXT SALES / CHECK IF PRODUCT IS ALREADY IN CART -> UPDATE AMOUNT -> REMOVE AT 0
+
+
 
 def select_cart_by_value(callable_value):
 
@@ -1248,10 +1259,6 @@ def update_product_by_value(product, value, callable_value):
                 connection.commit()
                 print(Fore.GREEN + f"Available amount of {product['name']} successfully updated to {update_input}.")
                 break
-
-
-def select_another_product():
-    pass # ---------------------------------------------- TODO: FOR SALES
 
 """ Product Functions End """
 
