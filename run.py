@@ -774,14 +774,18 @@ def sales_carts_menu():
 
         if(response == 1):
             cart = select_cart()
-            product = get_product_list()
-            if(product != None):
-                if(product['available_amount'] > 0):
-                    add_product_to_cart(cart, product)
+            if (cart != None):
+                product = get_product_list()
+                if(product != None):
+                    if(product['available_amount'] > 0):
+                        add_product_to_cart(cart, product)
+                    else:
+                        print(Fore.RED + "Not enough products left.")
+                        continue
                 else:
-                    print(Fore.RED + "Not enough products left.")
                     continue
             else:
+                print(Fore.RED + "No cart selected.")
                 continue
 
         elif(response == 2):
