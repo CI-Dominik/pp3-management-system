@@ -789,13 +789,13 @@ def sales_carts_menu():
                 continue
 
         elif(response == 2):
-            pass
+            pass # -------------------------- CREATE AND GET GUEST CART, ADD ITEMS? -> product = get_product_list() -> add_product_to_cart(GUEST CART, product)
 
         elif(response == 3):
-            pass
+            pass # ----------------------------- CHECK IF EMPTY
 
         elif(response == 4):
-            pass
+            pass # ---------------------------------- BOOKING OR GUEST, LIST BOOKINGS AGAIN
 
         elif(response == 5):
             pass
@@ -914,12 +914,33 @@ def add_product_to_cart(cart, product):
             continue
 
         else:
-            cursor.execute("INSERT INTO cart_items (cart_id, product_id, product_amount) VALUES (%s, %s, %s)", (cart['cart_id'], product['product_id'], amount_input))
-            connection.commit()
-            cursor.execute("UPDATE products SET available_amount=available_amount - %s WHERE product_id=%s", (amount_input, product['product_id']))
-            connection.commit()
-            print(Fore.GREEN + f"{product['name']} was added {amount_input} times to cart {cart['cart_id']} for seat number {cart['seat_number']}.")
-            break
+
+            products_added = []
+
+            cursor.execute("SELECT product_id FROM cart_items WHERE cart_id=%s",(cart['cart_id'],))
+
+            product_added = cursor.fetchall()
+
+            for i in product_added:
+                products_added.append(i['product_id'])
+
+            if (product['product_id'] in products_added):
+                
+                cursor.execute("UPDATE cart_items SET product_amount = product_amount + %s WHERE product_id=%s", (amount_input, product['product_id']))
+                connection.commit()
+                cursor.execute("UPDATE products SET available_amount=available_amount - %s WHERE product_id=%s", (amount_input, product['product_id']))
+                connection.commit()
+                print(Fore.GREEN + f"{product['name']} was added {amount_input} times to cart {cart['cart_id']} for seat number {cart['seat_number']}.")
+                break
+
+            else:
+
+                cursor.execute("INSERT INTO cart_items (cart_id, product_id, product_amount) VALUES (%s, %s, %s)", (cart['cart_id'], product['product_id'], amount_input))
+                connection.commit()
+                cursor.execute("UPDATE products SET available_amount=available_amount - %s WHERE product_id=%s", (amount_input, product['product_id']))
+                connection.commit()
+                print(Fore.GREEN + f"{product['name']} was added {amount_input} times to cart {cart['cart_id']} for seat number {cart['seat_number']}.")
+                break
 
 def select_cart_by_value(callable_value):
 
