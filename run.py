@@ -791,12 +791,12 @@ def sales_carts_menu():
 
         elif(response == 2):
 
-            print("Do you want to create a new walk-in cart or remove an exisiting one?")
-            print("1. Create new walk-in cart")
-            print("2. Remove exisiting walk-in cart")
-            print("3. Cancel")
-
             while True:
+
+                print("Do you want to create a new walk-in cart or remove an exisiting one?")
+                print("1. Create new walk-in cart")
+                print("2. Remove exisiting walk-in cart")
+                print("3. Cancel")
 
                 try:
                     walk_input = int(input("Please select a number:\n"))
@@ -1137,7 +1137,34 @@ def add_walk_in_items(cart_id):
             continue
 
 def remove_walk_in_cart(cart_id):
-    pass # ----------------------------- TODO: CHECK FOR CART ITEMS AND REMOVE
+
+    cursor.execute("SELECT * FROM cart_items WHERE cart_id=%s", (cart_id,))
+    cart_data = cursor.fetchall()
+
+    if (len(cart_data) > 0):
+
+        while True:
+
+            choice = input(Fore.RED + f"There are still items in cart {cart_id}. Do you still want to continue? [y/n]\n")
+
+            if (choice == "y"):
+                cursor.execute("DELETE FROM cart_items WHERE cart_id=%s", (cart_id,))
+                cursor.execute("DELETE FROM cart WHERE cart_id=%s", (cart_id,))
+                connection.commit()
+                print(Fore.GREEN + f"Cart {cart_id} and all of the items inside have been removed.")
+                break
+
+            elif (choice == "n"):
+                print(Fore.GREEN + f"Deletion of cart {cart_id} cancelled.")
+                break
+
+            else:
+                print(Fore.RED + "Invalid input.")
+                continue
+    else:
+        cursor.execute("DELETE FROM cart WHERE cart_id=%s", (cart_id,))
+        connection.commit()
+        print(Fore.GREEN + f"Cart {cart_id} has successfully been removed.")
 
 def get_sales():
 
