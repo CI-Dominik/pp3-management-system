@@ -816,7 +816,7 @@ def sales_carts_menu():
                     break
 
                 elif (walk_input == 2):
-                    cursor.execute("SELECT * FROM cart WHERE walk_in=%s", (1,))
+                    cursor.execute("SELECT * FROM cart WHERE walk_in=%s AND payed=%s", (1, 0))
                     walk_in_carts = cursor.fetchall()
                     walk_in_ids = []
 
@@ -1200,10 +1200,8 @@ def remove_walk_in_cart(cart_id):
 
 def complete_purchase(purchase_type):
 
-    pass # -------------------------------------------------- TODO: type = booking, walk-in + LIST BOOKINGS AGAIN
-
     if (purchase_type == "walk-in"):
-        cursor.execute("SELECT * FROM cart WHERE walk_in=%s ORDER BY cart_id DESC", (1,))
+        cursor.execute("SELECT * FROM cart WHERE walk_in=%s ORDER BY cart_id ASC", (1,))
         walk_in_carts = cursor.fetchall()
         walk_in_ids = []
 
@@ -1239,10 +1237,58 @@ def complete_purchase(purchase_type):
             print(Fore.RED + "There are currently no walk-in carts open.")
 
     elif (purchase_type == "booking"):
-        pass
+        pass # ---------------------------------- TODO: BOOKING FUNCTION FOR TABLES / BOOKINGS
 
 def complete_purchase_by_cart_id(cart):
-    pass
+    pass # ----------------------------------------- TODO: COMPLETE PURCHASE FOR WALK-IN AND CALL AFTER ITEM ADDITION == N IN CREATE WALK-IN
+
+    cursor.execute("SELECT cart_items.cart_id, cart_items.product_id, cart_items.product_amount, products.name, products.price FROM cart_items LEFT JOIN products ON cart_items.product_id = products.product_id WHERE cart_items.cart_id=%s", (cart,))
+    purchase_data = cursor.fetchall()
+    total_price = 0
+    
+    print(f"The following items are in cart {cart}:\n")
+    
+    for item in purchase_data:
+        print(Fore.GREEN + f"Product ID: {item['product_id']}, Product name: {item['name']}, Amount: {item['product_amount']}, Price: ${item['price']}")
+        total_price += item['price']
+
+    print(Fore.YELLOW + f"The total price is: ${total_price}.")
+
+    while True:
+        try:
+            received = float(input("Please insert money received or 0 to cancel: \n"))
+
+        except ValueError:
+            print("Please only use numbers.\n")
+            continue
+
+        if (received == 0):
+            break
+
+        elif (received < 0):
+            print(Fore.RED + "Amount cannot be negative.")
+            continue
+
+        elif (received < total_price):
+            print(Fore.RED + f"Not enough money. The sum is {total_price}")
+            continue
+
+        elif (received >= total_price):
+            return_amount = received - total_price
+            cursor.execute("INSERT INTO sold_products (cart_id, date) VALUES (%s, %s)", (cart, datetime.today().strftime('%Y-%m-%d')))
+            cursor.execute("DELETE FROM cart_items WHERE cart_id=%s", (cart,))
+            cursor.execute("UPDATE cart SET payed=%s WHERE cart_id=%s", (1, cart))
+            connection.commit()
+            print(Fore.GREEN + f"Cart {cart} successfully payed. The return money is ${round(return_amount, 2)}.")
+            
+            break
+
+
+        else:
+            print(Fore.RED + "Invalid input.")
+            continue
+
+
 
 def get_sales():
 
