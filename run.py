@@ -756,7 +756,7 @@ def sales_carts_menu():
         print("| 1. Add product to cart      |")
         print("| 2. Walk-in purchases        |")
         print("| 3. Remove product from cart |")
-        print("| 4. Complete purchase        |") #--------------------- COMPLETE PURCHASE FOR GUEST AND TABLE BOOKING / CHECK
+        print("| 4. Complete purchase        |")
         print("| 5. View Sales               |")    
         print("| 6. Main Menu                |")
         print("|                             |")
@@ -869,8 +869,35 @@ def sales_carts_menu():
                 continue
 
         elif(response == 4):
+            
+            while True:
 
-            pass # ---------------------------------- TODO: BOOKING OR GUEST, LIST BOOKINGS AGAIN
+                print("Do you want to finish a booking or a walk-in purchase?")
+                print("1. Booking purchase")
+                print("2. Walk-in purcahse")
+                print("3. Cancel")
+
+                try:
+                    purchase_selection = int(input("Please select a number:\n"))
+                
+                except ValueError:
+                    print("Please only use numbers.\n")
+                    continue
+
+                if (purchase_selection == 1):
+                    complete_purchase("booking")
+                    break
+
+                elif (purchase_selection == 2):
+                    complete_purchase("walk-in")
+                    break
+
+                elif (purchase_selection == 3):
+                    break
+
+                else:
+                    print(Fore.RED + "Invalid input.")
+                    continue
 
         elif(response == 5):
 
@@ -1165,6 +1192,17 @@ def remove_walk_in_cart(cart_id):
         cursor.execute("DELETE FROM cart WHERE cart_id=%s", (cart_id,))
         connection.commit()
         print(Fore.GREEN + f"Cart {cart_id} has successfully been removed.")
+
+
+def complete_purchase(purchase_type):
+
+    pass # -------------------------------------------------- TODO: type = booking, walk-in + LIST BOOKINGS AGAIN
+
+    if (purchase_type == "walk-in"):
+        pass
+
+    elif (purchase_type == "booking"):
+        pass
 
 def get_sales():
 
