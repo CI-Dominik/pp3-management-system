@@ -1154,7 +1154,11 @@ def add_walk_in_items(cart_id):
 
         if (decision == "y"):
             product = get_product_list()
-            add_product_to_cart(cart_id, product)
+            if (product != None):
+                add_product_to_cart(cart_id, product)
+            else:
+                print(Fore.RED + "No product selected.")
+                continue
 
         elif (decision == "n"):
             break
@@ -1199,10 +1203,46 @@ def complete_purchase(purchase_type):
     pass # -------------------------------------------------- TODO: type = booking, walk-in + LIST BOOKINGS AGAIN
 
     if (purchase_type == "walk-in"):
-        pass
+        cursor.execute("SELECT * FROM cart WHERE walk_in=%s ORDER BY cart_id DESC", (1,))
+        walk_in_carts = cursor.fetchall()
+        walk_in_ids = []
+
+        print("The following walk-in carts are currently open(newst entry on bottom):")
+
+        if(len(walk_in_carts) > 0):
+
+            for cart in walk_in_carts:
+                print(Fore.GREEN + f"Cart ID: {cart['cart_id']}")
+                walk_in_ids.append(cart['cart_id'])
+
+            while True:
+                
+                try:
+                    decision = int(input("Please enter a cart ID to complete or 0 to cancel:\n"))
+
+                except ValueError:
+                    print("Please only use numbers.\n")
+                    continue
+
+                if (decision == 0):
+                    break
+
+                elif (decision in walk_in_ids):
+                    complete_purchase_by_cart_id(decision)
+                    break
+
+                else:
+                    print(Fore.RED + "Invalid input.")
+                    continue
+
+        else:
+            print(Fore.RED + "There are currently no walk-in carts open.")
 
     elif (purchase_type == "booking"):
         pass
+
+def complete_purchase_by_cart_id(cart):
+    pass
 
 def get_sales():
 
@@ -1453,7 +1493,7 @@ def get_product_by_category(value, callable_value, view_only):
                 if (selection == 0):
                     break
 
-                if (selection in product_ids):
+                elif (selection in product_ids):
                     cursor.execute("SELECT * FROM products WHERE product_id=%s", (selection,))
                     product_return = cursor.fetchone()
                     print(Fore.GREEN + f"You selected {product_return['name']}.")
