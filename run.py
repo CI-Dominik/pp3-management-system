@@ -1205,9 +1205,9 @@ def complete_purchase(purchase_type):
         walk_in_carts = cursor.fetchall()
         walk_in_ids = []
 
-        print("The following walk-in carts are currently open(newst entry on bottom):")
-
         if(len(walk_in_carts) > 0):
+
+            print("The following walk-in carts are currently open(newst entry on bottom):")
 
             for cart in walk_in_carts:
                 print(Fore.GREEN + f"Cart ID: {cart['cart_id']}")
@@ -1237,10 +1237,45 @@ def complete_purchase(purchase_type):
             print(Fore.RED + "There are currently no walk-in carts open.")
 
     elif (purchase_type == "booking"):
-        pass # ---------------------------------- TODO: BOOKING FUNCTION FOR TABLES / BOOKINGS
+        
+        cursor.execute("SELECT * FROM bookings WHERE active = %s ORDER BY table_id ASC", (1,))
+        bookings = cursor.fetchall()
+        booking_ids = []
+
+        if (len(bookings) > 0):
+
+            print("The following bookings are currently open:\n")
+
+            for booking in bookings:
+                print(Fore.GREEN + f"Booking ID: {booking['booking_id']}, Customer ID: {booking['customer_id']}, Table ID: {booking['table_id']}, Amount of people: {booking['amount_of_people']}, Date: {booking['date']}\n")
+                booking_ids.append(booking['booking_id'])
+
+            while True:
+
+                try:
+
+                    decision = int(input("Please enter a Booking ID or 0 to cancel: \n"))
+
+                except ValueError:
+
+                    print("Please only use numbers.\n")
+                    continue
+
+                if (decision == 0):
+                    break
+
+                if (decision in booking_ids):
+                    pass # -------------------------------------- TODO: NEXT
+
+                else:
+                    print(Fore.RED + "Invalid input.")
+                    continue
+
+        else:
+            print("There are currently no open bookings.")
+
 
 def complete_purchase_by_cart_id(cart):
-    pass # ----------------------------------------- TODO: COMPLETE PURCHASE FOR WALK-IN AND CALL AFTER ITEM ADDITION == N IN CREATE WALK-IN
 
     cursor.execute("SELECT cart_items.cart_id, cart_items.product_id, cart_items.product_amount, products.name, products.price FROM cart_items LEFT JOIN products ON cart_items.product_id = products.product_id WHERE cart_items.cart_id=%s", (cart,))
     purchase_data = cursor.fetchall()
@@ -1288,11 +1323,12 @@ def complete_purchase_by_cart_id(cart):
             print(Fore.RED + "Invalid input.")
             continue
 
-
+def complete_purchase_booking(booking_id):
+    pass # -------------------------------------------- TODO: NEXT
 
 def get_sales():
 
-    cursor.execute("SELECT * FROM sold_products ORDER BY sale_id DESC")
+    cursor.execute("SELECT * FROM sold_products ORDER BY sale_id ASC")
     sales_data = cursor.fetchall()
 
     if (len(sales_data) > 0):
