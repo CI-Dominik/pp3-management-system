@@ -754,7 +754,7 @@ def sales_carts_menu():
         print("+------- SALES / CARTS -------+")
         print("|                             |")
         print("| 1. Add product to cart      |")
-        print("| 2. Walk-in purchases        |") # -------------------- WALK_IN: 1, TABLE: 0, SEAT_NUMBER: 0
+        print("| 2. Walk-in purchases        |")
         print("| 3. Remove product from cart |")
         print("| 4. Complete purchase        |") #--------------------- COMPLETE PURCHASE FOR GUEST AND TABLE BOOKING / CHECK
         print("| 5. View Sales               |")    
@@ -870,11 +870,11 @@ def sales_carts_menu():
 
         elif(response == 4):
 
-            pass # ---------------------------------- BOOKING OR GUEST, LIST BOOKINGS AGAIN
+            pass # ---------------------------------- TODO: BOOKING OR GUEST, LIST BOOKINGS AGAIN
 
         elif(response == 5):
 
-            pass
+            get_sales()
 
         elif(response == 6):
 
@@ -1137,7 +1137,22 @@ def add_walk_in_items(cart_id):
             continue
 
 def remove_walk_in_cart(cart_id):
-    pass # ----------------------------- CHECK FOR CART ITEMS
+    pass # ----------------------------- TODO: CHECK FOR CART ITEMS AND REMOVE
+
+def get_sales():
+
+    cursor.execute("SELECT * FROM sold_products ORDER BY sale_id DESC")
+    sales_data = cursor.fetchall()
+
+    if (len(sales_data) > 0):
+        
+        print("The following sales were found:")
+
+        for sale in sales_data:
+            print(Fore.GREEN + f"Sale ID: {sale['sale_id']}, Cart ID: {sale['cart_id']}, Customer ID: {sale['customer_id']}, Date: {sale['date']}")
+
+    else:
+        print(Fore.RED + "There are no sales.")
 
 """ Sale Functions End """
 
