@@ -1023,7 +1023,7 @@ def remove_item(cart, product_id):
             cursor.execute("UPDATE products SET available_amount = available_amount + %s WHERE product_id=%s", (product_in_cart['product_amount'], product_id))
             cursor.execute("DELETE FROM cart_items WHERE product_id=%s AND cart_id=%s", (product_id, cart['cart_id']))
             connection.commit()
-            print(Fore.GREEN + "Removed all items from cart.")
+            print(Fore.GREEN + f"Removed all products with ID {product_id} from cart {cart['cart_id']}.")
             break
 
         elif (amount_input == product_in_cart['product_amount']):
