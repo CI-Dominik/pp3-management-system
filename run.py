@@ -1027,11 +1027,18 @@ def remove_item(cart, product_id):
             break
 
         elif (amount_input == product_in_cart['product_amount']):
-            pass # ------------------ REMOVE EXACTLY ALL ITEMS
+            cursor.execute("UPDATE products SET available_amount = available_amount + %s WHERE product_id=%s", (product_in_cart['product_amount'], product_id))
+            cursor.execute("DELETE FROM cart_items WHERE product_id=%s AND cart_id=%s", (product_id, cart['cart_id']))
+            connection.commit()
+            print(Fore.GREEN + f"Removed all products with ID {product_id} from cart {cart['cart_id']}.")
+            break
 
         else:
-            pass # ------------------------------ REMOVE NUMBER OF ITEMS
-            
+            cursor.execute("UPDATE products SET available_amount = available_amount + %s WHERE product_id=%s", (amount_input, product_id))
+            cursor.execute("UPDATE cart_items SET product_amount = product_amount - %s WHERE product_id=%s AND cart_id=%s", (amount_input, product_id, cart['cart_id']))
+            connection.commit()
+            print(Fore.GREEN + f"Removed item {product_id} {amount_input} times from cart {cart['cart_id']}.")
+            break
 
 
 
