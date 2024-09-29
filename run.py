@@ -999,6 +999,9 @@ def remove_product_from_cart(cart):
 
 def remove_item(cart, product_id):
 
+    cursor.execute("SELECT * FROM cart_items WHERE product_id=%s AND cart_id=%s", (product_id, cart['cart_id']))
+    product_in_cart = cursor.fetchone()
+
     while True:
         
         try:
@@ -1015,8 +1018,22 @@ def remove_item(cart, product_id):
             print(Fore.RED + "Amount cannot be negative")
             continue
 
+        elif (amount_input > product_in_cart['product_amount']):
+            print(Fore.RED + f"You tried to remove {amount_input} items, but only {product_in_cart['product_amount']} are available.")
+            cursor.execute("UPDATE products SET available_amount = available_amount + %s WHERE product_id=%s", (product_in_cart['product_amount'], product_id))
+            cursor.execute("DELETE FROM cart_items WHERE product_id=%s AND cart_id=%s", (product_id, cart['cart_id']))
+            connection.commit()
+            print(Fore.GREEN + "Removed all items from cart.")
+            break
+
+        elif (amount_input == product_in_cart['product_amount']):
+            pass # ------------------ REMOVE EXACTLY ALL ITEMS
+
         else:
-            pass # ---------------------------------------- TODO: REMOVE
+            pass # ------------------------------ REMOVE NUMBER OF ITEMS
+            
+
+
 
 def select_cart_by_value(callable_value):
 
