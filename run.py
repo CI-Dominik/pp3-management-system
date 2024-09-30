@@ -1740,16 +1740,49 @@ def get_product_by_category(value, callable_value, view_only):
 
     connection.ping(reconnect=True)
     cursor.execute("SELECT SQL_NO_CACHE * FROM products WHERE category=%s",(value,))
-    product_result = cursor.fetchall()
+    result = cursor.fetchall()
     product_ids = []
 
-    if (len(product_result) > 0):
+    for product in result:
+        product_ids.append(product['product_id'])
 
-        print(f"The following items have been found in the category {callable_value}:\n")
+    if (len(result) > 0):
 
-        for product in product_result:
-            print(Fore.GREEN + f"Product ID: {product['product_id']}, Product name: {product['name']}, Available amount: {product['available_amount']}, Price: {product['price']}\n")
-            product_ids.append(product['product_id'])
+        result_list = [result[i:i+10] for i in range(0, len(result), 10)]
+        index = 0
+
+        while True:
+
+            print("+------- PRODUCT OVERVIEW -------+\n")
+
+            print(Fore.YELLOW + f"Page {index + 1} / {len(result_list)}\n")
+
+            for i in result_list[index]:
+
+                print(Fore.GREEN + f"ID: {i['product_id']}, Name: {i['name']}, Available amount: {i['available_amount']}, Price: {i['price']}")
+
+            
+            scroll = input("Enter '<' to scroll left, '>' to scroll right or '0' to continue:\n")
+
+            if (scroll == ">"):
+                index += 1
+                if (index > len(result_list) - 1):
+                    index = 0
+                continue
+
+            elif (scroll == "<"):
+                index -= 1
+                if(index < 0):
+                    index = len(result_list) - 1
+                continue
+
+            elif (scroll == "0"):
+                break
+                    
+            else:
+                os.system('cls' if os.name == 'nt' else 'clear')
+                print(Fore.RED + "Invalid input.\n")
+                continue
 
         if (view_only == False):
 
