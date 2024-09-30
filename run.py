@@ -465,13 +465,14 @@ def add_customer():
         else:
             print(
                 Fore.RED
-                + "Customer's phone number already exists. Creation cancelled.\n"
+                + "Customer's phone number already exists. Cancelled.\n"
             )
             break
 
         connection.ping(reconnect=True)
         cursor.execute(
-            "INSERT INTO customers (first_name, last_name, email, phone_number, bonus_points) VALUES (%s, %s, %s, %s, %s)",
+            """INSERT INTO customers (first_name, last_name,
+            email, phone_number, bonus_points) VALUES (%s, %s, %s, %s, %s)""",
             (
                 f_name_input,
                 l_name_input,
@@ -486,7 +487,10 @@ def add_customer():
 
         connection.ping(reconnect=True)
         cursor.execute(
-            "SELECT SQL_NO_CACHE * FROM customers ORDER BY customer_id DESC LIMIT 1"
+            """SELECT SQL_NO_CACHE *
+            FROM customers
+            ORDER BY customer_id DESC
+            LIMIT 1"""
         )
 
         customer = cursor.fetchone()
@@ -544,7 +548,7 @@ def update_customer_data(customer, value, callable_value):
     while True:
 
         value_input = input(
-            f"Please enter a new value for the {callable_value} or 0 to cancel: \n"
+            f"Set a new value for the {callable_value} or 0 to cancel:\n"
         )
 
         if value_input == "0":
@@ -566,12 +570,15 @@ def update_customer_data(customer, value, callable_value):
 
         if value == "phone_number" and value_input != 0:
 
-            phone_pattern = r"^(?:\+44|0044|0)\s?7\d{3}\s?\d{6}$|^(?:\+44|0044|0)\s?\d{2,4}\s?\d{3,4}\s?\d{4}$"
+            phone_pattern = (
+                r"^(?:\+44|0044|0)\s?7\d{3}\s?\d{6}$|"
+                r"^(?:\+44|0044|0)\s?\d{2,4}\s?\d{3,4}\s?\d{4}$"
+            )
 
             if re.match(phone_pattern, value_input) is None:
                 print(
                     Fore.RED
-                    + "Wrong phone number format. Please use a UK formatted number.\n"
+                    + "Wrong format. Please use a UK formatted number.\n"
                 )
                 break
 
@@ -610,8 +617,10 @@ def update_customer_data(customer, value, callable_value):
             connection.commit()
             os.system("cls" if os.name == "nt" else "clear")
             print(
-                Fore.GREEN
-                + f"The new {callable_value} for {customer["first_name"]} {customer["last_name"]} was set to {value_input}.\n"
+                Fore.GREEN +
+                f"""The new {callable_value} for """ +
+                f"""{customer["first_name"]} {customer["last_name"]} """ +
+                f"""was set to {value_input}."""
             )
             break
 
@@ -624,7 +633,7 @@ def show_customers():
     )
     result = cursor.fetchall()
 
-    result_list = [result[i : i + 10] for i in range(0, len(result), 10)]
+    result_list = [result[i: i + 10] for i in range(0, len(result), 10)]
     index = 0
 
     while True:
@@ -637,7 +646,9 @@ def show_customers():
 
             print(
                 Fore.GREEN
-                + f"ID: {i['customer_id']}, Name: {i['first_name']} {i['last_name']}, Email: {i['email']}, Phone: {i['phone_number']}"
+                + f"""ID: {i['customer_id']}, Name: {i['first_name']} """ +
+                f"""{i['last_name']}, Email: {i['email']},""" +
+                f""" Phone: {i['phone_number']}"""
             )
 
         scroll = input(
@@ -713,7 +724,8 @@ def bookings_tables_menu():
                 for table in tables_return:
                     print(
                         Fore.GREEN
-                        + f"Table ID: {table['table_id']}, Number of seats: {table['number_of_seats']}"
+                        + f"""Table ID: {table['table_id']}, """ +
+                        f"""Number of seats: {table['number_of_seats']}"""
                     )
                 print("")
                 continue
@@ -763,7 +775,8 @@ def book_table():
         for table in available_tables:
             print(
                 Fore.GREEN
-                + f"Table ID: {table['table_id']}, Number of seats: {table['number_of_seats']}"
+                + f"""Table ID: {table['table_id']}, """ +
+                f"""Number of seats: {table['number_of_seats']}"""
             )
             table_id_selection.append(table["table_id"])
 
@@ -799,7 +812,8 @@ def book_table():
                 while True:
 
                     print(
-                        "Do you want to book a table for a new customer, a registered customer or a guest?"
+                        """Do you want to book a table for a new customer, """
+                        """a registered customer or a guest?"""
                     )
                     print("1. New customer")
                     print("2. Existing customer")
@@ -854,7 +868,8 @@ def book_table():
         else:
             print(
                 Fore.RED
-                + "There are currently no tables available for your entered amount of people."
+                + """There are currently no tables available """
+                """for your entered amount of people."""
             )
             bookings_tables_menu()
 
@@ -870,7 +885,9 @@ def table_booking(customer, table_select, number_of_people):
 
         connection.ping(reconnect=True)
         cursor.execute(
-            "INSERT INTO bookings (customer_id, table_id, amount_of_people, date, active) VALUES (%s, %s, %s, %s, %s)",
+            """INSERT INTO bookings (customer_id, table_id,
+            amount_of_people, date, active)
+            VALUES (%s, %s, %s, %s, %s)""",
             (
                 customer["customer_id"],
                 table_select,
@@ -889,7 +906,8 @@ def table_booking(customer, table_select, number_of_people):
     else:
         connection.ping(reconnect=True)
         cursor.execute(
-            "INSERT INTO bookings (table_id, amount_of_people, date, active) VALUES (%s, %s, %s, %s)",
+            """INSERT INTO bookings (table_id, amount_of_people, 
+            date, active) VALUES (%s, %s, %s, %s)""",
             (
                 table_select,
                 number_of_people,
