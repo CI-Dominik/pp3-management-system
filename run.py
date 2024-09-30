@@ -209,14 +209,14 @@ def search_customer_attribute(type=None, callable_type=None):
         f_name = input("Please insert a first name to search by: \n")
         l_name = input("Please insert a last name to search by: \n")
         connection.ping(reconnect=True)
-        cursor.execute("SELECT * FROM customers WHERE first_name=%s AND last_name=%s", (f_name, l_name))
+        cursor.execute("SELECT SQL_NO_CACHE * FROM customers WHERE first_name=%s AND last_name=%s", (f_name, l_name))
         result = cursor.fetchall()
 
     else:
                 
         type_input = input(f"Please insert {callable_type} to search by: \n")
         connection.ping(reconnect=True)
-        cursor.execute(f"SELECT * FROM customers WHERE {type}=%s", (type_input,))
+        cursor.execute(f"SELECT SQL_NO_CACHE * FROM customers WHERE {type}=%s", (type_input,))
         result = cursor.fetchall()
 
     """ Return customer when exactly one entry was found """
@@ -274,7 +274,7 @@ def search_customer_attribute(type=None, callable_type=None):
                 if(id_choice in id_entries):
                     print(f"You have chosen the entry with the customer ID {id_choice}:")
                     connection.ping(reconnect=True)
-                    cursor.execute("SELECT * FROM customers WHERE customer_id=%s", (id_choice,))
+                    cursor.execute("SELECT SQL_NO_CACHE * FROM customers WHERE customer_id=%s", (id_choice,))
                     chosen_entry = cursor.fetchone()
                     print(Fore.GREEN + f"Customer ID: {chosen_entry["customer_id"]}, Name: {chosen_entry["first_name"]} {chosen_entry["last_name"]}, Email address: {chosen_entry["email"]}, Phone number: {chosen_entry["phone_number"]}")
 
@@ -332,7 +332,7 @@ def add_customer():
             break
 
         connection.ping(reconnect=True)
-        cursor.execute("SELECT email FROM customers WHERE email=%s", (email_input,))
+        cursor.execute("SELECT SQL_NO_CACHE email FROM customers WHERE email=%s", (email_input,))
             
         if(cursor.fetchone() == None):
             
@@ -356,7 +356,7 @@ def add_customer():
             break
 
         connection.ping(reconnect=True)
-        cursor.execute("SELECT email FROM customers WHERE phone_number=%s", (phone_number_input,))
+        cursor.execute("SELECT SQL_NO_CACHE email FROM customers WHERE phone_number=%s", (phone_number_input,))
             
         if(cursor.fetchone() == None):
 
@@ -375,7 +375,7 @@ def add_customer():
         print(Fore.GREEN + "Customer successfully added to database.\n")
         
         connection.ping(reconnect=True)
-        cursor.execute("SELECT * FROM customers ORDER BY customer_id DESC LIMIT 1")
+        cursor.execute("SELECT SQL_NO_CACHE * FROM customers ORDER BY customer_id DESC LIMIT 1")
 
         customer = cursor.fetchone()
 
@@ -453,7 +453,7 @@ def update_customer_data(customer, value, callable_value):
             value_input = value_input.replace(" ", "")
 
         connection.ping(reconnect=True)
-        cursor.execute("SELECT email, phone_number FROM customers")
+        cursor.execute("SELECT SQL_NO_CACHE email, phone_number FROM customers")
 
         database_results = cursor.fetchall()
         database_check_email = []
@@ -664,7 +664,7 @@ def table_booking(customer, table_select, number_of_people):
     print(Fore.GREEN + f"Booking successfully created for {number_of_people} people. Each guest will receive a cart for their seat at table {table_select}.")
 
     connection.ping(reconnect=True)
-    cursor.execute("SELECT booking_id FROM bookings ORDER BY booking_id DESC LIMIT 1")
+    cursor.execute("SELECT SQL_NO_CACHE booking_id FROM bookings ORDER BY booking_id DESC LIMIT 1")
     last_booking = cursor.fetchone()
 
     seat_counter = 1
@@ -690,7 +690,7 @@ def table_booking(customer, table_select, number_of_people):
 def check_available_tables(number_of_people):
 
     connection.ping(reconnect=True)
-    cursor.execute("SELECT * FROM tables WHERE availability=%s AND number_of_seats >= %s", (1, number_of_people))
+    cursor.execute("SELECT SQL_NO_CACHE * FROM tables WHERE availability=%s AND number_of_seats >= %s", (1, number_of_people))
     tables_available = cursor.fetchall()
 
     return tables_available
@@ -700,7 +700,7 @@ def check_bookings():
     """ Function to check open bookings """
 
     connection.ping(reconnect=True)
-    cursor.execute("SELECT * FROM bookings WHERE active=%s", (1,))
+    cursor.execute("SELECT SQL_NO_CACHE * FROM bookings WHERE active=%s", (1,))
     bookings = cursor.fetchall()
 
     if (len(bookings) > 0):
@@ -784,7 +784,7 @@ def sales_carts_menu():
                     connection.ping(reconnect=True)
                     cursor.execute("INSERT INTO cart (walk_in) VALUES (%s)", (1,))
                     connection.commit()
-                    cursor.execute("SELECT cart_id FROM cart ORDER BY cart_id DESC LIMIT 1")
+                    cursor.execute("SELECT SQL_NO_CACHE cart_id FROM cart ORDER BY cart_id DESC LIMIT 1")
                     last_cart = cursor.fetchone()
                     print(Fore.GREEN + f"Successfully created cart {last_cart['cart_id']} for walk-in customer.")
 
@@ -793,7 +793,7 @@ def sales_carts_menu():
 
                 elif (walk_input == 2):
                     connection.ping(reconnect=True)
-                    cursor.execute("SELECT * FROM cart WHERE walk_in=%s AND payed=%s", (1, 0))
+                    cursor.execute("SELECT SQL_NO_CACHE * FROM cart WHERE walk_in=%s AND payed=%s", (1, 0))
                     walk_in_carts = cursor.fetchall()
                     walk_in_ids = []
 
@@ -931,7 +931,7 @@ def select_cart():
     if (selection_input != 4):
 
         connection.ping(reconnect=True)
-        cursor.execute("SELECT * FROM cart WHERE payed=0 AND " + search_type + "=%s", (search_value,))
+        cursor.execute("SELECT SQL_NO_CACHE * FROM cart WHERE payed=0 AND " + search_type + "=%s", (search_value,))
         open_carts = cursor.fetchall()
 
     else:
@@ -1002,7 +1002,7 @@ def add_product_to_cart(cart, product):
             products_added = []
 
             connection.ping(reconnect=True)
-            cursor.execute("SELECT product_id FROM cart_items WHERE cart_id=%s",(cart['cart_id'],))
+            cursor.execute("SELECT SQL_NO_CACHE product_id FROM cart_items WHERE cart_id=%s",(cart['cart_id'],))
 
             product_added = cursor.fetchall()
 
@@ -1034,7 +1034,7 @@ def remove_product_from_cart(cart):
     """ Function to remove product from cart """
 
     connection.ping(reconnect=True)
-    cursor.execute("SELECT cart_items.cart_id, cart_items.product_id, cart_items.product_amount, products.name FROM cart_items LEFT JOIN products ON cart_items.product_id = products.product_id WHERE cart_items.cart_id=%s", (cart['cart_id'],))
+    cursor.execute("SELECT SQL_NO_CACHE cart_items.cart_id, cart_items.product_id, cart_items.product_amount, products.name FROM cart_items LEFT JOIN products ON cart_items.product_id = products.product_id WHERE cart_items.cart_id=%s", (cart['cart_id'],))
     items_in_cart = cursor.fetchall()
 
     """ Check if items are in cart """
@@ -1080,7 +1080,7 @@ def remove_item(cart, product_id):
     """ Function to remove item from cart """
 
     connection.ping(reconnect=True)
-    cursor.execute("SELECT * FROM cart_items WHERE product_id=%s AND cart_id=%s", (product_id, cart['cart_id']))
+    cursor.execute("SELECT SQL_NO_CACHE * FROM cart_items WHERE product_id=%s AND cart_id=%s", (product_id, cart['cart_id']))
     product_in_cart = cursor.fetchone()
 
     while True:
@@ -1172,7 +1172,7 @@ def remove_walk_in_cart(cart_id):
     """ Function to remove a walk-in cart """
 
     connection.ping(reconnect=True)
-    cursor.execute("SELECT * FROM cart_items WHERE cart_id=%s AND payed=%s", (cart_id, 0))
+    cursor.execute("SELECT SQL_NO_CACHE * FROM cart_items WHERE cart_id=%s AND payed=%s", (cart_id, 0))
     cart_data = cursor.fetchall()
 
     """ Check if there are still items in the cart """
@@ -1210,7 +1210,7 @@ def complete_purchase(purchase_type):
 
     if (purchase_type == "walk-in"):
         connection.ping(reconnect=True)
-        cursor.execute("SELECT * FROM cart WHERE walk_in=%s ORDER BY cart_id ASC", (1,))
+        cursor.execute("SELECT SQL_NO_CACHE * FROM cart WHERE walk_in=%s ORDER BY cart_id ASC", (1,))
         walk_in_carts = cursor.fetchall()
         walk_in_ids = []
 
@@ -1250,7 +1250,7 @@ def complete_purchase(purchase_type):
     elif (purchase_type == "booking"):
         
         connection.ping(reconnect=True)
-        cursor.execute("SELECT * FROM bookings WHERE active = %s ORDER BY table_id ASC", (1,))
+        cursor.execute("SELECT SQL_NO_CACHE * FROM bookings WHERE active = %s ORDER BY table_id ASC", (1,))
         bookings = cursor.fetchall()
         booking_ids = []
 
@@ -1294,7 +1294,7 @@ def complete_purchase_by_cart_id(cart):
     """ Function to complete a walk-in purchase """
 
     connection.ping(reconnect=True)
-    cursor.execute("SELECT cart_items.cart_id, cart_items.product_id, cart_items.product_amount, products.name, products.price FROM cart_items LEFT JOIN products ON cart_items.product_id = products.product_id WHERE cart_items.cart_id=%s", (cart,))
+    cursor.execute("SELECT SQL_NO_CACHE cart_items.cart_id, cart_items.product_id, cart_items.product_amount, products.name, products.price FROM cart_items LEFT JOIN products ON cart_items.product_id = products.product_id WHERE cart_items.cart_id=%s", (cart,))
     purchase_data = cursor.fetchall()
     total_price = 0
     
@@ -1346,7 +1346,7 @@ def complete_purchase_booking(booking_id):
     """ Function to complete a purchase from booking """
 
     connection.ping(reconnect=True)
-    cursor.execute("SELECT * FROM cart WHERE booking_id=%s", (booking_id,))
+    cursor.execute("SELECT SQL_NO_CACHE * FROM cart WHERE booking_id=%s", (booking_id,))
     booking_carts = cursor.fetchall()
 
     if (len(booking_carts) > 0):
@@ -1366,7 +1366,7 @@ def complete_purchase_booking(booking_id):
 
         for id in booking_carts_id:
             connection.ping(reconnect=True)
-            cursor.execute("SELECT cart_items.cart_id, cart_items.product_id, cart_items.product_amount, products.name, products.price FROM cart_items LEFT JOIN products ON cart_items.product_id = products.product_id WHERE cart_id=%s", (id,))
+            cursor.execute("SELECT SQL_NO_CACHE cart_items.cart_id, cart_items.product_id, cart_items.product_amount, products.name, products.price FROM cart_items LEFT JOIN products ON cart_items.product_id = products.product_id WHERE cart_id=%s", (id,))
             result = cursor.fetchall()
             guests.append(result)
 
@@ -1457,7 +1457,7 @@ def get_sales():
     """ Function to get a list of all sales completed """
 
     connection.ping(reconnect=True)
-    cursor.execute("SELECT * FROM sold_products ORDER BY sale_id ASC")
+    cursor.execute("SELECT SQL_NO_CACHE * FROM sold_products ORDER BY sale_id ASC")
     sales_data = cursor.fetchall()
 
     """ Check if there are any sales """
@@ -1583,7 +1583,7 @@ def add_product_by_category(value, callable_value):
         name_input = name_input.title()
 
         connection.ping(reconnect=True)
-        cursor.execute("SELECT name FROM products WHERE name=%s", (name_input,))
+        cursor.execute("SELECT SQL_NO_CACHE name FROM products WHERE name=%s", (name_input,))
         check_result = cursor.fetchall()
 
         """ Check if product name is already in use """
@@ -1695,7 +1695,7 @@ def get_product_by_category(value, callable_value, view_only):
     """ Function to select a product based on given values / Check if item will be used or just viewed with view_only """
 
     connection.ping(reconnect=True)
-    cursor.execute("SELECT * FROM products WHERE category=%s",(value,))
+    cursor.execute("SELECT SQL_NO_CACHE * FROM products WHERE category=%s",(value,))
     product_result = cursor.fetchall()
     product_ids = []
 
@@ -1723,7 +1723,7 @@ def get_product_by_category(value, callable_value, view_only):
 
                 elif (selection in product_ids):
                     connection.ping(reconnect=True)
-                    cursor.execute("SELECT * FROM products WHERE product_id=%s", (selection,))
+                    cursor.execute("SELECT SQL_NO_CACHE * FROM products WHERE product_id=%s", (selection,))
                     product_return = cursor.fetchone()
                     print(Fore.GREEN + f"You selected {product_return['name']}.")
                     return product_return
