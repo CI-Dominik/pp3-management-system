@@ -68,12 +68,6 @@ def main_menu():
         print("| 5. Close program        |")
         print("|                         |")
         print("---------------------------")
-        print("|                         |")
-        print("| DEV: 6. Reset Tables    |")
-        print("| DEV: 7. Clear Bookings  |")
-        print("| DEV: 8. Clear Carts     |")
-        print("|                         |")
-        print("---------------------------")
         print("")
 
         """ Get input and check for errors and invalid numbers """
@@ -82,7 +76,7 @@ def main_menu():
             response = int(input("Please select a topic: \n"))
 
         except ValueError:
-            print("Please only enter numbers.\n")
+            print(Fore.RED + "Please only enter numbers.\n")
             continue
 
         if(response == 1):
@@ -104,29 +98,9 @@ def main_menu():
         elif(response == 5):
             print(Fore.YELLOW + "Thank you for using Happy Life's Management System. Shutting down...")
             exit()
-
-            """ DEVELOPMENT COMMANDS """
-
-        elif(response == 6):
-
-            connection.ping(reconnect=True)
-            cursor.execute("UPDATE tables SET availability=1")
-            connection.commit()
-
-        elif(response == 7):
-
-            connection.ping(reconnect=True)
-            cursor.execute("DELETE FROM bookings")
-            connection.commit()
-
-        elif(response == 8):
-
-            connection.ping(reconnect=True)
-            cursor.execute("DELETE FROM cart")
-            connection.commit()
         
         else:
-            print("Please insert a valid number.\n")
+            print(Fore.RED + "Please insert a valid number.\n")
 
 """ Main Menu End """
 
@@ -157,7 +131,7 @@ def customer_management_menu():
             response = int(input("Please select a topic: \n"))
 
         except ValueError:
-            print("Please only enter numbers.\n")
+            print(Fore.RED + "Please only enter numbers.\n")
             continue
 
         if(response == 1):
@@ -175,7 +149,7 @@ def customer_management_menu():
             break
         
         else:
-            print("Please insert a valid number.\n")
+            print(Fore.RED + "Please insert a valid number.\n")
 
 def search_customer_attribute(type=None, callable_type=None):
 
@@ -199,7 +173,7 @@ def search_customer_attribute(type=None, callable_type=None):
                 search_input = int(input("Please type a number: \n"))
 
             except ValueError:
-                print("Please only enter numbers.\n")
+                print(Fore.RED + "Please only enter numbers.\n")
                 continue
 
             if(search_input == 1):
@@ -259,7 +233,7 @@ def search_customer_attribute(type=None, callable_type=None):
             elif(check.lower() == "n"):
                 break
             else:
-                print("Please enter y or n for your answer.")
+                print(Fore.RED + "Please enter y or n for your answer.")
 
         """ Display and check when multiple values were found """
 
@@ -292,7 +266,7 @@ def search_customer_attribute(type=None, callable_type=None):
                 choice = int(input("Please insert a number: \n"))
 
             except ValueError:
-                print("Please only enter numbers.\n")
+                print(Fore.RED + "Please only enter numbers.\n")
                 continue
 
             if (choice == 1):
@@ -314,9 +288,9 @@ def search_customer_attribute(type=None, callable_type=None):
                         elif(check.lower() == "n"):
                             break
                         else:
-                            print("Please enter y or n for your answer.")
+                            print(Fore.RED + "Please enter y or n for your answer.")
                 else:
-                    print("No entry with that ID found.")
+                    print(Fore.RED + "No entry with that ID found.")
                     continue
 
             if(choice == 2):
@@ -378,7 +352,7 @@ def add_customer():
 
         phone_pattern = r"^(?:\+44|0044|0)\s?7\d{3}\s?\d{6}$|^(?:\+44|0044|0)\s?\d{2,4}\s?\d{3,4}\s?\d{4}$"
 
-        phone_number_input = input("Please insert the customer's phone number (UK format) or enter 0 to exit: \n")
+        phone_number_input = input("Please insert the customer's phone number (UK format, example: 055 1234 5678) or enter 0 to exit: \n")
 
         if (phone_number_input == "0"):
             break
@@ -410,6 +384,9 @@ def add_customer():
         return customer
 
 def update_customer():
+
+    """ Function to select customer data to change """
+
     customer = search_customer_attribute()
 
     while True:
@@ -426,7 +403,7 @@ def update_customer():
             choice = int(input("Please make a selection: \n"))
 
         except ValueError:
-            print("Please only enter numbers.\n")
+            print(Fore.RED + "Please only enter numbers.\n")
             continue
         
         if (choice == 1):
@@ -445,6 +422,8 @@ def update_customer():
             break
 
 def update_customer_data(customer, value, callable_value):
+
+    """ Function to change actual data """
     
     while True:
 
@@ -453,6 +432,8 @@ def update_customer_data(customer, value, callable_value):
         if (value_input == "0"):
             break
 
+        """ Check email address format """
+
         if(value == "email" and value_input != "0"):
             
             email_pattern = r"^[a-z0-9]+[\._-]?[a-z0-9]+[@]\w+[.]\w+$"
@@ -460,6 +441,8 @@ def update_customer_data(customer, value, callable_value):
             if(re.match(email_pattern, value_input) == None):
                 print(Fore.RED + "Wrong email format. Example: value@mail.com.\n")
                 break
+
+        """ Check phone numnber format """
 
         if(value == "phone_number" and value_input != 0):
 
@@ -482,14 +465,17 @@ def update_customer_data(customer, value, callable_value):
             database_check_email.append(row["email"])
             database_check_phone_number.append(row["phone_number"])
 
+        """ Check database results for duplicates """
+
         if (value_input in database_check_email or value_input in database_check_phone_number):
             print(Fore.RED + "Entry already in database. No duplicates allowed.")
             break
+
         else:
             connection.ping(reconnect=True)
             cursor.execute("UPDATE customers SET " + value + "=%s WHERE customer_id=%s", (value_input, customer["customer_id"]))
             connection.commit()
-            print(f"The new {callable_value} for {customer["first_name"]} {customer["last_name"]} was set to {value_input}.")
+            print(Fore.GREEN + f"The new {callable_value} for {customer["first_name"]} {customer["last_name"]} was set to {value_input}.")
             break
 
 """ Customer Functions End """
@@ -521,7 +507,7 @@ def bookings_tables_menu():
             response = int(input("Please select a topic: \n"))
 
         except ValueError:
-            print("Please only enter numbers.\n")
+            print(Fore.RED + "Please only enter numbers.\n")
             continue
 
         if(response == 1):
@@ -550,9 +536,11 @@ def bookings_tables_menu():
             break
         
         else:
-            print("Please insert a valid number.\n")
+            print(Fore.RED + "Please insert a valid number.\n")
 
 def book_table():
+
+    """ Function to book a table for a specific amount of people """
 
     while True:
 
@@ -563,8 +551,10 @@ def book_table():
 
         except ValueError:
 
-            print("Please only enter numbers.\n")
+            print(Fore.RED + "Please only enter numbers.\n")
             continue
+
+    """ Check if enough people are added """
 
     if(number_of_people >= 1):
 
@@ -590,7 +580,7 @@ def book_table():
                         break
 
                 except ValueError:
-                    print("Please only enter numbers.\n")
+                    print(Fore.RED + "Please only enter numbers.\n")
                     continue
                 else:
                     if(table_select not in table_id_selection):
@@ -598,6 +588,7 @@ def book_table():
                         continue
                     else:
                         break
+
             if (table_select != 0):
                 while True:
 
@@ -611,7 +602,7 @@ def book_table():
                         choice = int(input("Please insert a number: \n"))
                     
                     except ValueError:
-                        print("Please only enter numbers.\n")
+                        print(Fore.RED + "Please only enter numbers.\n")
                         continue
 
                     if (choice == 1):
@@ -642,7 +633,7 @@ def book_table():
                         break
 
                     else:
-                        print("Invalid number.")
+                        print(Fore.RED + "Invalid number.")
                         continue
             else:
                 bookings_tables_menu()
@@ -672,7 +663,7 @@ def table_booking(customer, table_select, number_of_people):
         cursor.execute("UPDATE tables SET availability = 0 WHERE table_id=%s", (table_select,))
         connection.commit()
 
-    print(f"Booking successfully created for {number_of_people} people. Each guest will receive a cart for their seat at table {table_select}.")
+    print(Fore.GREEN + f"Booking successfully created for {number_of_people} people. Each guest will receive a cart for their seat at table {table_select}.")
 
     connection.ping(reconnect=True)
     cursor.execute("SELECT booking_id FROM bookings ORDER BY booking_id DESC LIMIT 1")
@@ -707,55 +698,22 @@ def check_available_tables(number_of_people):
     return tables_available
 
 def check_bookings():
-    while True:
-
-        print("Please specify a booking filter option.")
-        print("1. By booking ID")
-        print("2. By customer ID")
-        print("3. By table ID")
-        print("4. Cancel")
-
-        try:
-            check_input = int(input("Please enter a number: \n"))
-        
-        except ValueError:
-            print("Please only enter numbers.\n")
-            continue
-
-        if (check_input == 1):
-            check_booking_by_value("booking_id", "booking ID")
-            break
-
-        if (check_input == 2):
-            check_booking_by_value("customer_id", "customer ID")
-            break
-
-        if (check_input == 3):
-            check_booking_by_value("table_id", "table ID")
-            break
-
-        if (check_input == 4):
-            break
-
-def check_booking_by_value(value, callable_value):
-
-    """ Check open bookings """
-
-    booking_input = input(f"Please enter {callable_value} to search by: \n")
     
+    """ Function to check open bookings """
+
     connection.ping(reconnect=True)
-    cursor.execute("SELECT * FROM bookings WHERE " + value + "=%s AND active = 1", (booking_input,))
-    check = cursor.fetchall()
+    cursor.execute("SELECT * FROM bookings WHERE active=%s", (1,))
+    bookings = cursor.fetchall()
 
-    if (len(check) > 0):
+    if (len(bookings) > 0):
 
-        print("Open bookings:")
+        print("The following bookings are currently open:")
 
-        for booking in check:
-            print(Fore.GREEN + f"Booking ID: {booking['booking_id']}, Customer ID: {booking['customer_id']}, Table ID: {booking['table_id']}, Date: {booking['date']}")
+        for booking in bookings:
+            print(Fore.GREEN + f"Booking ID: {booking['booking_id']}, Customer ID: {booking['customer_id']}, Table ID: {booking['table_id']}, Amount of people: {booking['amount_of_people']}")
 
     else:
-        print(Fore.RED + "No entries found.")
+        print(Fore.RED + "No bookings found.")
 
 """ Booking Functions End"""
 
@@ -788,7 +746,7 @@ def sales_carts_menu():
             response = int(input("Please select a topic: \n"))
 
         except ValueError:
-            print("Please only enter numbers.\n")
+            print(Fore.RED + "Please only enter numbers.\n")
             continue
 
         if(response == 1):
@@ -821,7 +779,7 @@ def sales_carts_menu():
                     walk_input = int(input("Please select a number:\n"))
 
                 except ValueError:
-                    print("Please only use numbers.\n")
+                    print(Fore.RED + "Please only use numbers.\n")
                     continue
 
                 if (walk_input == 1):
@@ -854,7 +812,7 @@ def sales_carts_menu():
                                 selection = int(input("Please enter a cart ID to remove or 0 to cancel: \n"))
 
                             except ValueError:
-                                print("Please only use numbers.\n")
+                                print(Fore.RED + "Please only use numbers.\n")
                                 continue
 
                             if (selection == 0):
@@ -902,7 +860,7 @@ def sales_carts_menu():
                     purchase_selection = int(input("Please select a number:\n"))
                 
                 except ValueError:
-                    print("Please only use numbers.\n")
+                    print(Fore.RED + "Please only use numbers.\n")
                     continue
 
                 if (purchase_selection == 1):
@@ -931,7 +889,7 @@ def sales_carts_menu():
             break
         
         else:
-            print("Please insert a valid number.\n")
+            print(Fore.RED + "Please insert a valid number.\n")
 
 def select_cart():
 
@@ -947,7 +905,7 @@ def select_cart():
             selection_input = int(input("Please enter a number: \n"))
 
         except ValueError:
-            print("Please only enter numbers.\n")
+            print(Fore.RED + "Please only enter numbers.\n")
             continue
 
         if (selection_input == 1):
@@ -999,7 +957,7 @@ def select_cart():
                 cart_input = int(input("Please select a cart ID to add a product to or 0 to cancel: \n"))
 
             except ValueError:
-                print("Please only enter numbers.\n")
+                print(Fore.RED + "Please only enter numbers.\n")
                 continue
 
             if (cart_input == 0):
@@ -1019,13 +977,15 @@ def select_cart():
 
 def add_product_to_cart(cart, product):
 
+    """ Function to add item to cart """
+
     while True:
 
         try:
             amount_input = int(input("How many items do you wish to add? Please insert a number or 0 to cancel: \n"))
 
         except ValueError:
-            print("Please only use numbers.\n")
+            print(Fore.RED + "Please only use numbers.\n")
             continue
 
         if (amount_input == 0):
@@ -1036,7 +996,7 @@ def add_product_to_cart(cart, product):
             continue
 
         elif (amount_input > product['available_amount']):
-            print(f"Not enough items left. The amount of the product {product['name']} is {product['available_amount']}.")
+            print(Fore.RED + f"Not enough items left. The amount of the product {product['name']} is {product['available_amount']}.")
             continue
 
         else:
@@ -1072,10 +1032,14 @@ def add_product_to_cart(cart, product):
                 break
 
 def remove_product_from_cart(cart):
+    
+    """ Function to remove product from cart """
 
     connection.ping(reconnect=True)
     cursor.execute("SELECT cart_items.cart_id, cart_items.product_id, cart_items.product_amount, products.name FROM cart_items LEFT JOIN products ON cart_items.product_id = products.product_id WHERE cart_items.cart_id=%s", (cart['cart_id'],))
     items_in_cart = cursor.fetchall()
+
+    """ Check if items are in cart """
     
     if (len(items_in_cart) > 0):
 
@@ -1114,6 +1078,8 @@ def remove_product_from_cart(cart):
         sales_carts_menu()
 
 def remove_item(cart, product_id):
+    
+    """ Function to remove item from cart """
 
     connection.ping(reconnect=True)
     cursor.execute("SELECT * FROM cart_items WHERE product_id=%s AND cart_id=%s", (product_id, cart['cart_id']))
@@ -1125,7 +1091,7 @@ def remove_item(cart, product_id):
             amount_input = int(input("Please enter the amount to remove or 0 to cancel:\n"))
 
         except ValueError:
-            print("Please only use numbers.\n")
+            print(Fore.RED + "Please only use numbers.\n")
             continue
 
         if (amount_input == 0):
@@ -1134,6 +1100,8 @@ def remove_item(cart, product_id):
         elif (amount_input < 0):
             print(Fore.RED + "Amount cannot be negative")
             continue
+        
+            """ Check the amount of products to remove """
 
         elif (amount_input > product_in_cart['product_amount']):
             print(Fore.RED + f"You tried to remove {amount_input} items, but only {product_in_cart['product_amount']} are available.")
@@ -1161,13 +1129,15 @@ def remove_item(cart, product_id):
             break
 
 def select_cart_by_value(callable_value):
+    
+    """ Function to search cart by a specific attribute """
 
     while True:
         try:
             value_input = int(input("Please input a " + callable_value + " to search by:\n"))
 
         except ValueError:
-            print("Please only enter numbers.\n")
+            print(Fore.RED + "Please only enter numbers.\n")
             continue
 
         if (value_input == 0):
@@ -1177,6 +1147,8 @@ def select_cart_by_value(callable_value):
             return value_input
 
 def add_walk_in_items(cart_id):
+    
+    """ Function to add items to cart of walk-in customer / Ask repeatatly for more additions """
 
     while True:
 
@@ -1198,10 +1170,14 @@ def add_walk_in_items(cart_id):
             continue
 
 def remove_walk_in_cart(cart_id):
+    
+    """ Function to remove a walk-in cart """
 
     connection.ping(reconnect=True)
     cursor.execute("SELECT * FROM cart_items WHERE cart_id=%s", (cart_id,))
     cart_data = cursor.fetchall()
+
+    """ Check if there are still items in the cart """
 
     if (len(cart_data) > 0):
 
@@ -1231,12 +1207,16 @@ def remove_walk_in_cart(cart_id):
         print(Fore.GREEN + f"Cart {cart_id} has successfully been removed.")
 
 def complete_purchase(purchase_type):
+    
+    """ Function to complete a purchase based on the type provided """
 
     if (purchase_type == "walk-in"):
         connection.ping(reconnect=True)
         cursor.execute("SELECT * FROM cart WHERE walk_in=%s ORDER BY cart_id ASC", (1,))
         walk_in_carts = cursor.fetchall()
         walk_in_ids = []
+
+        """ Check if there are walk-in carts available """
 
         if(len(walk_in_carts) > 0):
 
@@ -1252,7 +1232,7 @@ def complete_purchase(purchase_type):
                     decision = int(input("Please enter a cart ID to complete or 0 to cancel:\n"))
 
                 except ValueError:
-                    print("Please only use numbers.\n")
+                    print(Fore.RED + "Please only use numbers.\n")
                     continue
 
                 if (decision == 0):
@@ -1276,6 +1256,8 @@ def complete_purchase(purchase_type):
         bookings = cursor.fetchall()
         booking_ids = []
 
+        """ Check if there are open bookings """
+
         if (len(bookings) > 0):
 
             print("The following bookings are currently open:\n")
@@ -1292,7 +1274,7 @@ def complete_purchase(purchase_type):
 
                 except ValueError:
 
-                    print("Please only use numbers.\n")
+                    print(Fore.RED + "Please only use numbers.\n")
                     continue
 
                 if (decision == 0):
@@ -1310,6 +1292,8 @@ def complete_purchase(purchase_type):
             print("There are currently no open bookings.")
 
 def complete_purchase_by_cart_id(cart):
+    
+    """ Function to complete a walk-in purchase """
 
     connection.ping(reconnect=True)
     cursor.execute("SELECT cart_items.cart_id, cart_items.product_id, cart_items.product_amount, products.name, products.price FROM cart_items LEFT JOIN products ON cart_items.product_id = products.product_id WHERE cart_items.cart_id=%s", (cart,))
@@ -1329,7 +1313,7 @@ def complete_purchase_by_cart_id(cart):
             received = float(input("Please insert money received or 0 to cancel: \n"))
 
         except ValueError:
-            print("Please only use numbers.\n")
+            print(Fore.RED + "Please only use numbers.\n")
             continue
 
         if (received == 0):
@@ -1360,6 +1344,8 @@ def complete_purchase_by_cart_id(cart):
             continue
 
 def complete_purchase_booking(booking_id):
+    
+    """ Function to complete a purchase from booking """
 
     connection.ping(reconnect=True)
     cursor.execute("SELECT * FROM cart WHERE booking_id=%s", (booking_id,))
@@ -1370,11 +1356,15 @@ def complete_purchase_booking(booking_id):
         booking_carts_id = []
         price = float(0)
 
+        """ Get cart IDs available in the current booking """
+
         for booking in booking_carts:
             booking['cart_id'] = int(booking['cart_id'])
             booking_carts_id.append(booking['cart_id'])
 
         guests = []
+
+        """ Get a list of guests in the booking """
 
         for id in booking_carts_id:
             connection.ping(reconnect=True)
@@ -1384,9 +1374,13 @@ def complete_purchase_booking(booking_id):
 
         bought_products = []
 
+        """ Create a list of items the guests purchased """
+
         for guest in guests:
             for i in guest:
                 bought_products.append(i)
+
+        """ Check if people bought items """
 
         if (len(bought_products) > 0):
             
@@ -1396,7 +1390,7 @@ def complete_purchase_booking(booking_id):
                 print(Fore.GREEN + f"Cart ID: {product['cart_id']}, {product['product_amount']}x {product['name']}, (ID: {product['product_id']}, Price: {product['price']})")
                 price += product['price'] * product['product_amount']
             
-            get_money(price, booking_carts_id, booking_carts[0]['customer_id'])
+            get_money(price, booking_carts_id, booking_carts[0]['customer_id'], booking_carts[0]['table_id'], booking_id)
 
         else:
             print(Fore.RED + "Nobody bought anything.")
@@ -1404,7 +1398,9 @@ def complete_purchase_booking(booking_id):
     else:
         print(Fore.RED + "No carts found.")
 
-def get_money(price, ids, customer_id):
+def get_money(price, ids, customer_id, table_id, booking_id):
+    
+    """ Function to complete purchase and enter data into table sold_products / Check if given amount of money is correct """
     
     while True:
 
@@ -1414,7 +1410,7 @@ def get_money(price, ids, customer_id):
             received = float(input("Please insert money received or 0 to cancel: \n"))
 
         except ValueError:
-            print("Please only use numbers.\n")
+            print(Fore.RED + "Please only use numbers.\n")
             continue
 
         if (received == 0):
@@ -1429,8 +1425,12 @@ def get_money(price, ids, customer_id):
             continue
 
         elif (received >= price):
+            
+            """ Calculate money to give back to the customers """
 
             return_amount = received - price
+
+            """ Insert data into database and mark carts and bookings as complete / Re-enable tables """
 
             for id in ids:
 
@@ -1438,9 +1438,15 @@ def get_money(price, ids, customer_id):
                 cursor.execute("INSERT INTO sold_products (cart_id, customer_id, date) VALUES (%s, %s, %s)", (id, customer_id, datetime.today().strftime('%Y-%m-%d')))
                 cursor.execute("DELETE FROM cart_items WHERE cart_id=%s", (id,))
                 cursor.execute("UPDATE cart SET payed=%s WHERE cart_id=%s", (1, id))
+
                 connection.commit()
+
+            connection.ping(reconnect=True)
+            cursor.execute("UPDATE bookings SET active=%s WHERE booking_id=%s", (0, booking_id))
+            cursor.execute("UPDATE tables SET availability=%s WHERE table_id=%s", (1, table_id))
                 
-            print(Fore.GREEN + f"Booking successfully payed. The return money is ${return_amount:.2f}.")
+            print(Fore.GREEN + f"Booking {booking_id} successfully payed. The return money is ${return_amount:.2f}.")
+            print(Fore.GREEN + f"Table {table_id} is now again available for guests.")
             
             break
 
@@ -1449,10 +1455,14 @@ def get_money(price, ids, customer_id):
             continue
 
 def get_sales():
+    
+    """ Function to get a list of all sales completed """
 
     connection.ping(reconnect=True)
     cursor.execute("SELECT * FROM sold_products ORDER BY sale_id ASC")
     sales_data = cursor.fetchall()
+
+    """ Check if there are any sales """
 
     if (len(sales_data) > 0):
         
@@ -1493,7 +1503,7 @@ def products_menu():
             response = int(input("Please select a topic: \n"))
 
         except ValueError:
-            print("Please only enter numbers.\n")
+            print(Fore.RED + "Please only enter numbers.\n")
             continue
 
         if(response == 1):
@@ -1520,6 +1530,8 @@ def products_menu():
             print("Please insert a valid number.\n")
 
 def add_product():
+    
+    """ Function to add a product based on input type """
 
     while True:
 
@@ -1535,7 +1547,7 @@ def add_product():
             product_add_input = int(input("Please choose a category: \n"))
 
         except ValueError:
-            print("Please only use numbers.\n")
+            print(Fore.RED + "Please only use numbers.\n")
             continue
 
         if (product_add_input == 1):
@@ -1563,6 +1575,8 @@ def add_product():
             continue
 
 def add_product_by_category(value, callable_value):
+    
+    """ Add product details and insert data into database """
 
     while True:
 
@@ -1573,6 +1587,8 @@ def add_product_by_category(value, callable_value):
         connection.ping(reconnect=True)
         cursor.execute("SELECT name FROM products WHERE name=%s", (name_input,))
         check_result = cursor.fetchall()
+
+        """ Check if product name is already in use """
 
         if (len(check_result) > 0):
             print(Fore.RED + "This name is already in use. Please choose another one.")
@@ -1608,6 +1624,8 @@ def add_product_by_category(value, callable_value):
 
         if(price_input == "0"):
             break
+        
+        """ Check if price format is correct """
 
         if(re.fullmatch(pattern, price_input) == None):
             print(Fore.RED + "Wrong format. Example: 4.99")
@@ -1621,6 +1639,8 @@ def add_product_by_category(value, callable_value):
         break
 
 def get_product_list(view_only=False):
+    
+    """ Get a list of products based on category """
 
     while True:
 
@@ -1635,7 +1655,7 @@ def get_product_list(view_only=False):
             product_input = int(input("Please insert a number: \n"))
 
         except ValueError:
-            print("Please only use numbers.\n")
+            print(Fore.RED + "Please only use numbers.\n")
             continue
 
         if (product_input == 1):
@@ -1673,6 +1693,8 @@ def get_product_list(view_only=False):
             print(Fore.RED + "Invalid input.")
 
 def get_product_by_category(value, callable_value, view_only):
+    
+    """ Function to select a product based on given values / Check if item will be used or just viewed with view_only """
 
     connection.ping(reconnect=True)
     cursor.execute("SELECT * FROM products WHERE category=%s",(value,))
@@ -1695,7 +1717,7 @@ def get_product_by_category(value, callable_value, view_only):
                     selection = int(input("Please select a product by ID or 0 to cancel: \n"))
 
                 except ValueError:
-                    print("Please only use numbers.\n")
+                    print(Fore.RED + "Please only use numbers.\n")
                     continue
 
                 if (selection == 0):
@@ -1718,6 +1740,8 @@ def get_product_by_category(value, callable_value, view_only):
 
 def update_product(product):
     
+    """ Function to change a product based on input """
+    
     while True:
         print(f"Which attribute of {product['name']} (ID: {product['product_id']}) do you want to change?")
         print("1. Name")
@@ -1730,7 +1754,7 @@ def update_product(product):
             update_input = int(input("Please select a number: \n"))
 
         except ValueError:
-            print("Please only use numbers.\n")
+            print(Fore.RED + "Please only use numbers.\n")
             continue
 
         if (update_input == 1):
@@ -1754,6 +1778,8 @@ def update_product(product):
             break    
 
 def update_product_by_value(product, value, callable_value):
+    
+    """ Function to change product values """
 
     categories = ["cake", "cookie", "main dish", "drink"]
 
@@ -1788,6 +1814,8 @@ def update_product_by_value(product, value, callable_value):
                 continue
 
         elif (value == "price"):
+            
+            """ Check for price pattern """
 
             pattern = r"^-?(0|\d+)\.\d{2}$"
 
