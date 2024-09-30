@@ -246,8 +246,11 @@ def search_customer_attribute(type=None, callable_type=None):
     if len(result) == 1:
         print("")
         print(
-            Fore.GREEN
-            + f"Result:\nCustomer ID: {result[0]["customer_id"]}, Name: {result[0]["first_name"]} {result[0]["last_name"]}, Email address: {result[0]["email"]}, Phone number: {result[0]["phone_number"]}"
+            Fore.GREEN + f"""Result:\n
+Customer ID: {result[0]["customer_id"]},
+Name: {result[0]["first_name"]} {result[0]["last_name"]},
+Email address: {result[0]["email"]},
+Phone number: {result[0]["phone_number"]}"""
         )
         print("")
 
@@ -276,13 +279,18 @@ def search_customer_attribute(type=None, callable_type=None):
 
         id_entries = []
 
-        """ Cycle through results and save found IDs in array """
+        """ Cycle through results and save found IDs in list """
 
         for i in range(len(result)):
             print("")
             print(
-                Fore.GREEN
-                + f"Result {i + 1}:\nCustomer ID: {result[i]["customer_id"]}, Name: {result[i]["first_name"]} {result[i]["last_name"]}, Email address: {result[i]["email"]}, Phone number: {result[i]["phone_number"]}"
+                Fore.GREEN +
+                f"""Result {i + 1}: """ +
+                f"""Customer ID: {result[i]["customer_id"]}, """ +
+                f"""Name: {result[i]["first_name"]} """ +
+                f"""{result[i]["last_name"]}, """ +
+                f"""Email address: {result[i]["email"]}, """ +
+                f"""Phone number: {result[i]["phone_number"]}"""
             )
             id_entries.append(result[i]["customer_id"])
 
@@ -315,7 +323,8 @@ def search_customer_attribute(type=None, callable_type=None):
 
                 if id_choice in id_entries:
                     print(
-                        f"You have chosen the entry with the customer ID {id_choice}:"
+                        """You have chosen the entry with """ +
+                        f"""the customer ID {id_choice}:"""
                     )
                     connection.ping(reconnect=True)
                     cursor.execute(
@@ -327,8 +336,12 @@ def search_customer_attribute(type=None, callable_type=None):
                     )
                     chosen_entry = cursor.fetchone()
                     print(
-                        Fore.GREEN
-                        + f"Customer ID: {chosen_entry["customer_id"]}, Name: {chosen_entry["first_name"]} {chosen_entry["last_name"]}, Email address: {chosen_entry["email"]}, Phone number: {chosen_entry["phone_number"]}"
+                        Fore.GREEN +
+                        f"""Customer ID: {chosen_entry["customer_id"]}, """ +
+                        f"""Name: {chosen_entry["first_name"]} """ +
+                        f"""{chosen_entry["last_name"]}, """ +
+                        f"""Email address: {chosen_entry["email"]}, """ +
+                        f"""Phone number: {chosen_entry["phone_number"]}"""
                     )
 
                     while True:
@@ -444,7 +457,8 @@ def add_customer():
             if re.match(phone_pattern, phone_number_input) is None:
                 print(
                     Fore.RED
-                    + "Wrong phone number format. Please use a UK formatted number.\n"
+                    + """Wrong phone number format. """
+                    """Please use a UK formatted number.\n"""
                 )
                 continue
 
