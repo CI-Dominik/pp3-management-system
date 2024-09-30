@@ -14,12 +14,14 @@ init(autoreset=True)
 
 load_dotenv()
 
-""" Set variables to access MySQL database """
+""" Set variables to access MySQL database and admin panel """
 
 db_host = os.getenv("DB_HOST")
 db_user = os.getenv("DB_USER")
 db_pass = os.getenv("DB_PASS")
 db_name = os.getenv("DB_NAME")
+
+admin_access = os.getenv("ADMIN")
 
 """ Establish databse connection """
 
@@ -1900,7 +1902,17 @@ def update_product_by_value(product, value, callable_value):
 
 def main():
     os.system('cls' if os.name == 'nt' else 'clear')
-    main_menu()
+    
+    while True:
+        pw_input = input(Fore.YELLOW + "Please enter password to access management program:\n")
+        print("")
+
+        if (pw_input == admin_access):
+            main_menu()
+            break
+        else:
+            print(Fore.RED + "Wrong password.")
+            continue
 
 """ Main Cycle End """
 
