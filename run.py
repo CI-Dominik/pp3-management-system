@@ -690,7 +690,7 @@ def table_booking(customer, table_select, number_of_people):
 def check_available_tables(number_of_people):
 
     connection.ping(reconnect=True)
-    cursor.execute("SELECT * FROM tables WHERE availability=1 AND number_of_seats >= %s", (number_of_people,))
+    cursor.execute("SELECT * FROM tables WHERE availability=%s AND number_of_seats >= %s", (1, number_of_people))
     tables_available = cursor.fetchall()
 
     return tables_available
@@ -851,7 +851,7 @@ def sales_carts_menu():
 
                 print("Do you want to finish a booking or a walk-in purchase?")
                 print("1. Booking purchase")
-                print("2. Walk-in purcahse")
+                print("2. Walk-in purchase")
                 print("3. Cancel")
 
                 try:
@@ -1172,7 +1172,7 @@ def remove_walk_in_cart(cart_id):
     """ Function to remove a walk-in cart """
 
     connection.ping(reconnect=True)
-    cursor.execute("SELECT * FROM cart_items WHERE cart_id=%s", (cart_id,))
+    cursor.execute("SELECT * FROM cart_items WHERE cart_id=%s AND payed=%s", (cart_id, 0))
     cart_data = cursor.fetchall()
 
     """ Check if there are still items in the cart """
@@ -1302,7 +1302,7 @@ def complete_purchase_by_cart_id(cart):
     
     for item in purchase_data:
         print(Fore.GREEN + f"Product ID: {item['product_id']}, Product name: {item['name']}, Amount: {item['product_amount']}, Price: ${item['price']}")
-        total_price += item['price']
+        total_price += item['price'] * item['product_amount']
 
     print(Fore.YELLOW + f"The total price is: ${total_price:.2f}.")
 
@@ -1746,7 +1746,7 @@ def update_product(product):
         print("2. Category")
         print("3. Price")
         print("4. Amount")
-        print(Fore.RED + "5. Cancel")
+        print("5. Cancel")
 
         try:
             update_input = int(input("Please select a number: \n"))
@@ -1792,9 +1792,9 @@ def update_product_by_value(product, value, callable_value):
         if (value == "name"):
 
             connection.ping(reconnect=True)
-            cursor.execute("UPDATE products SET name=%s WHERE product_id=%s", (update_input, product['product_id']))
+            cursor.execute("UPDATE products SET name=%s WHERE product_id=%s", (update_input.title(), product['product_id']))
             connection.commit()
-            print(Fore.GREEN + f"Name of {product['name']} was successfully changed to {update_input}.")
+            print(Fore.GREEN + f"Name of {product['name']} was successfully changed to {update_input.title()}.")
             break
 
         elif (value == "category"):
