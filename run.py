@@ -1436,12 +1436,12 @@ def get_money(price, ids, customer_id, table_id, booking_id):
                 cursor.execute("INSERT INTO sold_products (cart_id, customer_id, date) VALUES (%s, %s, %s)", (id, customer_id, datetime.today().strftime('%Y-%m-%d')))
                 cursor.execute("DELETE FROM cart_items WHERE cart_id=%s", (id,))
                 cursor.execute("UPDATE cart SET payed=%s WHERE cart_id=%s", (1, id))
-
                 connection.commit()
 
             connection.ping(reconnect=True)
             cursor.execute("UPDATE bookings SET active=%s WHERE booking_id=%s", (0, booking_id))
             cursor.execute("UPDATE tables SET availability=%s WHERE table_id=%s", (1, table_id))
+            connection.commit()
                 
             print(Fore.GREEN + f"Booking {booking_id} successfully payed. The return money is ${return_amount:.2f}.")
             print(Fore.GREEN + f"Table {table_id} is now again available for guests.")
