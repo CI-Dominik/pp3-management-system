@@ -160,12 +160,12 @@ def search_customer_attribute(type=None, callable_type=None):
         """ If no attribute is provided, choose one here """
 
         print("")
-        print("Please choose attribute to get customer by:\n")
-        print("1. Name (Possible duplicates)\n")
-        print("2. Email address\n")
-        print("3. Phone number\n")
-        print("4. Customer ID\n")
-        print("5. Back to main menu\n")
+        print("Please choose attribute to get customer by:")
+        print("1. Name (Possible duplicates)")
+        print("2. Email address")
+        print("3. Phone number")
+        print("4. Customer ID")
+        print("5. Back to main menu")
 
         while True:
 
@@ -250,8 +250,6 @@ def search_customer_attribute(type=None, callable_type=None):
             print("")
             print(Fore.GREEN + f"Result {i + 1}:\nCustomer ID: {result[i]["customer_id"]}, Name: {result[i]["first_name"]} {result[i]["last_name"]}, Email address: {result[i]["email"]}, Phone number: {result[i]["phone_number"]}")
             id_entries.append(result[i]["customer_id"])
-            print(id_entries)
-            print("")
         
         print(Fore.YELLOW + "Do you want to use another attribute or use an ID?")
         print(Fore.YELLOW + "1. Use ID")
