@@ -169,7 +169,7 @@ def search_customer_attribute(type=None, callable_type=None):
 
     """ Search customer by attribute """
 
-    if (type == None):
+    if (type is None):
 
         """ If no attribute is provided, choose one here """
 
@@ -352,11 +352,11 @@ def add_customer():
         connection.ping(reconnect=True)
         cursor.execute("SELECT SQL_NO_CACHE email FROM customers WHERE email=%s", (email_input,))
 
-        if (cursor.fetchone() == None):
+        if (cursor.fetchone() is None):
 
             email_pattern = r"^[a-z0-9]+[\._-]?[a-z0-9]+[@]\w+[.]\w+$"
 
-            if (re.match(email_pattern, email_input) == None):
+            if (re.match(email_pattern, email_input) is None):
                 print(Fore.RED + "Wrong email format. Example: value@mail.com.\n")
                 break
 
@@ -376,9 +376,9 @@ def add_customer():
         connection.ping(reconnect=True)
         cursor.execute("SELECT SQL_NO_CACHE email FROM customers WHERE phone_number=%s", (phone_number_input,))
 
-        if (cursor.fetchone() == None):
+        if (cursor.fetchone() is None):
 
-            if (re.match(phone_pattern, phone_number_input) == None):
+            if (re.match(phone_pattern, phone_number_input) is None):
                 print(Fore.RED + "Wrong phone number format. Please use a UK formatted number.\n")
                 continue
 
@@ -406,7 +406,7 @@ def update_customer():
 
     customer = search_customer_attribute()
 
-    if (customer != None):
+    if (customer is not None):
 
         while True:
 
@@ -462,7 +462,7 @@ def update_customer_data(customer, value, callable_value):
 
             email_pattern = r"^[a-z0-9]+[\._-]?[a-z0-9]+[@]\w+[.]\w+$"
 
-            if (re.match(email_pattern, value_input) == None):
+            if (re.match(email_pattern, value_input) is None):
                 print(Fore.RED + "Wrong email format. Example: value@mail.com.\n")
                 break
 
@@ -472,7 +472,7 @@ def update_customer_data(customer, value, callable_value):
 
             phone_pattern = r"^(?:\+44|0044|0)\s?7\d{3}\s?\d{6}$|^(?:\+44|0044|0)\s?\d{2,4}\s?\d{3,4}\s?\d{4}$"
 
-            if (re.match(phone_pattern, value_input) == None):
+            if (re.match(phone_pattern, value_input) is None):
                 print(Fore.RED + "Wrong phone number format. Please use a UK formatted number.\n")
                 break
 
@@ -684,7 +684,7 @@ def book_table():
                     if (choice == 1):
                         customer = add_customer()
 
-                        if (customer != None):
+                        if (customer is not None):
                             table_booking(customer, table_select, number_of_people)
                             break
                         else:
@@ -694,7 +694,7 @@ def book_table():
                     if (choice == 2):
                         os.system('cls' if os.name == 'nt' else 'clear')
                         customer = search_customer_attribute()
-                        if (customer != None):
+                        if (customer is not None):
                             table_booking(customer, table_select, number_of_people)
                             break
                         else:
@@ -838,9 +838,9 @@ def sales_carts_menu():
         if (response == 1):
 
             cart = select_cart()
-            if (cart != None):
+            if (cart is not None):
                 product = get_product_list()
-                if (product != None):
+                if (product is not None):
                     if (product['available_amount'] > 0):
                         add_product_to_cart(cart, product)
                     else:
@@ -926,7 +926,7 @@ def sales_carts_menu():
         elif (response == 3):
 
             cart = select_cart()
-            if (cart != None):
+            if (cart is not None):
                 remove_product_from_cart(cart)
                 break
             else:
@@ -1248,7 +1248,7 @@ def add_walk_in_items(cart_id):
 
         if (decision.lower() == "y"):
             product = get_product_list()
-            if (product != None):
+            if (product is not None):
                 add_product_to_cart(cart_id, product)
             else:
                 print(Fore.RED + "No product selected.")
@@ -1611,7 +1611,7 @@ def products_menu():
 
         elif (response == 2):
             product = get_product_list()
-            if (product != None):
+            if (product is not None):
                 update_product(product)
                 break
             else:
@@ -1729,7 +1729,7 @@ def add_product_by_category(value, callable_value):
 
         """ Check if price format is correct """
 
-        if (re.fullmatch(pattern, price_input) == None):
+        if (re.fullmatch(pattern, price_input) is None):
             print(Fore.RED + "Wrong format. Example: 4.99")
             continue
 
@@ -1763,28 +1763,28 @@ def get_product_list(view_only=False):
 
         if (product_input == 1):
             product = get_product_by_category("cake", "cake", view_only)
-            if (product != None):
+            if (product is not None):
                 return product
             else:
                 return None
 
         elif (product_input == 2):
             product = get_product_by_category("cookie", "cookie", view_only)
-            if (product != None):
+            if (product is not None):
                 return product
             else:
                 return None
 
         elif (product_input == 3):
             product = get_product_by_category("main dish", "main dish", view_only)
-            if (product != None):
+            if (product is not None):
                 return product
             else:
                 return None
 
         elif (product_input == 4):
             product = get_product_by_category("drink", "drink", view_only)
-            if (product != None):
+            if (product is not None):
                 return product
             else:
                 return None
@@ -1845,7 +1845,7 @@ def get_product_by_category(value, callable_value, view_only):
                 print(Fore.RED + "Invalid input.\n")
                 continue
 
-        if (view_only == False):
+        if (view_only is False):
 
             while True:
 
@@ -1957,7 +1957,7 @@ def update_product_by_value(product, value, callable_value):
 
             pattern = r"^-?(0|\d+)\.\d{2}$"
 
-            if(re.fullmatch(pattern, update_input) == None):
+            if (re.fullmatch(pattern, update_input) is None):
                 print(Fore.RED + "Wrong format. Example: 4.99")
                 continue
 
