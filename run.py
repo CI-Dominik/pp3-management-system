@@ -267,9 +267,9 @@ def search_customer_attribute(type=None, callable_type=None):
         
         while True:
 
-            print("Do you want to use an ID or return to the customer management menu to try again?")
+            print("Do you want to use an ID or return to the main menu to try again?")
             print("1. Use ID")
-            print("2. Back to customer management")
+            print("2. Back to main menu")
 
             try:
                 choice = int(input("Please insert a number: \n"))
@@ -296,7 +296,8 @@ def search_customer_attribute(type=None, callable_type=None):
                             os.system('cls' if os.name == 'nt' else 'clear')
                             return chosen_entry
                         elif(check.lower() == "n"):
-                            customer_management_menu()
+                            os.system('cls' if os.name == 'nt' else 'clear')
+                            main_menu()
                             break
                         else:
                             print(Fore.RED + "Please enter y or n for your answer.")
@@ -306,7 +307,7 @@ def search_customer_attribute(type=None, callable_type=None):
 
             elif(choice == 2):
                 os.system('cls' if os.name == 'nt' else 'clear')
-                customer_management_menu()
+                main_menu()
                 break
 
             else:
@@ -368,7 +369,7 @@ def add_customer():
 
         connection.ping(reconnect=True)
         cursor.execute("SELECT SQL_NO_CACHE email FROM customers WHERE phone_number=%s", (phone_number_input,))
-            
+
         if(cursor.fetchone() == None):
 
             if (re.match(phone_pattern, phone_number_input) == None):
@@ -569,10 +570,12 @@ def bookings_tables_menu():
             continue
 
         if(response == 1):
+            os.system('cls' if os.name == 'nt' else 'clear')
             book_table()
             break
 
         elif(response == 2):
+            os.system('cls' if os.name == 'nt' else 'clear')
             tables_return = check_available_tables(0)
             if (len(tables_return) > 0):
 
@@ -623,7 +626,7 @@ def book_table():
         table_id_selection = []
 
         for table in available_tables:
-            print(f"Table ID: {table['table_id']}, Number of seats: {table['number_of_seats']}")
+            print(Fore.GREEN + f"Table ID: {table['table_id']}, Number of seats: {table['number_of_seats']}")
             table_id_selection.append(table['table_id'])
 
         if(len(available_tables) > 0):
@@ -635,6 +638,7 @@ def book_table():
                 try: 
                     table_select = int(input("Please select a table ID or 0 to cancel: \n"))
                     if (table_select == 0):
+                        os.system('cls' if os.name == 'nt' else 'clear')
                         break
 
                 except ValueError:
@@ -642,9 +646,10 @@ def book_table():
                     continue
                 else:
                     if(table_select not in table_id_selection):
-                        print("A table with that number is not available.")
+                        print(Fore.RED + "A table with that number is not available.")
                         continue
                     else:
+                        os.system('cls' if os.name == 'nt' else 'clear')
                         break
 
             if (table_select != 0):
@@ -674,6 +679,7 @@ def book_table():
                             break
                     
                     if (choice == 2):
+                        os.system('cls' if os.name == 'nt' else 'clear')
                         customer = search_customer_attribute()
                         if (customer != None):
                             table_booking(customer, table_select, number_of_people)
@@ -701,6 +707,7 @@ def book_table():
             bookings_tables_menu()
 
     else:
+        os.system('cls' if os.name == 'nt' else 'clear')
         print(Fore.RED + "Number cannot be negative or 0.")
         bookings_tables_menu()
 
@@ -765,12 +772,15 @@ def check_bookings():
 
     if (len(bookings) > 0):
 
+        os.system('cls' if os.name == 'nt' else 'clear')
+
         print("The following bookings are currently open:")
 
         for booking in bookings:
             print(Fore.GREEN + f"Booking ID: {booking['booking_id']}, Customer ID: {booking['customer_id']}, Table ID: {booking['table_id']}, Amount of people: {booking['amount_of_people']}")
 
     else:
+        os.system('cls' if os.name == 'nt' else 'clear')
         print(Fore.RED + "No bookings found.")
 
 """ Booking Functions End"""
