@@ -97,7 +97,8 @@ def main_menu():
             os.system("cls" if os.name == "nt" else "clear")
             print(
                 Fore.YELLOW
-                + "Thank you for using Happy Life's Management System. Shutting down..."
+                + """Thank you for using Happy Life's Management"""
+                """ System. Shutting down..."""
             )
             exit()
 
@@ -222,7 +223,10 @@ def search_customer_attribute(type=None, callable_type=None):
         l_name = input("Please insert a last name to search by: \n")
         connection.ping(reconnect=True)
         cursor.execute(
-            "SELECT SQL_NO_CACHE * FROM customers WHERE first_name=%s AND last_name=%s",
+            """SELECT SQL_NO_CACHE *
+            FROM customers
+            WHERE first_name=%s
+            AND last_name=%s""",
             (f_name, l_name),
         )
         result = cursor.fetchall()
@@ -265,7 +269,9 @@ def search_customer_attribute(type=None, callable_type=None):
         print("")
         print(
             Fore.YELLOW
-            + "Multiple entries have been found. Please use another filtering method or select by typing the ID of a result to use that entry."
+            + """Multiple entries have been found. Please use another """
+            """filtering method or select by typing the ID of a """
+            """result to use that entry."""
         )
 
         id_entries = []
@@ -285,7 +291,8 @@ def search_customer_attribute(type=None, callable_type=None):
         while True:
 
             print(
-                "Do you want to use an ID or return to the main menu to try again?"
+                """Do you want to use an ID or """
+                """return to the main menu to try again?"""
             )
             print("1. Use ID")
             print("2. Back to main menu")
@@ -312,7 +319,10 @@ def search_customer_attribute(type=None, callable_type=None):
                     )
                     connection.ping(reconnect=True)
                     cursor.execute(
-                        "SELECT SQL_NO_CACHE * FROM customers WHERE customer_id=%s",
+                        """
+                        SELECT SQL_NO_CACHE *
+                        FROM customers
+                        WHERE customer_id=%s""",
                         (id_choice,),
                     )
                     chosen_entry = cursor.fetchone()
@@ -403,16 +413,21 @@ def add_customer():
         else:
             print(
                 Fore.RED
-                + "Customer's email address already exists. Creation cancelled.\n"
+                + """Customer's email address already exists. """
+                """Creation cancelled.\n"""
             )
             break
 
         """ Check phone number format """
 
-        phone_pattern = r"^(?:\+44|0044|0)\s?7\d{3}\s?\d{6}$|^(?:\+44|0044|0)\s?\d{2,4}\s?\d{3,4}\s?\d{4}$"
+        phone_pattern = (
+            r"^(?:\+44|0044|0)\s?7\d{3}\s?\d{6}$|"
+            r"^(?:\+44|0044|0)\s?\d{2,4}\s?\d{3,4}\s?\d{4}$"
+        )
 
         phone_number_input = input(
-            "Please insert the customer's phone number (UK format, example: 055 1234 5678) or enter 0 to exit: \n"
+            """Please insert the customer's phone number """
+            """(UK format, example: 055 1234 5678) or enter 0 to exit: \n"""
         )
 
         if phone_number_input == "0":
