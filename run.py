@@ -109,16 +109,19 @@ def main_menu():
 
         elif(response == 6):
 
+            connection.ping(reconnect=True)
             cursor.execute("UPDATE tables SET availability=1")
             connection.commit()
 
         elif(response == 7):
 
+            connection.ping(reconnect=True)
             cursor.execute("DELETE FROM bookings")
             connection.commit()
 
         elif(response == 8):
 
+            connection.ping(reconnect=True)
             cursor.execute("DELETE FROM cart")
             connection.commit()
         
@@ -231,12 +234,14 @@ def search_customer_attribute(type=None, callable_type=None):
                 
         f_name = input("Please insert a first name to search by: \n")
         l_name = input("Please insert a last name to search by: \n")
+        connection.ping(reconnect=True)
         cursor.execute("SELECT * FROM customers WHERE first_name=%s AND last_name=%s", (f_name, l_name))
         result = cursor.fetchall()
 
     else:
                 
         type_input = input(f"Please insert {callable_type} to search by: \n")
+        connection.ping(reconnect=True)
         cursor.execute(f"SELECT * FROM customers WHERE {type}=%s", (type_input,))
         result = cursor.fetchall()
 
@@ -296,6 +301,7 @@ def search_customer_attribute(type=None, callable_type=None):
 
                 if(id_choice in id_entries):
                     print(f"You have chosen the entry with the customer ID {id_choice}:")
+                    connection.ping(reconnect=True)
                     cursor.execute("SELECT * FROM customers WHERE customer_id=%s", (id_choice,))
                     chosen_entry = cursor.fetchone()
                     print(Fore.GREEN + f"Customer ID: {chosen_entry["customer_id"]}, Name: {chosen_entry["first_name"]} {chosen_entry["last_name"]}, Email address: {chosen_entry["email"]}, Phone number: {chosen_entry["phone_number"]}")
@@ -353,6 +359,7 @@ def add_customer():
         if (email_input == "0"):
             break
 
+        connection.ping(reconnect=True)
         cursor.execute("SELECT email FROM customers WHERE email=%s", (email_input,))
             
         if(cursor.fetchone() == None):
@@ -376,6 +383,7 @@ def add_customer():
         if (phone_number_input == "0"):
             break
 
+        connection.ping(reconnect=True)
         cursor.execute("SELECT email FROM customers WHERE phone_number=%s", (phone_number_input,))
             
         if(cursor.fetchone() == None):
@@ -388,11 +396,13 @@ def add_customer():
             print(Fore.RED + "Customer's phone number already exists. Creation cancelled.\n")
             break
 
+        connection.ping(reconnect=True)
         cursor.execute("INSERT INTO customers (first_name, last_name, email, phone_number, bonus_points) VALUES (%s, %s, %s, %s, %s)",(f_name_input, l_name_input, email_input, phone_number_input.replace(" ", ""), 0))
         connection.commit()
 
         print(Fore.GREEN + "Customer successfully added to database.\n")
         
+        connection.ping(reconnect=True)
         cursor.execute("SELECT * FROM customers ORDER BY customer_id DESC LIMIT 1")
 
         customer = cursor.fetchone()
@@ -461,6 +471,7 @@ def update_customer_data(customer, value, callable_value):
 
             value_input = value_input.replace(" ", "")
 
+        connection.ping(reconnect=True)
         cursor.execute("SELECT email, phone_number FROM customers")
 
         database_results = cursor.fetchall()
@@ -475,6 +486,7 @@ def update_customer_data(customer, value, callable_value):
             print(Fore.RED + "Entry already in database. No duplicates allowed.")
             break
         else:
+            connection.ping(reconnect=True)
             cursor.execute("UPDATE customers SET " + value + "=%s WHERE customer_id=%s", (value_input, customer["customer_id"]))
             connection.commit()
             print(f"The new {callable_value} for {customer["first_name"]} {customer["last_name"]} was set to {value_input}.")
@@ -647,12 +659,14 @@ def table_booking(customer, table_select, number_of_people):
 
     if(customer != "guest"):
 
+        connection.ping(reconnect=True)
         cursor.execute("INSERT INTO bookings (customer_id, table_id, amount_of_people, date, active) VALUES (%s, %s, %s, %s, %s)", (customer['customer_id'], table_select, number_of_people, datetime.today().strftime('%Y-%m-%d'), 1))
         connection.commit()
         cursor.execute("UPDATE tables SET availability = 0 WHERE table_id =%s", (table_select,))
         connection.commit()
 
     else:
+        connection.ping(reconnect=True)
         cursor.execute("INSERT INTO bookings (table_id, amount_of_people, date, active) VALUES (%s, %s, %s, %s)", (table_select, number_of_people, datetime.today().strftime('%Y-%m-%d'), 1))
         connection.commit()
         cursor.execute("UPDATE tables SET availability = 0 WHERE table_id=%s", (table_select,))
@@ -660,6 +674,7 @@ def table_booking(customer, table_select, number_of_people):
 
     print(f"Booking successfully created for {number_of_people} people. Each guest will receive a cart for their seat at table {table_select}.")
 
+    connection.ping(reconnect=True)
     cursor.execute("SELECT booking_id FROM bookings ORDER BY booking_id DESC LIMIT 1")
     last_booking = cursor.fetchone()
 
@@ -669,6 +684,7 @@ def table_booking(customer, table_select, number_of_people):
 
         for i in range(number_of_people):
 
+            connection.ping(reconnect=True)
             cursor.execute("INSERT INTO cart (customer_id, booking_id, seat_number, table_id, walk_in) VALUES (%s, %s, %s, %s, %s)", (customer['customer_id'], last_booking['booking_id'], seat_counter, table_select, 0))
             seat_counter += 1
             connection.commit()
@@ -676,6 +692,7 @@ def table_booking(customer, table_select, number_of_people):
     else:
         for i in range(number_of_people):
 
+            connection.ping(reconnect=True)
             cursor.execute("INSERT INTO cart (booking_id, seat_number, table_id, walk_in) VALUES (%s, %s, %s, %s)", (last_booking['booking_id'], seat_counter, table_select, 0))
             connection.commit()
 
@@ -683,6 +700,7 @@ def table_booking(customer, table_select, number_of_people):
 
 def check_available_tables(number_of_people):
 
+    connection.ping(reconnect=True)
     cursor.execute("SELECT * FROM tables WHERE availability=1 AND number_of_seats >= %s", (number_of_people,))
     tables_available = cursor.fetchall()
 
@@ -725,6 +743,7 @@ def check_booking_by_value(value, callable_value):
 
     booking_input = input(f"Please enter {callable_value} to search by: \n")
     
+    connection.ping(reconnect=True)
     cursor.execute("SELECT * FROM bookings WHERE " + value + "=%s AND active = 1", (booking_input,))
     check = cursor.fetchall()
 
@@ -806,6 +825,7 @@ def sales_carts_menu():
                     continue
 
                 if (walk_input == 1):
+                    connection.ping(reconnect=True)
                     cursor.execute("INSERT INTO cart (walk_in) VALUES (%s)", (1,))
                     connection.commit()
                     cursor.execute("SELECT cart_id FROM cart ORDER BY cart_id DESC LIMIT 1")
@@ -816,6 +836,7 @@ def sales_carts_menu():
                     break
 
                 elif (walk_input == 2):
+                    connection.ping(reconnect=True)
                     cursor.execute("SELECT * FROM cart WHERE walk_in=%s AND payed=%s", (1, 0))
                     walk_in_carts = cursor.fetchall()
                     walk_in_ids = []
@@ -953,6 +974,7 @@ def select_cart():
     
     if (selection_input != 4):
 
+        connection.ping(reconnect=True)
         cursor.execute("SELECT * FROM cart WHERE payed=0 AND " + search_type + "=%s", (search_value,))
         open_carts = cursor.fetchall()
 
@@ -1021,6 +1043,7 @@ def add_product_to_cart(cart, product):
 
             products_added = []
 
+            connection.ping(reconnect=True)
             cursor.execute("SELECT product_id FROM cart_items WHERE cart_id=%s",(cart['cart_id'],))
 
             product_added = cursor.fetchall()
@@ -1030,6 +1053,7 @@ def add_product_to_cart(cart, product):
 
             if (product['product_id'] in products_added):
 
+                connection.ping(reconnect=True)
                 cursor.execute("UPDATE cart_items SET product_amount = product_amount + %s WHERE product_id=%s AND cart_id=%s", (amount_input, product['product_id'], cart['cart_id']))
                 connection.commit()
                 cursor.execute("UPDATE products SET available_amount=available_amount - %s WHERE product_id=%s", (amount_input, product['product_id']))
@@ -1039,6 +1063,7 @@ def add_product_to_cart(cart, product):
 
             else:
 
+                connection.ping(reconnect=True)
                 cursor.execute("INSERT INTO cart_items (cart_id, product_id, product_amount) VALUES (%s, %s, %s)", (cart['cart_id'], product['product_id'], amount_input))
                 connection.commit()
                 cursor.execute("UPDATE products SET available_amount=available_amount - %s WHERE product_id=%s", (amount_input, product['product_id']))
@@ -1048,6 +1073,7 @@ def add_product_to_cart(cart, product):
 
 def remove_product_from_cart(cart):
 
+    connection.ping(reconnect=True)
     cursor.execute("SELECT cart_items.cart_id, cart_items.product_id, cart_items.product_amount, products.name FROM cart_items LEFT JOIN products ON cart_items.product_id = products.product_id WHERE cart_items.cart_id=%s", (cart['cart_id'],))
     items_in_cart = cursor.fetchall()
     
@@ -1089,6 +1115,7 @@ def remove_product_from_cart(cart):
 
 def remove_item(cart, product_id):
 
+    connection.ping(reconnect=True)
     cursor.execute("SELECT * FROM cart_items WHERE product_id=%s AND cart_id=%s", (product_id, cart['cart_id']))
     product_in_cart = cursor.fetchone()
 
@@ -1110,6 +1137,7 @@ def remove_item(cart, product_id):
 
         elif (amount_input > product_in_cart['product_amount']):
             print(Fore.RED + f"You tried to remove {amount_input} items, but only {product_in_cart['product_amount']} are available.")
+            connection.ping(reconnect=True)
             cursor.execute("UPDATE products SET available_amount = available_amount + %s WHERE product_id=%s", (product_in_cart['product_amount'], product_id))
             cursor.execute("DELETE FROM cart_items WHERE product_id=%s AND cart_id=%s", (product_id, cart['cart_id']))
             connection.commit()
@@ -1117,6 +1145,7 @@ def remove_item(cart, product_id):
             break
 
         elif (amount_input == product_in_cart['product_amount']):
+            connection.ping(reconnect=True)
             cursor.execute("UPDATE products SET available_amount = available_amount + %s WHERE product_id=%s", (product_in_cart['product_amount'], product_id))
             cursor.execute("DELETE FROM cart_items WHERE product_id=%s AND cart_id=%s", (product_id, cart['cart_id']))
             connection.commit()
@@ -1124,6 +1153,7 @@ def remove_item(cart, product_id):
             break
 
         else:
+            connection.ping(reconnect=True)
             cursor.execute("UPDATE products SET available_amount = available_amount + %s WHERE product_id=%s", (amount_input, product_id))
             cursor.execute("UPDATE cart_items SET product_amount = product_amount - %s WHERE product_id=%s AND cart_id=%s", (amount_input, product_id, cart['cart_id']))
             connection.commit()
@@ -1169,6 +1199,7 @@ def add_walk_in_items(cart_id):
 
 def remove_walk_in_cart(cart_id):
 
+    connection.ping(reconnect=True)
     cursor.execute("SELECT * FROM cart_items WHERE cart_id=%s", (cart_id,))
     cart_data = cursor.fetchall()
 
@@ -1179,6 +1210,7 @@ def remove_walk_in_cart(cart_id):
             choice = input(Fore.RED + f"There are still items in cart {cart_id}. Do you still want to continue? [y/n]\n")
 
             if (choice == "y"):
+                connection.ping(reconnect=True)
                 cursor.execute("DELETE FROM cart_items WHERE cart_id=%s", (cart_id,))
                 cursor.execute("DELETE FROM cart WHERE cart_id=%s", (cart_id,))
                 connection.commit()
@@ -1193,6 +1225,7 @@ def remove_walk_in_cart(cart_id):
                 print(Fore.RED + "Invalid input.")
                 continue
     else:
+        connection.ping(reconnect=True)
         cursor.execute("DELETE FROM cart WHERE cart_id=%s", (cart_id,))
         connection.commit()
         print(Fore.GREEN + f"Cart {cart_id} has successfully been removed.")
@@ -1200,6 +1233,7 @@ def remove_walk_in_cart(cart_id):
 def complete_purchase(purchase_type):
 
     if (purchase_type == "walk-in"):
+        connection.ping(reconnect=True)
         cursor.execute("SELECT * FROM cart WHERE walk_in=%s ORDER BY cart_id ASC", (1,))
         walk_in_carts = cursor.fetchall()
         walk_in_ids = []
@@ -1237,6 +1271,7 @@ def complete_purchase(purchase_type):
 
     elif (purchase_type == "booking"):
         
+        connection.ping(reconnect=True)
         cursor.execute("SELECT * FROM bookings WHERE active = %s ORDER BY table_id ASC", (1,))
         bookings = cursor.fetchall()
         booking_ids = []
@@ -1276,6 +1311,7 @@ def complete_purchase(purchase_type):
 
 def complete_purchase_by_cart_id(cart):
 
+    connection.ping(reconnect=True)
     cursor.execute("SELECT cart_items.cart_id, cart_items.product_id, cart_items.product_amount, products.name, products.price FROM cart_items LEFT JOIN products ON cart_items.product_id = products.product_id WHERE cart_items.cart_id=%s", (cart,))
     purchase_data = cursor.fetchall()
     total_price = 0
@@ -1309,6 +1345,7 @@ def complete_purchase_by_cart_id(cart):
 
         elif (received >= total_price):
             return_amount = received - total_price
+            connection.ping(reconnect=True)
             cursor.execute("INSERT INTO sold_products (cart_id, date) VALUES (%s, %s)", (cart, datetime.today().strftime('%Y-%m-%d')))
             cursor.execute("DELETE FROM cart_items WHERE cart_id=%s", (cart,))
             cursor.execute("UPDATE cart SET payed=%s WHERE cart_id=%s", (1, cart))
@@ -1324,6 +1361,7 @@ def complete_purchase_by_cart_id(cart):
 
 def complete_purchase_booking(booking_id):
 
+    connection.ping(reconnect=True)
     cursor.execute("SELECT * FROM cart WHERE booking_id=%s", (booking_id,))
     booking_carts = cursor.fetchall()
 
@@ -1339,6 +1377,7 @@ def complete_purchase_booking(booking_id):
         guests = []
 
         for id in booking_carts_id:
+            connection.ping(reconnect=True)
             cursor.execute("SELECT cart_items.cart_id, cart_items.product_id, cart_items.product_amount, products.name, products.price FROM cart_items LEFT JOIN products ON cart_items.product_id = products.product_id WHERE cart_id=%s", (id,))
             result = cursor.fetchall()
             guests.append(result)
@@ -1395,6 +1434,7 @@ def get_money(price, ids, customer_id):
 
             for id in ids:
 
+                connection.ping(reconnect=True)
                 cursor.execute("INSERT INTO sold_products (cart_id, customer_id, date) VALUES (%s, %s, %s)", (id, customer_id, datetime.today().strftime('%Y-%m-%d')))
                 cursor.execute("DELETE FROM cart_items WHERE cart_id=%s", (id,))
                 cursor.execute("UPDATE cart SET payed=%s WHERE cart_id=%s", (1, id))
@@ -1410,6 +1450,7 @@ def get_money(price, ids, customer_id):
 
 def get_sales():
 
+    connection.ping(reconnect=True)
     cursor.execute("SELECT * FROM sold_products ORDER BY sale_id ASC")
     sales_data = cursor.fetchall()
 
@@ -1529,6 +1570,7 @@ def add_product_by_category(value, callable_value):
 
         name_input = name_input.title()
 
+        connection.ping(reconnect=True)
         cursor.execute("SELECT name FROM products WHERE name=%s", (name_input,))
         check_result = cursor.fetchall()
 
@@ -1571,6 +1613,7 @@ def add_product_by_category(value, callable_value):
             print(Fore.RED + "Wrong format. Example: 4.99")
             continue
 
+        connection.ping(reconnect=True)
         cursor.execute("INSERT INTO products (name, category, available_amount, price) VALUES (%s, %s, %s, %s)", (name_input, value, amount_input, float(price_input)))
         connection.commit()
 
@@ -1631,6 +1674,7 @@ def get_product_list(view_only=False):
 
 def get_product_by_category(value, callable_value, view_only):
 
+    connection.ping(reconnect=True)
     cursor.execute("SELECT * FROM products WHERE category=%s",(value,))
     product_result = cursor.fetchall()
     product_ids = []
@@ -1658,6 +1702,7 @@ def get_product_by_category(value, callable_value, view_only):
                     break
 
                 elif (selection in product_ids):
+                    connection.ping(reconnect=True)
                     cursor.execute("SELECT * FROM products WHERE product_id=%s", (selection,))
                     product_return = cursor.fetchone()
                     print(Fore.GREEN + f"You selected {product_return['name']}.")
@@ -1722,6 +1767,7 @@ def update_product_by_value(product, value, callable_value):
 
         if (value == "name"):
 
+            connection.ping(reconnect=True)
             cursor.execute("UPDATE products SET name=%s WHERE product_id=%s", (update_input, product['product_id']))
             connection.commit()
             print(Fore.GREEN + f"Name of {product['name']} was successfully changed to {update_input}.")
@@ -1730,6 +1776,7 @@ def update_product_by_value(product, value, callable_value):
         elif (value == "category"):
 
             if (update_input.lower() in categories):
+                connection.ping(reconnect=True)
                 cursor.execute("UPDATE products SET category=%s WHERE product_id=%s", (update_input.lower(), product['product_id']))
                 connection.commit()
                 print(Fore.GREEN + f"Product {product['name']}'s {callable_value} was successfully changed to {update_input}.")
@@ -1755,6 +1802,7 @@ def update_product_by_value(product, value, callable_value):
                 continue
 
             else:
+                connection.ping(reconnect=True)
                 cursor.execute("UPDATE products SET price=%s WHERE product_id=%s", (update_input, product['product_id']))
                 connection.commit()
                 print(Fore.GREEN + f"Price of {product['name']} successfully updated to ${update_input}.")
@@ -1772,6 +1820,7 @@ def update_product_by_value(product, value, callable_value):
                 print(Fore.RED + "A negative amount is not allowed.")
 
             else:
+                connection.ping(reconnect=True)
                 cursor.execute("UPDATE products SET available_amount=%s WHERE product_id=%s", (update_input, product['product_id']))
                 connection.commit()
                 print(Fore.GREEN + f"Available amount of {product['name']} successfully updated to {update_input}.")
