@@ -923,13 +923,18 @@ def table_booking(customer, table_select, number_of_people):
         connection.commit()
 
     print(
-        Fore.GREEN
-        + f"Booking successfully created for {number_of_people} people. Each guest will receive a cart for their seat at table {table_select}."
+        Fore.GREEN +
+        f"""Booking successfully created for {number_of_people} people. """ +
+        """Each guest will receive a cart for their """ +
+        f"""seat at table {table_select}."""
     )
 
     connection.ping(reconnect=True)
     cursor.execute(
-        "SELECT SQL_NO_CACHE booking_id FROM bookings ORDER BY booking_id DESC LIMIT 1"
+        """SELECT SQL_NO_CACHE booking_id
+        FROM bookings
+        ORDER BY booking_id DESC
+        LIMIT 1"""
     )
     last_booking = cursor.fetchone()
 
@@ -941,7 +946,9 @@ def table_booking(customer, table_select, number_of_people):
 
             connection.ping(reconnect=True)
             cursor.execute(
-                "INSERT INTO cart (customer_id, booking_id, seat_number, table_id, walk_in) VALUES (%s, %s, %s, %s, %s)",
+                """INSERT INTO cart (customer_id, booking_id, seat_number,
+                  table_id, walk_in)
+                  VALUES (%s, %s, %s, %s, %s)""",
                 (
                     customer["customer_id"],
                     last_booking["booking_id"],
@@ -958,7 +965,9 @@ def table_booking(customer, table_select, number_of_people):
 
             connection.ping(reconnect=True)
             cursor.execute(
-                "INSERT INTO cart (booking_id, seat_number, table_id, walk_in) VALUES (%s, %s, %s, %s)",
+                """INSERT INTO cart (booking_id,
+                seat_number, table_id, walk_in)
+                VALUES (%s, %s, %s, %s)""",
                 (last_booking["booking_id"], seat_counter, table_select, 0),
             )
             connection.commit()
@@ -970,7 +979,10 @@ def check_available_tables(number_of_people):
 
     connection.ping(reconnect=True)
     cursor.execute(
-        "SELECT SQL_NO_CACHE * FROM tables WHERE availability=%s AND number_of_seats >= %s",
+        """SELECT SQL_NO_CACHE *
+        FROM tables
+        WHERE availability=%s
+        AND number_of_seats >= %s""",
         (1, number_of_people),
     )
     tables_available = cursor.fetchall()
@@ -989,13 +1001,18 @@ def check_bookings():
 
         os.system("cls" if os.name == "nt" else "clear")
 
-        print("The following bookings are currently open:")
+        print("The following bookings are currently open:\n")
 
         for booking in bookings:
             print(
-                Fore.GREEN
-                + f"Booking ID: {booking['booking_id']}, Customer ID: {booking['customer_id']}, Table ID: {booking['table_id']}, Amount of people: {booking['amount_of_people']}"
+                Fore.GREEN +
+                f"""Booking ID: {booking['booking_id']}, """ +
+                f"""Customer ID: {booking['customer_id']}, """ +
+                f"""Table ID: {booking['table_id']}, Amount of """ +
+                f"""people: {booking['amount_of_people']}"""
             )
+
+        print("")
 
     else:
         os.system("cls" if os.name == "nt" else "clear")
@@ -1058,7 +1075,8 @@ def sales_carts_menu():
             while True:
 
                 print(
-                    "Do you want to create a new walk-in cart or remove an exisiting one?"
+                    """Do you want to create a new walk-in """
+                    """cart or remove an exisiting one?"""
                 )
                 print("1. Create new walk-in cart")
                 print("2. Remove exisiting walk-in cart")
@@ -1078,12 +1096,16 @@ def sales_carts_menu():
                     )
                     connection.commit()
                     cursor.execute(
-                        "SELECT SQL_NO_CACHE cart_id FROM cart ORDER BY cart_id DESC LIMIT 1"
+                        """SELECT SQL_NO_CACHE cart_id
+                        FROM cart
+                        ORDER BY cart_id DESC
+                        LIMIT 1"""
                     )
                     last_cart = cursor.fetchone()
                     print(
-                        Fore.GREEN
-                        + f"Successfully created cart {last_cart['cart_id']} for walk-in customer."
+                        Fore.GREEN +
+                        """Successfully created cart """ +
+                        f"""{last_cart['cart_id']} for walk-in customer."""
                     )
 
                     add_walk_in_items(last_cart)
@@ -1092,7 +1114,10 @@ def sales_carts_menu():
                 elif walk_input == 2:
                     connection.ping(reconnect=True)
                     cursor.execute(
-                        "SELECT SQL_NO_CACHE * FROM cart WHERE walk_in=%s AND payed=%s",
+                        """SELECT SQL_NO_CACHE *
+                        FROM cart
+                        WHERE walk_in=%s
+                        AND payed=%s""",
                         (1, 0),
                     )
                     walk_in_carts = cursor.fetchall()
@@ -1112,7 +1137,8 @@ def sales_carts_menu():
                             try:
                                 selection = int(
                                     input(
-                                        "Please enter a cart ID to remove or 0 to cancel: \n"
+                                        """Please enter a cart ID to"""
+                                        """ remove or 0 to cancel: \n"""
                                     )
                                 )
 
@@ -1268,13 +1294,17 @@ def select_cart():
 
             for cart in open_carts:
                 print(
-                    f"Seat number: {cart['seat_number']}: Cart ID: {cart['cart_id']}, Customer ID: {cart['customer_id'] if cart['customer_id'] is not None else "Guest booking"}, Booking ID: {cart['booking_id']}"
+                    f"""Seat number: {cart['seat_number']}: """ +
+                    f"""Cart ID: {cart['cart_id']}, Customer ID: """ +
+                    f"""{cart['customer_id']}, Booking ID: """ +
+                    f"""{cart['booking_id']}"""
                 )
             try:
 
                 cart_input = int(
                     input(
-                        "Please select a cart ID to add a product to or 0 to cancel: \n"
+                        """Please select a cart ID to add a """
+                        """product to or 0 to cancel: \n"""
                     )
                 )
 
@@ -1310,7 +1340,8 @@ def add_product_to_cart(cart, product):
         try:
             amount_input = int(
                 input(
-                    "How many items do you wish to add? Please insert a number or 0 to cancel: \n"
+                    """How many items do you wish to add? """
+                    """Please insert a number or 0 to cancel: \n"""
                 )
             )
 
@@ -1327,8 +1358,9 @@ def add_product_to_cart(cart, product):
 
         elif amount_input > product["available_amount"]:
             print(
-                Fore.RED
-                + f"Not enough items left. The amount of the product {product['name']} is {product['available_amount']}."
+                Fore.RED +
+                """Not enough items left. The amount of the product """ +
+                f"""{product['name']} is {product['available_amount']}."""
             )
             continue
 
@@ -1338,7 +1370,9 @@ def add_product_to_cart(cart, product):
 
             connection.ping(reconnect=True)
             cursor.execute(
-                "SELECT SQL_NO_CACHE product_id FROM cart_items WHERE cart_id=%s",
+                """SELECT SQL_NO_CACHE product_id
+                FROM cart_items
+                WHERE cart_id=%s""",
                 (cart["cart_id"],),
             )
 
@@ -1351,7 +1385,10 @@ def add_product_to_cart(cart, product):
 
                 connection.ping(reconnect=True)
                 cursor.execute(
-                    "UPDATE cart_items SET product_amount = product_amount + %s WHERE product_id=%s AND cart_id=%s",
+                    """UPDATE cart_items
+                    SET product_amount = product_amount + %s
+                    WHERE product_id=%s
+                    AND cart_id=%s""",
                     (amount_input, product["product_id"], cart["cart_id"]),
                 )
                 connection.commit()
