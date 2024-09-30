@@ -2,14 +2,14 @@
 # You can delete these comments, but do not change the name of this file
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
 
-""" Import needed Python modules """
+""" Import needed Python modules and enable autoreset of colors """
 
 import os
 import mysql.connector
+import re
 from mysql.connector import Error
 from dotenv import load_dotenv
 from colorama import Fore, Style, init
-import re
 from datetime import datetime
 
 init(autoreset=True)
@@ -1197,7 +1197,6 @@ def remove_walk_in_cart(cart_id):
         connection.commit()
         print(Fore.GREEN + f"Cart {cart_id} has successfully been removed.")
 
-
 def complete_purchase(purchase_type):
 
     if (purchase_type == "walk-in"):
@@ -1265,7 +1264,8 @@ def complete_purchase(purchase_type):
                     break
 
                 if (decision in booking_ids):
-                    pass # -------------------------------------- TODO: NEXT
+                    complete_purchase_booking(decision)
+                    break
 
                 else:
                     print(Fore.RED + "Invalid input.")
@@ -1273,7 +1273,6 @@ def complete_purchase(purchase_type):
 
         else:
             print("There are currently no open bookings.")
-
 
 def complete_purchase_by_cart_id(cart):
 
@@ -1287,7 +1286,7 @@ def complete_purchase_by_cart_id(cart):
         print(Fore.GREEN + f"Product ID: {item['product_id']}, Product name: {item['name']}, Amount: {item['product_amount']}, Price: ${item['price']}")
         total_price += item['price']
 
-    print(Fore.YELLOW + f"The total price is: ${total_price}.")
+    print(Fore.YELLOW + f"The total price is: ${total_price:.2f}.")
 
     while True:
         try:
@@ -1305,7 +1304,7 @@ def complete_purchase_by_cart_id(cart):
             continue
 
         elif (received < total_price):
-            print(Fore.RED + f"Not enough money. The sum is {total_price}")
+            print(Fore.RED + f"Not enough money. The sum is {total_price:.2f}")
             continue
 
         elif (received >= total_price):
@@ -1314,7 +1313,7 @@ def complete_purchase_by_cart_id(cart):
             cursor.execute("DELETE FROM cart_items WHERE cart_id=%s", (cart,))
             cursor.execute("UPDATE cart SET payed=%s WHERE cart_id=%s", (1, cart))
             connection.commit()
-            print(Fore.GREEN + f"Cart {cart} successfully payed. The return money is ${round(return_amount, 2)}.")
+            print(Fore.GREEN + f"Cart {cart} successfully payed. The return money is ${return_amount:.2f}.")
             
             break
 
@@ -1324,7 +1323,90 @@ def complete_purchase_by_cart_id(cart):
             continue
 
 def complete_purchase_booking(booking_id):
-    pass # -------------------------------------------- TODO: NEXT
+
+    cursor.execute("SELECT * FROM cart WHERE booking_id=%s", (booking_id,))
+    booking_carts = cursor.fetchall()
+
+    if (len(booking_carts) > 0):
+
+        booking_carts_id = []
+        price = float(0)
+
+        for booking in booking_carts:
+            booking['cart_id'] = int(booking['cart_id'])
+            booking_carts_id.append(booking['cart_id'])
+
+        guests = []
+
+        for id in booking_carts_id:
+            cursor.execute("SELECT cart_items.cart_id, cart_items.product_id, cart_items.product_amount, products.name, products.price FROM cart_items LEFT JOIN products ON cart_items.product_id = products.product_id WHERE cart_id=%s", (id,))
+            result = cursor.fetchall()
+            guests.append(result)
+
+        bought_products = []
+
+        for guest in guests:
+            for i in guest:
+                bought_products.append(i)
+
+        if (len(bought_products) > 0):
+            
+            print("The following items were purchased:\n")
+
+            for product in bought_products:
+                print(Fore.GREEN + f"Cart ID: {product['cart_id']}, {product['product_amount']}x {product['name']}, (ID: {product['product_id']}, Price: {product['price']})")
+                price += product['price'] * product['product_amount']
+            
+            get_money(price, booking_carts_id, booking_carts[0]['customer_id'])
+
+        else:
+            print(Fore.RED + "Nobody bought anything.")
+
+    else:
+        print(Fore.RED + "No carts found.")
+
+def get_money(price, ids, customer_id):
+    
+    while True:
+
+        print(f"The total price is: ${price:.2f}.")
+
+        try:
+            received = float(input("Please insert money received or 0 to cancel: \n"))
+
+        except ValueError:
+            print("Please only use numbers.\n")
+            continue
+
+        if (received == 0):
+            break
+
+        elif (received < 0):
+            print(Fore.RED + "Amount cannot be negative.")
+            continue
+
+        elif (received < price):
+            print(Fore.RED + f"Not enough money. The sum is ${price:.2f}")
+            continue
+
+        elif (received >= price):
+
+            return_amount = received - price
+
+            for id in ids:
+
+                cursor.execute("INSERT INTO sold_products (cart_id, customer_id, date) VALUES (%s, %s, %s)", (id, customer_id, datetime.today().strftime('%Y-%m-%d')))
+                cursor.execute("DELETE FROM cart_items WHERE cart_id=%s", (id,))
+                cursor.execute("UPDATE cart SET payed=%s WHERE cart_id=%s", (1, id))
+                connection.commit()
+                
+            print(Fore.GREEN + f"Booking successfully payed. The return money is ${return_amount:.2f}.")
+            
+            break
+
+        else:
+            print(Fore.RED + "Invalid input.")
+            continue
 
 def get_sales():
 
