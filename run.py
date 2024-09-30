@@ -1,7 +1,3 @@
-# Your code goes here.
-# You can delete these comments, but do not change the name of this file
-# Write your code to expect a terminal of 80 characters wide and 24 rows high
-
 """ Import needed Python modules and enable autoreset of colors """
 
 import os
@@ -120,7 +116,8 @@ def customer_management_menu():
         print("| 1. Search Customer      |")
         print("| 2. Add new Customer     |")
         print("| 3. Update Customer      |")
-        print("| 4. Main Menu            |")
+        print("| 4. Show Customers       |")
+        print("| 5. Main Menu            |")
         print("|                         |")
         print("---------------------------")
         print("")
@@ -144,6 +141,10 @@ def customer_management_menu():
             update_customer()
 
         elif(response == 4):
+            os.system('cls' if os.name == 'nt' else 'clear')
+            show_customers()
+
+        elif(response == 5):
             print("")
             main_menu()
             break
@@ -475,6 +476,47 @@ def update_customer_data(customer, value, callable_value):
             connection.commit()
             print(Fore.GREEN + f"The new {callable_value} for {customer["first_name"]} {customer["last_name"]} was set to {value_input}.")
             break
+
+def show_customers():
+
+    connection.ping(reconnect=True)
+    cursor.execute("SELECT SQL_NO_CACHE * FROM customers ORDER BY customer_id ASC")
+    result = cursor.fetchall()
+
+    result_list = [result[i:i+10] for i in range(0, len(result), 10)]
+    index = 0
+
+    while True:
+
+        print("+------- CUSTOMER OVERVIEW -------+\n")
+
+        print(Fore.YELLOW + f"Page {index + 1} / {len(result_list)}\n")
+
+        for i in result_list[index]:
+
+            print(Fore.GREEN + f"ID: {i['customer_id']}, Name: {i['first_name']} {i['last_name']}, Email: {i['email']}, Phone: {i['phone_number']}")
+
+        scroll = input("Enter '<' to scroll left, '>' to scroll right or '0' to cancel:\n")
+
+        if (scroll == ">"):
+            index += 1
+            if (index > len(result_list) - 1):
+                index = 0
+            continue
+
+        elif (scroll == "<"):
+            index -= 1
+            if(index < 0):
+                index = len(result_list) - 1
+            continue
+
+        elif (scroll == "0"):
+            break
+            
+        else:
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print(Fore.RED + "Invalid input.\n")
+            continue
 
 """ Customer Functions End """
 
