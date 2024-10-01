@@ -1652,8 +1652,8 @@ def remove_walk_in_cart(cart_id):
 
     connection.ping(reconnect=True)
     cursor.execute(
-        "SELECT SQL_NO_CACHE * FROM cart WHERE cart_id=%s AND payed=%s",
-        (cart_id, 0),
+        "SELECT SQL_NO_CACHE * FROM cart_items WHERE cart_id=%s",
+        (cart_id,),
     )
     cart_data = cursor.fetchall()
 
