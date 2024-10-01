@@ -1775,7 +1775,11 @@ def complete_purchase(purchase_type):
             for booking in bookings:
                 print(
                     Fore.GREEN
-                    + f"Booking ID: {booking['booking_id']}, Customer ID: {booking['customer_id']}, Table ID: {booking['table_id']}, Amount of people: {booking['amount_of_people']}, Date: {booking['date']}\n"
+                    + f"""Booking ID: {booking['booking_id']}, """ +
+                    f"""Customer ID: {booking['customer_id']}, """ +
+                    f"""Table ID: {booking['table_id']}, """ +
+                    f"""Amount of people: {booking['amount_of_people']}, """ +
+                    f"""Date: {booking['date']}\n"""
                 )
                 booking_ids.append(booking["booking_id"])
 
@@ -1812,7 +1816,12 @@ def complete_purchase_by_cart_id(cart):
 
     connection.ping(reconnect=True)
     cursor.execute(
-        "SELECT SQL_NO_CACHE cart_items.cart_id, cart_items.product_id, cart_items.product_amount, products.name, products.price FROM cart_items LEFT JOIN products ON cart_items.product_id = products.product_id WHERE cart_items.cart_id=%s",
+        """SELECT SQL_NO_CACHE cart_items.cart_id, cart_items.product_id,
+        cart_items.product_amount, products.name, products.price
+        FROM cart_items
+        LEFT JOIN products
+        ON cart_items.product_id = products.product_id
+        WHERE cart_items.cart_id=%s""",
         (cart,),
     )
     purchase_data = cursor.fetchall()
@@ -1823,7 +1832,10 @@ def complete_purchase_by_cart_id(cart):
     for item in purchase_data:
         print(
             Fore.GREEN
-            + f"Product ID: {item['product_id']}, Product name: {item['name']}, Amount: {item['product_amount']}, Price: ${item['price']}"
+            + f"""Product ID: {item['product_id']}, """ +
+            f"""Product name: {item['name']}, """ +
+            f"""Amount: {item['product_amount']}, """ +
+            f"""Price: ${item['price']}"""
         )
         total_price += item["price"] * item["product_amount"]
 
@@ -1864,7 +1876,8 @@ def complete_purchase_by_cart_id(cart):
             connection.commit()
             print(
                 Fore.GREEN
-                + f"Cart {cart} successfully payed. The return money is ${return_amount:.2f}."
+                + f"""Cart {cart} successfully payed. """ +
+                f"""The return money is ${return_amount:.2f}."""
             )
 
             break
@@ -1901,7 +1914,13 @@ def complete_purchase_booking(booking_id):
         for id in booking_carts_id:
             connection.ping(reconnect=True)
             cursor.execute(
-                "SELECT SQL_NO_CACHE cart_items.cart_id, cart_items.product_id, cart_items.product_amount, products.name, products.price FROM cart_items LEFT JOIN products ON cart_items.product_id = products.product_id WHERE cart_id=%s",
+                """SELECT SQL_NO_CACHE cart_items.cart_id,
+                cart_items.product_id, cart_items.product_amount,
+                products.name, products.price
+                FROM cart_items
+                LEFT JOIN products
+                ON cart_items.product_id = products.product_id
+                WHERE cart_id=%s""",
                 (id,),
             )
             result = cursor.fetchall()
@@ -1924,7 +1943,10 @@ def complete_purchase_booking(booking_id):
             for product in bought_products:
                 print(
                     Fore.GREEN
-                    + f"Cart ID: {product['cart_id']}, {product['product_amount']}x {product['name']}, (ID: {product['product_id']}, Price: {product['price']})"
+                    + f"""Cart ID: {product['cart_id']}, """ +
+                    f"""{product['product_amount']}x {product['name']}, """ +
+                    f"""(ID: {product['product_id']}, Price: """ +
+                    f"""{product['price']})"""
                 )
                 price += product["price"] * product["product_amount"]
 
@@ -1944,7 +1966,9 @@ def complete_purchase_booking(booking_id):
 
 
 def get_money(price, ids, customer_id, table_id, booking_id):
-    """Function to complete purchase and enter data into table sold_products / Check if given amount of money is correct"""
+    """Function to complete purchase and enter data into """
+    """table sold_products / """
+    """Check if given amount of money is correct"""
 
     while True:
 
@@ -1976,13 +2000,15 @@ def get_money(price, ids, customer_id, table_id, booking_id):
 
             return_amount = received - price
 
-            """ Insert data into database and mark carts and bookings as complete / Re-enable tables """
+            """ Insert data into database and mark carts and bookings """
+            """ as complete / Re-enable tables """
 
             for id in ids:
 
                 connection.ping(reconnect=True)
                 cursor.execute(
-                    "INSERT INTO sold_products (cart_id, customer_id, date) VALUES (%s, %s, %s)",
+                    """INSERT INTO sold_products (cart_id, customer_id, date)
+                    VALUES (%s, %s, %s)""",
                     (id, customer_id, datetime.today().strftime("%Y-%m-%d")),
                 )
                 cursor.execute(
@@ -2005,12 +2031,13 @@ def get_money(price, ids, customer_id, table_id, booking_id):
             connection.commit()
 
             print(
-                Fore.GREEN
-                + f"Booking {booking_id} successfully payed. The return money is ${return_amount:.2f}."
+                Fore.GREEN +
+                f"""Booking {booking_id} successfully payed. """ +
+                f"""The return money is ${return_amount:.2f}."""
             )
             print(
-                Fore.GREEN
-                + f"Table {table_id} is now again available for guests."
+                Fore.GREEN +
+                f"Table {table_id} is now again available for guests."
             )
 
             break
@@ -2038,7 +2065,10 @@ def get_sales():
         for sale in sales_data:
             print(
                 Fore.GREEN
-                + f"Sale ID: {sale['sale_id']}, Cart ID: {sale['cart_id']}, Customer ID: {sale['customer_id']}, Date: {sale['date']}"
+                + f"""Sale ID: {sale['sale_id']}, """ +
+                f"""Cart ID: {sale['cart_id']}, """ +
+                f"""Customer ID: {sale['customer_id']}, """ +
+                f"""Date: {sale['date']}"""
             )
 
     else:
@@ -2153,7 +2183,8 @@ def add_product_by_category(value, callable_value):
     while True:
 
         name_input = input(
-            f"Please insert the name of the {callable_value} to add or 0 to cancel: \n"
+            f"""Please insert the name of the {callable_value} to add """ +
+            """or 0 to cancel: \n"""
         )
 
         name_input = name_input.title()
@@ -2215,7 +2246,8 @@ def add_product_by_category(value, callable_value):
 
         connection.ping(reconnect=True)
         cursor.execute(
-            "INSERT INTO products (name, category, available_amount, price) VALUES (%s, %s, %s, %s)",
+            """INSERT INTO products (name, category, available_amount, price)
+            VALUES (%s, %s, %s, %s)""",
             (name_input, value, amount_input, float(price_input)),
         )
         connection.commit()
@@ -2296,7 +2328,7 @@ def get_product_by_category(value, callable_value, view_only):
 
     if len(result) > 0:
 
-        result_list = [result[i : i + 10] for i in range(0, len(result), 10)]
+        result_list = [result[i: i + 10] for i in range(0, len(result), 10)]
         index = 0
 
         while True:
@@ -2309,11 +2341,15 @@ def get_product_by_category(value, callable_value, view_only):
 
                 print(
                     Fore.GREEN
-                    + f"ID: {i['product_id']}, Name: {i['name']}, Available amount: {i['available_amount']}, Price: {i['price']}"
+                    + f"""ID: {i['product_id']}, """ +
+                    f"""Name: {i['name']}, """ +
+                    f"""Available amount: {i['available_amount']}, """ +
+                    f"""Price: {i['price']}"""
                 )
 
             scroll = input(
-                "Enter '<' to scroll left, '>' to scroll right or '0' to continue:\n"
+                """Enter '<' to scroll left, '>' to scroll right """
+                """or '0' to continue:\n"""
             )
 
             if scroll == ">":
@@ -2357,7 +2393,9 @@ def get_product_by_category(value, callable_value, view_only):
                 elif selection in product_ids:
                     connection.ping(reconnect=True)
                     cursor.execute(
-                        "SELECT SQL_NO_CACHE * FROM products WHERE product_id=%s",
+                        """SELECT SQL_NO_CACHE *
+                        FROM products
+                        WHERE product_id=%s""",
                         (selection,),
                     )
                     product_return = cursor.fetchone()
@@ -2380,7 +2418,8 @@ def update_product(product):
 
     while True:
         print(
-            f"Which attribute of {product['name']} (ID: {product['product_id']}) do you want to change?"
+            f"""Which attribute of {product['name']} """ +
+            f"""(ID: {product['product_id']}) do you want to change?"""
         )
         print("1. Name")
         print("2. Category")
@@ -2424,7 +2463,8 @@ def update_product_by_value(product, value, callable_value):
     while True:
 
         update_input = input(
-            f"Please enter the new {callable_value} for {product['name']} or type cancel to cancel:\n"
+            f"""Please enter the new {callable_value} for """ +
+            f"""{product['name']} or type cancel to cancel:\n"""
         )
 
         if update_input == "cancel":
@@ -2441,7 +2481,8 @@ def update_product_by_value(product, value, callable_value):
             connection.commit()
             print(
                 Fore.GREEN
-                + f"Name of {product['name']} was successfully changed to {update_input.title()}."
+                + f"""Name of {product['name']} was successfully changed """ +
+                f"""to {update_input.title()}."""
             )
             break
 
@@ -2455,16 +2496,18 @@ def update_product_by_value(product, value, callable_value):
                 )
                 connection.commit()
                 print(
-                    Fore.GREEN
-                    + f"Product {product['name']}'s {callable_value} was successfully changed to {update_input}."
+                    Fore.GREEN +
+                    f"""Product {product['name']}'s {callable_value} """ +
+                    f"""was successfully changed to {update_input}."""
                 )
                 break
 
             else:
 
                 print(
-                    Fore.RED
-                    + "Please only use the categories cake, cookie, main dish or drink."
+                    Fore.RED +
+                    """Please only use the categories cake, """
+                    """cookie, main dish or drink."""
                 )
                 continue
 
@@ -2493,7 +2536,8 @@ def update_product_by_value(product, value, callable_value):
                 connection.commit()
                 print(
                     Fore.GREEN
-                    + f"Price of {product['name']} successfully updated to ${update_input}."
+                    + f"""Price of {product['name']} successfully """ +
+                    f"""updated to ${update_input}."""
                 )
                 break
 
@@ -2511,13 +2555,16 @@ def update_product_by_value(product, value, callable_value):
             else:
                 connection.ping(reconnect=True)
                 cursor.execute(
-                    "UPDATE products SET available_amount=%s WHERE product_id=%s",
+                    """UPDATE products
+                    SET available_amount=%s
+                    WHERE product_id=%s""",
                     (update_input, product["product_id"]),
                 )
                 connection.commit()
                 print(
                     Fore.GREEN
-                    + f"Available amount of {product['name']} successfully updated to {update_input}."
+                    + f"""Available amount of {product['name']} """ +
+                    """successfully updated to {update_input}."""
                 )
                 break
 
