@@ -2733,5 +2733,4 @@ def main():
 """ Call Main Cycle """
 
 
-# main()
-main_menu()
+main()
