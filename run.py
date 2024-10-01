@@ -826,7 +826,7 @@ def book_table():
                     print("1. New customer")
                     print("2. Existing customer")
                     print("3. Guest")
-                    print(Fore.RED + "4. Cancel")
+                    print("4. Cancel")
 
                     try:
                         choice = int(input("Please insert a number: \n"))
