@@ -266,7 +266,7 @@ To inform the user of possible mistakes, every menu input is secured by catching
 
 ## **TESTING**
 
-## General testing
+## General testing (Used in every input)
 
 | Testing method | Expected result | Actual result |
 |:-------------:|:---------------:|:-------------:|
@@ -275,22 +275,41 @@ To inform the user of possible mistakes, every menu input is secured by catching
 | Entering values outside of the selection range | An error should appear and return the user to the beginning of the loop | Pass |
 | Entering numbers, texts and special signs into fields that require "y" or "n" | An error should appear and return the user to the beginning of the loop | Pass |
 | Entering a wrong password when starting the program | Access should be denied | Pass |
+| Cancelling actions | A previous menu should appear | Pass |
 
 ## Main Menu Testing
 
 | Testing method | Expected result | Actual result |
 |:-------------:|:---------------:|:-------------:|
-| TEXT | TEXT | TEXT |
-| TEXT | TEXT | TEXT |
-| TEXT | TEXT | TEXT |
+| Enter all available menus | Access should be granted via numbers | Pass |
 
 ## Customer Management Menu Testing
 
 | Testing method | Expected result | Actual result |
 |:-------------:|:---------------:|:-------------:|
-| TEXT | TEXT | TEXT |
-| TEXT | TEXT | TEXT |
-| TEXT | TEXT | TEXT |
+| Entering search menu | Menu should open | Pass |
+| Searching for names that are unique | Only one entry should appear formatted | Pass |
+| Searching for names that are duplicates | All available options should be listed | Pass |
+| Accessing options given | A question if the given information is right | Pass |
+| Searching for email addresses, phone numbers and customer IDs | Only unique entries should be displyed | Pass |
+| | | |
+| Entering add customer menu | Menu should open | Pass |
+| Enter first and last names | Entry should lead to next point | Pass |
+| Enter email address the right way | Next option should appear | Pass |
+| Enter email address the wrong way | An error should appear and lead back to the beginning | Pass |
+| Enter phone number correctly | Entry should be written into database | Pass |
+| Enter phone number incorrectly | An error should appear and lead back to the beginning | Pass |
+| | | |
+| Entering update customer menu | Menu should appear | Pass |
+| Entering customer data to search | Customers should be listed | Pass |
+| Choosing a customer | Approvement message should appear | Pass |
+| Changing first or last name | Entry should be written into database | Pass |
+| Trying to update email address with right format | Address should be written into database | Pass |
+| Trying to update email address with wrong format | An error should appear and lead back | Pass |
+| Trying to update phone number with right format | Number should be written into database | Pass |
+| Trying to update phone number with wrong format | An error should appear and lead back | Pass |
+| | | |
+
 
 ## Tables / Bookings Menu Testing
 
@@ -340,6 +359,7 @@ To inform the user of possible mistakes, every menu input is secured by catching
 
 ## Unfixed bugs
 * When accessing the list of scrollable data, the user first needs to enter 0 to cancel the scrolling before the value can be provided. Many versions were tried but no solution was found to that problem at the time of deployment. This issue needs to be addressed in the future.
+* When left unattented for a long time, the Heroku window freezes and needs to be restarted. No fix has been found at the moment of deployment.
 
 ---
 

@@ -515,7 +515,7 @@ def update_customer():
             print("2. Last name")
             print("3. Email address")
             print("4. Phone number")
-            print(Fore.RED + "5. Cancel")
+            print("5. Cancel")
 
             try:
 
