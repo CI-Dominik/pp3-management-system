@@ -71,25 +71,25 @@ def main_menu():
             continue
 
         if response == 1:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             customer_management_menu()
             break
 
         elif response == 2:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             bookings_tables_menu()
             break
 
         elif response == 3:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             sales_carts_menu()
 
         elif response == 4:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             products_menu()
 
         elif response == 5:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(
                 Fore.YELLOW
                 + """Thank you for using Happy Life's Management"""
@@ -129,33 +129,33 @@ def customer_management_menu():
             response = int(input("Please select a topic: \n"))
 
         except ValueError:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Please only enter numbers.\n")
             continue
 
         if response == 1:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             search_customer_attribute()
 
         elif response == 2:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             add_customer()
 
         elif response == 3:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             update_customer()
 
         elif response == 4:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             show_customers()
 
         elif response == 5:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             main_menu()
             break
 
         else:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Please insert a valid number.\n")
 
 
@@ -203,7 +203,7 @@ def search_customer_attribute(type=None, callable_type=None):
                 break
 
             elif search_input == 5:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 main_menu()
                 break
 
@@ -252,10 +252,10 @@ Phone number: {result[0]["phone_number"]}"""
         while True:
             check = input("Is this correct? [y/n]\n")
             if check.lower() == "y":
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 return result[0]
             elif check.lower() == "n":
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 break
             else:
                 print(Fore.RED + "Please enter y or n for your answer.")
@@ -264,7 +264,7 @@ Phone number: {result[0]["phone_number"]}"""
 
     elif len(result) > 1:
 
-        os.system("cls" if os.name == "nt" else "clear")
+        os.system("clear")
         print(
             Fore.YELLOW
             + """Multiple entries have been found. Please use another """
@@ -343,10 +343,10 @@ Phone number: {result[0]["phone_number"]}"""
 
                         check = input("Is this correct? [y/n]\n")
                         if check.lower() == "y":
-                            os.system("cls" if os.name == "nt" else "clear")
+                            os.system("clear")
                             return chosen_entry
                         elif check.lower() == "n":
-                            os.system("cls" if os.name == "nt" else "clear")
+                            os.system("clear")
                             main_menu()
                             break
                         else:
@@ -355,22 +355,22 @@ Phone number: {result[0]["phone_number"]}"""
                                 + "Please enter y or n for your answer."
                             )
                 else:
-                    os.system("cls" if os.name == "nt" else "clear")
+                    os.system("clear")
                     print(Fore.RED + "No entry with that ID found.")
                     break
 
             elif choice == 2:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 main_menu()
                 break
 
             else:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(Fore.RED + "Invalid input.")
                 break
 
     else:
-        os.system("cls" if os.name == "nt" else "clear")
+        os.system("clear")
         print(Fore.RED + "No entries found.\n")
         print(Style.RESET_ALL)
         return None
@@ -386,7 +386,7 @@ def add_customer():
         )
 
         if f_name_input == "0":
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             break
 
         l_name_input = input(
@@ -394,7 +394,7 @@ def add_customer():
         )
 
         if l_name_input == "0":
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             break
 
         """ Check email address format """
@@ -404,7 +404,7 @@ def add_customer():
         )
 
         if email_input == "0":
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             break
 
         connection.ping(reconnect=True)
@@ -424,7 +424,7 @@ def add_customer():
                 break
 
         else:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(
                 Fore.RED
                 + """Customer's email address already exists. """
@@ -445,7 +445,7 @@ def add_customer():
         )
 
         if phone_number_input == "0":
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             break
 
         connection.ping(reconnect=True)
@@ -457,7 +457,7 @@ def add_customer():
         if cursor.fetchone() is None:
 
             if re.match(phone_pattern, phone_number_input) is None:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(
                     Fore.RED
                     + """Wrong phone number format. """
@@ -466,7 +466,7 @@ def add_customer():
                 continue
 
         else:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(
                 Fore.RED
                 + "Customer's phone number already exists. Cancelled.\n"
@@ -486,7 +486,7 @@ def add_customer():
             ),
         )
         connection.commit()
-        os.system("cls" if os.name == "nt" else "clear")
+        os.system("clear")
         print(Fore.GREEN + "Customer successfully added to database.\n")
 
         connection.ping(reconnect=True)
@@ -539,7 +539,7 @@ def update_customer():
                 update_customer_data(customer, "phone_number", "phone number")
 
             if choice == 5:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 break
 
 
@@ -616,7 +616,7 @@ def update_customer_data(customer, value, callable_value):
                 (value_input, customer["customer_id"]),
             )
             connection.commit()
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(
                 Fore.GREEN +
                 f"""The new {callable_value} for """ +
@@ -657,25 +657,25 @@ def show_customers():
         )
 
         if scroll == ">":
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             index += 1
             if index > len(result_list) - 1:
                 index = 0
             continue
 
         elif scroll == "<":
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             index -= 1
             if index < 0:
                 index = len(result_list) - 1
             continue
 
         elif scroll == "0":
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             break
 
         else:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Invalid input.\n")
             continue
 
@@ -708,17 +708,17 @@ def bookings_tables_menu():
             response = int(input("Please select a topic: \n"))
 
         except ValueError:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Please only enter numbers.\n")
             continue
 
         if response == 1:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             book_table()
             break
 
         elif response == 2:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             tables_return = check_available_tables(0)
             if len(tables_return) > 0:
 
@@ -736,16 +736,16 @@ def bookings_tables_menu():
                 continue
 
         elif response == 3:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             check_bookings()
 
         elif response == 4:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             main_menu()
             break
 
         else:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Please insert a valid number.\n")
 
 
@@ -795,16 +795,16 @@ def book_table():
                         input("Please select a table ID or 0 to cancel: \n")
                     )
                     if table_select == 0:
-                        os.system("cls" if os.name == "nt" else "clear")
+                        os.system("clear")
                         break
 
                 except ValueError:
-                    os.system("cls" if os.name == "nt" else "clear")
+                    os.system("clear")
                     print(Fore.RED + "Please only enter numbers.\n")
                     continue
                 else:
                     if table_select not in table_id_selection:
-                        os.system("cls" if os.name == "nt" else "clear")
+                        os.system("clear")
                         print(
                             Fore.RED
                             + "A table with that number is not available.\n"
@@ -812,7 +812,7 @@ def book_table():
                         book_table()
                         break
                     else:
-                        os.system("cls" if os.name == "nt" else "clear")
+                        os.system("clear")
                         break
 
             if table_select != 0:
@@ -835,7 +835,7 @@ def book_table():
                         continue
 
                     if choice == 1:
-                        os.system("cls" if os.name == "nt" else "clear")
+                        os.system("clear")
                         customer = add_customer()
 
                         if customer is not None:
@@ -848,7 +848,7 @@ def book_table():
                             break
 
                     if choice == 2:
-                        os.system("cls" if os.name == "nt" else "clear")
+                        os.system("clear")
                         customer = search_customer_attribute()
                         if customer is not None:
                             table_booking(
@@ -882,7 +882,7 @@ def book_table():
             bookings_tables_menu()
 
     else:
-        os.system("cls" if os.name == "nt" else "clear")
+        os.system("clear")
         print(Fore.RED + "Number cannot be negative or 0.")
         bookings_tables_menu()
 
@@ -930,7 +930,7 @@ def table_booking(customer, table_select, number_of_people):
         )
         connection.commit()
 
-    os.system("cls" if os.name == "nt" else "clear")
+    os.system("clear")
 
     print(
         Fore.GREEN +
@@ -1024,7 +1024,7 @@ def check_bookings():
         print("")
 
     else:
-        os.system("cls" if os.name == "nt" else "clear")
+        os.system("clear")
         print(Fore.RED + "No bookings found.")
 
 
@@ -1057,35 +1057,35 @@ def sales_carts_menu():
             response = int(input("Please select a topic: \n"))
 
         except ValueError:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Please only enter numbers.\n")
             continue
 
         if response == 1:
 
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
 
             cart = select_cart()
             if cart is not None:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 product = get_product_list()
                 if product is not None:
                     if product["available_amount"] > 0:
                         add_product_to_cart(cart, product)
                     else:
-                        os.system("cls" if os.name == "nt" else "clear")
+                        os.system("clear")
                         print(Fore.RED + "Not enough products left.")
                         continue
                 else:
                     continue
             else:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(Fore.RED + "No cart selected.\n")
                 continue
 
         elif response == 2:
 
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
 
             while True:
 
@@ -1117,7 +1117,7 @@ def sales_carts_menu():
                         LIMIT 1"""
                     )
                     last_cart = cursor.fetchone()
-                    os.system("cls" if os.name == "nt" else "clear")
+                    os.system("clear")
                     print(
                         Fore.GREEN +
                         """Successfully created cart """ +
@@ -1169,7 +1169,7 @@ def sales_carts_menu():
                                 continue
 
                             if selection == 0:
-                                os.system("cls" if os.name == "nt" else "clear")
+                                os.system("clear")
                                 break
 
                             elif selection in walk_in_ids:
@@ -1181,7 +1181,7 @@ def sales_carts_menu():
                                 continue
 
                     else:
-                        os.system("cls" if os.name == "nt" else "clear")
+                        os.system("clear")
                         print(
                             Fore.RED
                             + "There are currently no open walk-in carts.\n"
@@ -1189,7 +1189,7 @@ def sales_carts_menu():
                         continue
 
                 elif walk_input == 3:
-                    os.system("cls" if os.name == "nt" else "clear")
+                    os.system("clear")
                     break
 
                 else:
@@ -1197,20 +1197,20 @@ def sales_carts_menu():
                     continue
 
         elif response == 3:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             cart = select_cart()
             if cart is not None:
                 remove_product_from_cart(cart)
                 break
             else:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(Fore.RED + "No cart selected.")
                 continue
 
         elif response == 4:
 
             while True:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
 
                 print("""Do you want to finish a booking or """
                       """a walk-in purchase?\n""")
@@ -1228,17 +1228,17 @@ def sales_carts_menu():
                     continue
 
                 if purchase_selection == 1:
-                    os.system("cls" if os.name == "nt" else "clear")
+                    os.system("clear")
                     complete_purchase("booking")
                     break
 
                 elif purchase_selection == 2:
-                    os.system("cls" if os.name == "nt" else "clear")
+                    os.system("clear")
                     complete_purchase("walk-in")
                     break
 
                 elif purchase_selection == 3:
-                    os.system("cls" if os.name == "nt" else "clear")
+                    os.system("clear")
                     break
 
                 else:
@@ -1251,12 +1251,12 @@ def sales_carts_menu():
 
         elif response == 6:
 
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             main_menu()
             break
 
         else:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Please insert a valid number.\n")
 
 
@@ -1274,18 +1274,18 @@ def select_cart():
             selection_input = int(input("Please enter a number: \n"))
 
         except ValueError:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Please only enter numbers.\n")
             continue
 
         if selection_input == 1:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             search_type = "booking_id"
             search_value = select_cart_by_value("booking ID")
             break
 
         elif selection_input == 2:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             search_type = "table_id"
             search_value = select_cart_by_value("table ID")
             break
@@ -1299,7 +1299,7 @@ def select_cart():
             break
 
         else:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Invalid value.")
             continue
 
@@ -1326,7 +1326,7 @@ def select_cart():
 
         while True:
 
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
 
             print("The following carts are currently open:\n")
 
@@ -1349,7 +1349,7 @@ def select_cart():
                 )
 
             except ValueError:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(Fore.RED + "Please only enter numbers.\n")
                 continue
 
@@ -1365,12 +1365,12 @@ def select_cart():
                 return selected_cart
 
             else:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(Fore.RED + "Invalid input.")
                 continue
 
     else:
-        os.system("cls" if os.name == "nt" else "clear")
+        os.system("clear")
         print(Fore.RED + "No carts found.\n")
         sales_carts_menu()
 
@@ -1389,7 +1389,7 @@ def add_product_to_cart(cart, product):
             )
 
         except ValueError:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Please only use numbers.\n")
             continue
 
@@ -1397,12 +1397,12 @@ def add_product_to_cart(cart, product):
             break
 
         elif amount_input < 0:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Amount cannot be negative.\n")
             continue
 
         elif amount_input > product["available_amount"]:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(
                 Fore.RED +
                 """Not enough items left. The amount of the product """ +
@@ -1445,7 +1445,7 @@ def add_product_to_cart(cart, product):
                     (amount_input, product["product_id"]),
                 )
                 connection.commit()
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(
                     Fore.GREEN
                     + f"""{product['name']} was added {amount_input} """ +
@@ -1497,7 +1497,7 @@ def remove_product_from_cart(cart):
 
     if len(items_in_cart) > 0:
 
-        os.system("cls" if os.name == "nt" else "clear")
+        os.system("clear")
 
         while True:
 
@@ -1527,7 +1527,7 @@ def remove_product_from_cart(cart):
                 )
 
             except ValueError:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(Fore.RED + "Please use only numbers.\n")
                 continue
 
@@ -1539,12 +1539,12 @@ def remove_product_from_cart(cart):
                 break
 
             else:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(Fore.RED + "Invalid input.")
                 continue
 
     else:
-        os.system("cls" if os.name == "nt" else "clear")
+        os.system("clear")
         print(Fore.RED + "Cart is empty.")
         sales_carts_menu()
 
@@ -1596,7 +1596,7 @@ def remove_item(cart, product_id):
                 (product_id, cart["cart_id"]),
             )
             connection.commit()
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(
                 Fore.GREEN +
                 """Removed all products with ID """ +
@@ -1617,7 +1617,7 @@ def remove_item(cart, product_id):
                 (product_id, cart["cart_id"]),
             )
             connection.commit()
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(
                 Fore.GREEN +
                 f"""Removed all products with ID {product_id} """ +
@@ -1641,7 +1641,7 @@ def remove_item(cart, product_id):
                 (amount_input, product_id, cart["cart_id"]),
             )
             connection.commit()
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(
                 Fore.GREEN
                 + f"""Removed item {product_id} {amount_input} """ +
@@ -1663,7 +1663,7 @@ def select_cart_by_value(callable_value):
             )
 
         except ValueError:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Please only enter numbers.\n")
             continue
 
@@ -1694,7 +1694,7 @@ def add_walk_in_items(cart_id):
                 continue
 
         elif decision.lower() == "n":
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             break
 
         else:
@@ -1793,7 +1793,7 @@ def complete_purchase(purchase_type):
                     )
 
                 except ValueError:
-                    os.system("cls" if os.name == "nt" else "clear")
+                    os.system("clear")
                     print(Fore.RED + "Please only use numbers.\n")
                     continue
 
@@ -1801,12 +1801,12 @@ def complete_purchase(purchase_type):
                     break
 
                 elif decision in walk_in_ids:
-                    os.system("cls" if os.name == "nt" else "clear")
+                    os.system("clear")
                     complete_purchase_by_cart_id(decision)
                     break
 
                 else:
-                    os.system("cls" if os.name == "nt" else "clear")
+                    os.system("clear")
                     print(Fore.RED + "Invalid input.\n")
                     continue
 
@@ -1854,12 +1854,12 @@ def complete_purchase(purchase_type):
                     )
 
                 except ValueError:
-                    os.system("cls" if os.name == "nt" else "clear")
+                    os.system("clear")
                     print(Fore.RED + "Please only use numbers.\n")
                     continue
 
                 if decision == 0:
-                    os.system("cls" if os.name == "nt" else "clear")
+                    os.system("clear")
                     break
 
                 if decision in booking_ids:
@@ -1867,12 +1867,12 @@ def complete_purchase(purchase_type):
                     break
 
                 else:
-                    os.system("cls" if os.name == "nt" else "clear")
+                    os.system("clear")
                     print(Fore.RED + "Invalid input.\n")
                     continue
 
         else:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "There are currently no open bookings.\n")
 
 
@@ -1919,21 +1919,21 @@ def complete_purchase_by_cart_id(cart):
                 )
 
             except ValueError:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(Fore.RED + "Please only use numbers.\n")
                 continue
 
             if received == 0:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 break
 
             elif received < 0:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(Fore.RED + "Amount cannot be negative.\n")
                 continue
 
             elif received < total_price:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(Fore.RED + """Not enough money. """ +
                       f"""The sum is ${total_price:.2f}\n""")
                 continue
@@ -1952,7 +1952,7 @@ def complete_purchase_by_cart_id(cart):
                     "UPDATE cart SET payed=%s WHERE cart_id=%s", (1, cart)
                 )
                 connection.commit()
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(
                     Fore.GREEN
                     + f"""Cart {cart} successfully payed. """ +
@@ -1962,11 +1962,11 @@ def complete_purchase_by_cart_id(cart):
                 break
 
             else:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(Fore.RED + "Invalid input.\n")
                 continue
     else:
-        os.system("cls" if os.name == "nt" else "clear")
+        os.system("clear")
         print(Fore.RED + "There are no items in this cart.\n")
         sales_carts_menu()
 
@@ -2043,11 +2043,11 @@ def complete_purchase_booking(booking_id):
             )
 
         else:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Nobody bought anything.\n")
 
     else:
-        os.system("cls" if os.name == "nt" else "clear")
+        os.system("clear")
         print(Fore.RED + "No carts found.\n")
 
 
@@ -2115,7 +2115,7 @@ def get_money(price, ids, customer_id, table_id, booking_id):
                 (1, table_id),
             )
             connection.commit()
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(
                 Fore.GREEN +
                 f"""Booking {booking_id} successfully payed. """ +
@@ -2146,7 +2146,7 @@ def get_sales():
 
     if len(sales_data) > 0:
 
-        os.system("cls" if os.name == "nt" else "clear")
+        os.system("clear")
 
         print("The following sales were found:\n")
 
@@ -2160,7 +2160,7 @@ def get_sales():
             )
 
     else:
-        os.system("cls" if os.name == "nt" else "clear")
+        os.system("clear")
         print(Fore.RED + "There are no sales.\n")
 
 
@@ -2192,16 +2192,16 @@ def products_menu():
             response = int(input("Please select a topic: \n"))
 
         except ValueError:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Please only enter numbers.\n")
             continue
 
         if response == 1:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             add_product()
 
         elif response == 2:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             product = get_product_list()
             if product is not None:
                 update_product(product)
@@ -2210,17 +2210,17 @@ def products_menu():
                 continue
 
         elif response == 3:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             get_product_list(True)
             continue
 
         elif response == 4:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             main_menu()
             break
 
         else:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Please insert a valid number.\n")
 
 
@@ -2241,27 +2241,27 @@ def add_product():
             product_add_input = int(input("Please choose a category: \n"))
 
         except ValueError:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Please only use numbers.\n")
             continue
 
         if product_add_input == 1:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             add_product_by_category("cake", "cake")
             break
 
         if product_add_input == 2:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             add_product_by_category("cookie", "cookie")
             break
 
         if product_add_input == 3:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             add_product_by_category("main dish", "main dish")
             break
 
         if product_add_input == 4:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             add_product_by_category("drink", "drink")
             break
 
@@ -2269,7 +2269,7 @@ def add_product():
             break
 
         else:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Invalid input.\n")
             continue
 
@@ -2296,7 +2296,7 @@ def add_product_by_category(value, callable_value):
         """ Check if product name is already in use """
 
         if len(check_result) > 0:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(
                 Fore.RED
                 + "This name is already in use. Please choose another one.\n"
@@ -2304,7 +2304,7 @@ def add_product_by_category(value, callable_value):
             continue
 
         if name_input == "0":
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             break
 
         try:
@@ -2314,16 +2314,16 @@ def add_product_by_category(value, callable_value):
             )
 
         except ValueError:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Please only use numbers.\n")
             continue
 
         if amount_input == 0:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             break
 
         if amount_input < 0:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Number cannot be negative.\n")
             continue
 
@@ -2334,17 +2334,17 @@ def add_product_by_category(value, callable_value):
             price_input = input("Please enter the price or 0 to cancel: \n")
 
         except ValueError:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Please enter a floating-point number.\n")
 
         if price_input == "0":
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             break
 
         """ Check if price format is correct """
 
         if re.fullmatch(pattern, price_input) is None:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Wrong format. Example: 4.99\n")
             continue
 
@@ -2355,7 +2355,7 @@ def add_product_by_category(value, callable_value):
             (name_input, value, amount_input, float(price_input)),
         )
         connection.commit()
-        os.system("cls" if os.name == "nt" else "clear")
+        os.system("clear")
         print(Fore.GREEN + "Product successfully added to database.\n")
         break
 
@@ -2376,7 +2376,7 @@ def get_product_list(view_only=False):
             product_input = int(input("Please insert a number: \n"))
 
         except ValueError:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Please only use numbers.\n")
             continue
 
@@ -2414,7 +2414,7 @@ def get_product_list(view_only=False):
             break
 
         else:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Invalid input.\n")
             continue
 
@@ -2439,7 +2439,7 @@ def get_product_by_category(value, callable_value, view_only):
         index = 0
 
         while True:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print("+------- PRODUCT OVERVIEW -------+\n")
 
             print(Fore.YELLOW + f"Page {index + 1} / {len(result_list)}\n")
@@ -2475,7 +2475,7 @@ def get_product_by_category(value, callable_value, view_only):
                 break
 
             else:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(Fore.RED + "Invalid input.\n")
                 continue
 
@@ -2495,11 +2495,11 @@ def get_product_by_category(value, callable_value, view_only):
                     continue
 
                 if selection == 0:
-                    os.system("cls" if os.name == "nt" else "clear")
+                    os.system("clear")
                     break
 
                 elif selection in product_ids:
-                    os.system("cls" if os.name == "nt" else "clear")
+                    os.system("clear")
                     connection.ping(reconnect=True)
                     cursor.execute(
                         """SELECT SQL_NO_CACHE *
@@ -2520,7 +2520,7 @@ def get_product_by_category(value, callable_value, view_only):
                     continue
 
     else:
-        os.system("cls" if os.name == "nt" else "clear")
+        os.system("clear")
         print(Fore.RED + "No product has been found in that category.\n")
         return None
 
@@ -2543,37 +2543,37 @@ def update_product(product):
             update_input = int(input("Please select a number: \n"))
 
         except ValueError:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Please only use numbers.\n")
             continue
 
         if update_input == 1:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             update_product_by_value(product, "name", "name")
             break
 
         elif update_input == 2:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             update_product_by_value(product, "category", "category")
             break
 
         elif update_input == 3:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             update_product_by_value(product, "price", "price")
             break
 
         elif update_input == 4:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             update_product_by_value(product, "available_amount", "amount")
             break
 
         elif update_input == 5:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             products_menu()
             break
 
         else:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Invalid input.\n")
             continue
 
@@ -2591,7 +2591,7 @@ def update_product_by_value(product, value, callable_value):
         )
 
         if update_input == "cancel":
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             products_menu()
             break
 
@@ -2603,7 +2603,7 @@ def update_product_by_value(product, value, callable_value):
                 (update_input.title(), product["product_id"]),
             )
             connection.commit()
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(
                 Fore.GREEN
                 + f"""Name of {product['name']} was successfully changed """ +
@@ -2620,7 +2620,7 @@ def update_product_by_value(product, value, callable_value):
                     (update_input.lower(), product["product_id"]),
                 )
                 connection.commit()
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(
                     Fore.GREEN +
                     f"""Product {product['name']}'s {callable_value} """ +
@@ -2629,7 +2629,7 @@ def update_product_by_value(product, value, callable_value):
                 break
 
             else:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(
                     Fore.RED +
                     """Please only use the categories cake, """
@@ -2644,14 +2644,14 @@ def update_product_by_value(product, value, callable_value):
             pattern = r"^-?(0|\d+)\.\d{2}$"
 
             if re.fullmatch(pattern, update_input) is None:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(Fore.RED + "Wrong format. Example: 4.99\n")
                 continue
 
             float(update_input)
 
             if float(update_input) <= 0:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(Fore.RED + "The value cannot be 0 or negative.\n")
                 continue
 
@@ -2662,7 +2662,7 @@ def update_product_by_value(product, value, callable_value):
                     (update_input, product["product_id"]),
                 )
                 connection.commit()
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(
                     Fore.GREEN
                     + f"""Price of {product['name']} successfully """ +
@@ -2675,12 +2675,12 @@ def update_product_by_value(product, value, callable_value):
             try:
                 update_input = int(update_input)
             except ValueError:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(Fore.RED + "Please only use whole numbers.\n")
                 continue
 
             if update_input < 0:
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(Fore.RED + "A negative amount is not allowed.\n")
 
             else:
@@ -2692,7 +2692,7 @@ def update_product_by_value(product, value, callable_value):
                     (update_input, product["product_id"]),
                 )
                 connection.commit()
-                os.system("cls" if os.name == "nt" else "clear")
+                os.system("clear")
                 print(
                     Fore.GREEN
                     + f"""Available amount of {product['name']} """ +
@@ -2708,7 +2708,7 @@ def update_product_by_value(product, value, callable_value):
 
 
 def main():
-    os.system("cls" if os.name == "nt" else "clear")
+    os.system("clear")
 
     while True:
         pw_input = input(
@@ -2718,11 +2718,11 @@ def main():
         print("")
 
         if pw_input == admin_access:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             main_menu()
             break
         else:
-            os.system("cls" if os.name == "nt" else "clear")
+            os.system("clear")
             print(Fore.RED + "Wrong password.\n")
             continue
 
