@@ -36,9 +36,8 @@ try:
 
     """ Print error if database connection was not successful """
 
-except Error as e:
-
-    print(f"Error connecting to database. Shutting down...{e}")
+except Error:
+    print(Fore.RED + "Error connecting to database. Shutting down...")
     exit()
 
 """ Main Menu Start """
@@ -2599,6 +2598,4 @@ def main():
 """ Call Main Cycle """
 
 
-# main()
-
-main_menu()
+main()
