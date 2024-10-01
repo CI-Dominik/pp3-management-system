@@ -47,12 +47,9 @@ def main_menu():
     """Function to show the Main Menu of the system
     and get a choice for the next move"""
 
-    print("Welcome to Happy Life's Management System\n")
-    print("")
-
-    """ Display the Main Menu """
-
     while True:
+
+        print("Welcome to Happy Life's Management System\n")
 
         print("+------- MAIN MENU -------+")
         print("|                         |")
@@ -62,8 +59,7 @@ def main_menu():
         print("| 4. Products             |")
         print("| 5. Close program        |")
         print("|                         |")
-        print("---------------------------")
-        print("")
+        print("---------------------------\n")
 
         """ Get input and check for errors and invalid numbers """
 
@@ -2177,10 +2173,9 @@ def get_sales():
 def products_menu():
     """Display the Products Management Menu"""
 
-    print("You entered the Products Management System.\n")
-    print("")
-
     while True:
+
+        print("You entered the Products Management System.\n")
 
         print("+---------- PRODUCTS ----------+")
         print("|                              |")
@@ -2189,8 +2184,7 @@ def products_menu():
         print("| 3. Check wares               |")
         print("| 4. Main menu                 |")
         print("|                              |")
-        print("--------------------------------")
-        print("")
+        print("--------------------------------\n")
 
         """ Get input and check for errors and invalid numbers """
 
@@ -2198,13 +2192,16 @@ def products_menu():
             response = int(input("Please select a topic: \n"))
 
         except ValueError:
+            os.system("cls" if os.name == "nt" else "clear")
             print(Fore.RED + "Please only enter numbers.\n")
             continue
 
         if response == 1:
+            os.system("cls" if os.name == "nt" else "clear")
             add_product()
 
         elif response == 2:
+            os.system("cls" if os.name == "nt" else "clear")
             product = get_product_list()
             if product is not None:
                 update_product(product)
@@ -2213,6 +2210,7 @@ def products_menu():
                 continue
 
         elif response == 3:
+            os.system("cls" if os.name == "nt" else "clear")
             get_product_list(True)
             continue
 
@@ -2222,7 +2220,8 @@ def products_menu():
             break
 
         else:
-            print("Please insert a valid number.\n")
+            os.system("cls" if os.name == "nt" else "clear")
+            print(Fore.RED + "Please insert a valid number.\n")
 
 
 def add_product():
@@ -2230,35 +2229,39 @@ def add_product():
 
     while True:
 
-        print("Please select the category of product you want to add.")
+        print("Please select the category of product you want to add.\n")
         print("1. Cakes")
         print("2. Cookies")
         print("3. Main dishes")
         print("4. Drinks")
-        print("5. Cancel")
+        print("5. Cancel\n")
 
         try:
 
             product_add_input = int(input("Please choose a category: \n"))
 
         except ValueError:
+            os.system("cls" if os.name == "nt" else "clear")
             print(Fore.RED + "Please only use numbers.\n")
             continue
 
         if product_add_input == 1:
-
+            os.system("cls" if os.name == "nt" else "clear")
             add_product_by_category("cake", "cake")
             break
 
         if product_add_input == 2:
+            os.system("cls" if os.name == "nt" else "clear")
             add_product_by_category("cookie", "cookie")
             break
 
         if product_add_input == 3:
+            os.system("cls" if os.name == "nt" else "clear")
             add_product_by_category("main dish", "main dish")
             break
 
         if product_add_input == 4:
+            os.system("cls" if os.name == "nt" else "clear")
             add_product_by_category("drink", "drink")
             break
 
@@ -2266,7 +2269,8 @@ def add_product():
             break
 
         else:
-            print(Fore.RED + "Invalid input.")
+            os.system("cls" if os.name == "nt" else "clear")
+            print(Fore.RED + "Invalid input.\n")
             continue
 
 
@@ -2292,13 +2296,15 @@ def add_product_by_category(value, callable_value):
         """ Check if product name is already in use """
 
         if len(check_result) > 0:
+            os.system("cls" if os.name == "nt" else "clear")
             print(
                 Fore.RED
-                + "This name is already in use. Please choose another one."
+                + "This name is already in use. Please choose another one.\n"
             )
             continue
 
         if name_input == "0":
+            os.system("cls" if os.name == "nt" else "clear")
             break
 
         try:
@@ -2308,14 +2314,17 @@ def add_product_by_category(value, callable_value):
             )
 
         except ValueError:
+            os.system("cls" if os.name == "nt" else "clear")
             print(Fore.RED + "Please only use numbers.\n")
             continue
 
         if amount_input == 0:
+            os.system("cls" if os.name == "nt" else "clear")
             break
 
         if amount_input < 0:
-            print(Fore.RED + "Number cannot be negative.")
+            os.system("cls" if os.name == "nt" else "clear")
+            print(Fore.RED + "Number cannot be negative.\n")
             continue
 
         pattern = r"^\d+\.\d{2}$"
@@ -2325,16 +2334,18 @@ def add_product_by_category(value, callable_value):
             price_input = input("Please enter the price or 0 to cancel: \n")
 
         except ValueError:
-
-            print(Fore.RED + "Please enter a floating-point number.")
+            os.system("cls" if os.name == "nt" else "clear")
+            print(Fore.RED + "Please enter a floating-point number.\n")
 
         if price_input == "0":
+            os.system("cls" if os.name == "nt" else "clear")
             break
 
         """ Check if price format is correct """
 
         if re.fullmatch(pattern, price_input) is None:
-            print(Fore.RED + "Wrong format. Example: 4.99")
+            os.system("cls" if os.name == "nt" else "clear")
+            print(Fore.RED + "Wrong format. Example: 4.99\n")
             continue
 
         connection.ping(reconnect=True)
@@ -2344,8 +2355,8 @@ def add_product_by_category(value, callable_value):
             (name_input, value, amount_input, float(price_input)),
         )
         connection.commit()
-
-        print(Fore.GREEN + "Product successfully added to database.")
+        os.system("cls" if os.name == "nt" else "clear")
+        print(Fore.GREEN + "Product successfully added to database.\n")
         break
 
 
@@ -2354,12 +2365,12 @@ def get_product_list(view_only=False):
 
     while True:
 
-        print("Please select the category of items you want to show.")
+        print("Please select the category of items you want to show.\n")
         print("1. Cakes")
         print("2. Cookies")
         print("3. Main dishes")
         print("4. Drinks")
-        print("5. Cancel")
+        print("5. Cancel\n")
 
         try:
             product_input = int(input("Please insert a number: \n"))
@@ -2404,7 +2415,7 @@ def get_product_list(view_only=False):
 
         else:
             os.system("cls" if os.name == "nt" else "clear")
-            print(Fore.RED + "Invalid input.")
+            print(Fore.RED + "Invalid input.\n")
             continue
 
 
@@ -2484,6 +2495,7 @@ def get_product_by_category(value, callable_value, view_only):
                     continue
 
                 if selection == 0:
+                    os.system("cls" if os.name == "nt" else "clear")
                     break
 
                 elif selection in product_ids:
@@ -2497,7 +2509,8 @@ def get_product_by_category(value, callable_value, view_only):
                     )
                     product_return = cursor.fetchone()
                     print(
-                        Fore.GREEN + f"You selected {product_return['name']}."
+                        Fore.GREEN + """You selected """ +
+                        f"""{product_return['name']}.\n"""
                     )
                     return product_return
 
@@ -2518,43 +2531,50 @@ def update_product(product):
     while True:
         print(
             f"""Which attribute of {product['name']} """ +
-            f"""(ID: {product['product_id']}) do you want to change?"""
+            f"""(ID: {product['product_id']}) do you want to change?\n"""
         )
         print("1. Name")
         print("2. Category")
         print("3. Price")
         print("4. Amount")
-        print("5. Cancel")
+        print("5. Cancel\n")
 
         try:
             update_input = int(input("Please select a number: \n"))
 
         except ValueError:
+            os.system("cls" if os.name == "nt" else "clear")
             print(Fore.RED + "Please only use numbers.\n")
             continue
 
         if update_input == 1:
+            os.system("cls" if os.name == "nt" else "clear")
             update_product_by_value(product, "name", "name")
             break
 
         elif update_input == 2:
+            os.system("cls" if os.name == "nt" else "clear")
             update_product_by_value(product, "category", "category")
             break
 
         elif update_input == 3:
+            os.system("cls" if os.name == "nt" else "clear")
             update_product_by_value(product, "price", "price")
             break
 
         elif update_input == 4:
+            os.system("cls" if os.name == "nt" else "clear")
             update_product_by_value(product, "available_amount", "amount")
             break
 
         elif update_input == 5:
+            os.system("cls" if os.name == "nt" else "clear")
             products_menu()
             break
 
         else:
-            print(Fore.RED + "Invalid input.")
+            os.system("cls" if os.name == "nt" else "clear")
+            print(Fore.RED + "Invalid input.\n")
             continue
 
 
@@ -2571,6 +2591,7 @@ def update_product_by_value(product, value, callable_value):
         )
 
         if update_input == "cancel":
+            os.system("cls" if os.name == "nt" else "clear")
             products_menu()
             break
 
@@ -2582,10 +2603,11 @@ def update_product_by_value(product, value, callable_value):
                 (update_input.title(), product["product_id"]),
             )
             connection.commit()
+            os.system("cls" if os.name == "nt" else "clear")
             print(
                 Fore.GREEN
                 + f"""Name of {product['name']} was successfully changed """ +
-                f"""to {update_input.title()}."""
+                f"""to {update_input.title()}.\n"""
             )
             break
 
@@ -2598,19 +2620,20 @@ def update_product_by_value(product, value, callable_value):
                     (update_input.lower(), product["product_id"]),
                 )
                 connection.commit()
+                os.system("cls" if os.name == "nt" else "clear")
                 print(
                     Fore.GREEN +
                     f"""Product {product['name']}'s {callable_value} """ +
-                    f"""was successfully changed to {update_input}."""
+                    f"""was successfully changed to {update_input}.\n"""
                 )
                 break
 
             else:
-
+                os.system("cls" if os.name == "nt" else "clear")
                 print(
                     Fore.RED +
                     """Please only use the categories cake, """
-                    """cookie, main dish or drink."""
+                    """cookie, main dish or drink.\n"""
                 )
                 continue
 
@@ -2621,13 +2644,15 @@ def update_product_by_value(product, value, callable_value):
             pattern = r"^-?(0|\d+)\.\d{2}$"
 
             if re.fullmatch(pattern, update_input) is None:
-                print(Fore.RED + "Wrong format. Example: 4.99")
+                os.system("cls" if os.name == "nt" else "clear")
+                print(Fore.RED + "Wrong format. Example: 4.99\n")
                 continue
 
             float(update_input)
 
             if float(update_input) <= 0:
-                print(Fore.RED + "The value cannot be 0 or negative.")
+                os.system("cls" if os.name == "nt" else "clear")
+                print(Fore.RED + "The value cannot be 0 or negative.\n")
                 continue
 
             else:
@@ -2637,10 +2662,11 @@ def update_product_by_value(product, value, callable_value):
                     (update_input, product["product_id"]),
                 )
                 connection.commit()
+                os.system("cls" if os.name == "nt" else "clear")
                 print(
                     Fore.GREEN
                     + f"""Price of {product['name']} successfully """ +
-                    f"""updated to ${update_input}."""
+                    f"""updated to ${update_input}.\n"""
                 )
                 break
 
@@ -2649,11 +2675,13 @@ def update_product_by_value(product, value, callable_value):
             try:
                 update_input = int(update_input)
             except ValueError:
+                os.system("cls" if os.name == "nt" else "clear")
                 print(Fore.RED + "Please only use whole numbers.\n")
                 continue
 
             if update_input < 0:
-                print(Fore.RED + "A negative amount is not allowed.")
+                os.system("cls" if os.name == "nt" else "clear")
+                print(Fore.RED + "A negative amount is not allowed.\n")
 
             else:
                 connection.ping(reconnect=True)
@@ -2664,10 +2692,11 @@ def update_product_by_value(product, value, callable_value):
                     (update_input, product["product_id"]),
                 )
                 connection.commit()
+                os.system("cls" if os.name == "nt" else "clear")
                 print(
                     Fore.GREEN
                     + f"""Available amount of {product['name']} """ +
-                    """successfully updated to {update_input}."""
+                    f"""successfully updated to {update_input}.\n"""
                 )
                 break
 
