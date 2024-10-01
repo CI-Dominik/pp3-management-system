@@ -113,10 +113,9 @@ def main_menu():
 def customer_management_menu():
     """Display the Customer Management Menu"""
 
-    print("You entered the Customers Management System.\n")
-    print("")
-
     while True:
+
+        print("You entered the Customers Management System.\n")
 
         print("+------- CUSTOMERS -------+")
         print("|                         |")
@@ -126,8 +125,7 @@ def customer_management_menu():
         print("| 4. Show Customers       |")
         print("| 5. Main Menu            |")
         print("|                         |")
-        print("---------------------------")
-        print("")
+        print("---------------------------\n")
 
         """ Get input and check for errors and invalid numbers """
 
@@ -135,6 +133,7 @@ def customer_management_menu():
             response = int(input("Please select a topic: \n"))
 
         except ValueError:
+            os.system("cls" if os.name == "nt" else "clear")
             print(Fore.RED + "Please only enter numbers.\n")
             continue
 
@@ -160,6 +159,7 @@ def customer_management_menu():
             break
 
         else:
+            os.system("cls" if os.name == "nt" else "clear")
             print(Fore.RED + "Please insert a valid number.\n")
 
 
@@ -208,7 +208,7 @@ def search_customer_attribute(type=None, callable_type=None):
 
             elif search_input == 5:
                 os.system("cls" if os.name == "nt" else "clear")
-                customer_management_menu()
+                main_menu()
                 break
 
             else:
@@ -268,7 +268,7 @@ Phone number: {result[0]["phone_number"]}"""
 
     elif len(result) > 1:
 
-        print("")
+        os.system("cls" if os.name == "nt" else "clear")
         print(
             Fore.YELLOW
             + """Multiple entries have been found. Please use another """
@@ -359,8 +359,9 @@ Phone number: {result[0]["phone_number"]}"""
                                 + "Please enter y or n for your answer."
                             )
                 else:
+                    os.system("cls" if os.name == "nt" else "clear")
                     print(Fore.RED + "No entry with that ID found.")
-                    continue
+                    break
 
             elif choice == 2:
                 os.system("cls" if os.name == "nt" else "clear")
@@ -368,13 +369,14 @@ Phone number: {result[0]["phone_number"]}"""
                 break
 
             else:
+                os.system("cls" if os.name == "nt" else "clear")
                 print(Fore.RED + "Invalid input.")
+                break
 
     else:
         os.system("cls" if os.name == "nt" else "clear")
-        print(Fore.RED + "No entries found.")
+        print(Fore.RED + "No entries found.\n")
         print(Style.RESET_ALL)
-        print("")
         return None
 
 
@@ -388,6 +390,7 @@ def add_customer():
         )
 
         if f_name_input == "0":
+            os.system("cls" if os.name == "nt" else "clear")
             break
 
         l_name_input = input(
@@ -395,6 +398,7 @@ def add_customer():
         )
 
         if l_name_input == "0":
+            os.system("cls" if os.name == "nt" else "clear")
             break
 
         """ Check email address format """
@@ -404,6 +408,7 @@ def add_customer():
         )
 
         if email_input == "0":
+            os.system("cls" if os.name == "nt" else "clear")
             break
 
         connection.ping(reconnect=True)
@@ -423,6 +428,7 @@ def add_customer():
                 break
 
         else:
+            os.system("cls" if os.name == "nt" else "clear")
             print(
                 Fore.RED
                 + """Customer's email address already exists. """
@@ -443,6 +449,7 @@ def add_customer():
         )
 
         if phone_number_input == "0":
+            os.system("cls" if os.name == "nt" else "clear")
             break
 
         connection.ping(reconnect=True)
@@ -454,6 +461,7 @@ def add_customer():
         if cursor.fetchone() is None:
 
             if re.match(phone_pattern, phone_number_input) is None:
+                os.system("cls" if os.name == "nt" else "clear")
                 print(
                     Fore.RED
                     + """Wrong phone number format. """
@@ -462,6 +470,7 @@ def add_customer():
                 continue
 
         else:
+            os.system("cls" if os.name == "nt" else "clear")
             print(
                 Fore.RED
                 + "Customer's phone number already exists. Cancelled.\n"
@@ -536,9 +545,6 @@ def update_customer():
             if choice == 5:
                 os.system("cls" if os.name == "nt" else "clear")
                 break
-
-    else:
-        print(Fore.RED + "No customer selected.")
 
 
 def update_customer_data(customer, value, callable_value):
@@ -619,7 +625,7 @@ def update_customer_data(customer, value, callable_value):
                 Fore.GREEN +
                 f"""The new {callable_value} for """ +
                 f"""{customer["first_name"]} {customer["last_name"]} """ +
-                f"""was set to {value_input}."""
+                f"""was set to {value_input}.\n"""
             )
             break
 
@@ -655,12 +661,14 @@ def show_customers():
         )
 
         if scroll == ">":
+            os.system("cls" if os.name == "nt" else "clear")
             index += 1
             if index > len(result_list) - 1:
                 index = 0
             continue
 
         elif scroll == "<":
+            os.system("cls" if os.name == "nt" else "clear")
             index -= 1
             if index < 0:
                 index = len(result_list) - 1
@@ -685,10 +693,9 @@ def show_customers():
 def bookings_tables_menu():
     """Display the Bookings / Table Management Menu"""
 
-    print("You entered the Bookings / Tables Management System.\n")
-    print("")
-
     while True:
+
+        print("You entered the Bookings / Tables Management System.\n")
 
         print("+--------- BOOKINGS / TABLES ---------+")
         print("|                                     |")
@@ -697,8 +704,7 @@ def bookings_tables_menu():
         print("| 3. View open bookings               |")
         print("| 4. Main Menu                        |")
         print("|                                     |")
-        print("---------------------------------------")
-        print("")
+        print("---------------------------------------\n")
 
         """ Get input and check for errors and invalid numbers """
 
@@ -706,6 +712,7 @@ def bookings_tables_menu():
             response = int(input("Please select a topic: \n"))
 
         except ValueError:
+            os.system("cls" if os.name == "nt" else "clear")
             print(Fore.RED + "Please only enter numbers.\n")
             continue
 
@@ -741,6 +748,7 @@ def bookings_tables_menu():
             break
 
         else:
+            os.system("cls" if os.name == "nt" else "clear")
             print(Fore.RED + "Please insert a valid number.\n")
 
 
@@ -794,15 +802,18 @@ def book_table():
                         break
 
                 except ValueError:
+                    os.system("cls" if os.name == "nt" else "clear")
                     print(Fore.RED + "Please only enter numbers.\n")
                     continue
                 else:
                     if table_select not in table_id_selection:
+                        os.system("cls" if os.name == "nt" else "clear")
                         print(
                             Fore.RED
-                            + "A table with that number is not available."
+                            + "A table with that number is not available.\n"
                         )
-                        continue
+                        book_table()
+                        break
                     else:
                         os.system("cls" if os.name == "nt" else "clear")
                         break
@@ -827,6 +838,7 @@ def book_table():
                         continue
 
                     if choice == 1:
+                        os.system("cls" if os.name == "nt" else "clear")
                         customer = add_customer()
 
                         if customer is not None:
@@ -925,7 +937,7 @@ def table_booking(customer, table_select, number_of_people):
         Fore.GREEN +
         f"""Booking successfully created for {number_of_people} people. """ +
         """Each guest will receive a cart for their """ +
-        f"""seat at table {table_select}."""
+        f"""seat at table {table_select}.\n"""
     )
 
     connection.ping(reconnect=True)
@@ -2343,7 +2355,7 @@ def get_product_by_category(value, callable_value, view_only):
         index = 0
 
         while True:
-
+            os.system("cls" if os.name == "nt" else "clear")
             print("+------- PRODUCT OVERVIEW -------+\n")
 
             print(Fore.YELLOW + f"Page {index + 1} / {len(result_list)}\n")
@@ -2601,10 +2613,12 @@ def main():
         print("")
 
         if pw_input == admin_access:
+            os.system("cls" if os.name == "nt" else "clear")
             main_menu()
             break
         else:
-            print(Fore.RED + "Wrong password.")
+            os.system("cls" if os.name == "nt" else "clear")
+            print(Fore.RED + "Wrong password.\n")
             continue
 
 
@@ -2614,4 +2628,5 @@ def main():
 """ Call Main Cycle """
 
 
-main()
+# main()
+main_menu()
