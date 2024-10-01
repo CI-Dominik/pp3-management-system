@@ -309,7 +309,8 @@ To inform the user of possible mistakes, every menu input is secured by catching
 | Trying to update phone number with right format | Number should be written into database | Pass |
 | Trying to update phone number with wrong format | An error should appear and lead back | Pass |
 | | | |
-
+| Entering show customer data menu | Menu should appear in a list | Pass |
+| Entering show customer data menu with more than ten entries | Entries should be scrollable with "<" and ">" | Pass |
 
 ## Tables / Bookings Menu Testing
 
