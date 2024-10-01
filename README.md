@@ -10,27 +10,31 @@ The live system can be viewed here: [Link to the Restaurant Management System](h
 ## **TABLE OF CONTENTS**
 
 [**BRIEFING**](#briefing)
-  * PH
+  * [Happy Life's Management System](#happy-lifes-management-system)
+  * [Management of customers](#management-of-customers)
+  * [Bookings](#bookings)
+  * [Sales](#sales)
+  * [Products](#products)
 
 <br>
 
 [**PLANNING**](#planning)
-  * PH
+  * [The needs for Happy Life's management system](#the-needs-for-happy-lifes-management-system)
 
 <br>
 
 [**USER EXPERIENCE**](#user-experience)
-  * PH
+  * [Easy access and clear division](#easy-access-and-clear-division)
     
 <br>
 
 [**FEATURES**](#features)
-  * PH
-
-<br>
-
-[**MENU STRUCTURE**](#menu-structure)
-  * PH
+  * [Main Menu](#main-menu)
+  * [Customers Menu](#customers-menu)
+  * [Bookings / Tables Menu](#bookings--tables-menu)
+  * [Sales / Carts Menu](#sales--carts-menu)
+  * [Products Menu](#products-menu)
+  * [Database Structure](#database-structure)
     
 <br>
 
@@ -50,7 +54,7 @@ The live system can be viewed here: [Link to the Restaurant Management System](h
 <br>
 
 [**TESTING**](#testing)
-  * PH
+  * [Flake8](#flake8)
     
 <br>
 
@@ -123,23 +127,47 @@ To inform the user of possible mistakes, every menu input is secured by catching
 
 ## **FEATURES**
 
-## Heading
-* PH
+## Main Menu
+* The main menu is used as the access point for all sub-menus. From here, the user can reach every stage of the booking or sale progress that they like.
 
 <br>
 
-![Screenshot ---------------------------------](docs/---------------------------------.jpg)
+![Screenshot of the Main Menu](docs/menu_structure/menu_01.jpg)
 
----
-
-## **MENU STRUCTURE**
-
-## Heading
-* PH
+## Customers menu
+* The customers menu is used to search for a customer using data like the name (with possible duplicates but a listing of all customers with that name to choose one), email address, phone number or ID. The user can also insert new data, update them or show a scrollable list of all customers. Deletion of data is prohibited, as all employees get access to the terminal. Such data need to be erased in the MySQL management tool.
 
 <br>
 
-![Screenshot ---------------------------------](docs/---------------------------------.jpg)
+![Screenshot of the Customers menu](docs/menu_structure/menu_02.jpg)
+
+## Bookings / Tables Menu
+* In the menu for bookings and tables, the user is able to book a table for either a new customer, an exisiting one or just a guest who does not want to be inside the database. An overview over the available tables is present and open bookings can be displayed. Tables are free again after the purchase is complete.
+
+<br>
+
+![Screenshot of the Bookings and Tables menu](docs/menu_structure/menu_03.jpg)
+
+## Sales / Carts Menu
+* The sales and carts menu is used to add a product to an already exisiting cart, walk-in purchases can be completed without the need for a booking, products can be removed from an exisiting cart (also from walk-in carts), purchases can be completed and a list of all sales can be viewed in ascending order.
+
+<br>
+
+![Screenshot of the Sales and Carts Menu](docs/menu_structure/menu_04.jpg)
+
+## Products Menu
+* The products menu can be used to add products to the database, update existing products and check the wares in a scrollable list and sorted by category.
+
+<br>
+
+![Screenshot of the Products Menu](docs/menu_structure/menu_05.jpg)
+
+## Database Structure
+* All-Inkl was used to host a MySQL database. The structure represents the final variant of the available database for the terminal project.
+
+<br>
+
+![Screenshot of the Database structure](docs/database.jpg)
 
 ---
 
@@ -153,6 +181,15 @@ To inform the user of possible mistakes, every menu input is secured by catching
 
 ### MySQL Connector
 * The Python module mysql-connector was used to connect to the MySQL database and display errors for bugfixing.
+
+### Pycodestyle (Former PEP8)
+* The pycodestyle module was used to verify the code for pythonic structure.
+
+### Flake8
+* The Flake8 extension of Visual Studio Code was used to get a constant feedback about pythonic style.
+
+### Black
+* The black module was used to format some of the code.
 
 ### OS module
 * The Python module os was used to access operating system files.
@@ -182,7 +219,17 @@ To inform the user of possible mistakes, every menu input is secured by catching
 
 ## **TESTING**
 
-## Heading
+## General testing
+
+| Testing method | Expected result | Actual result |
+|:-------------:|:---------------:|:-------------:|
+| Entering text into fields that require integer values | An error should appear and return the user to the beginning of the loop | Pass |
+| Entering negative values into fields that require positive values | An error should appear and return the user to the beginning of the loop | Pass |
+| Entering values outside of the selection range | An error should appear and return the user to the beginning of the loop | Pass |
+| Entering numbers, texts and special signs into fields that require "y" or "n" | An error should appear and return the user to the beginning of the loop | Pass |
+| Entering a wrong password when starting the program | Access should be denied | Pass |
+
+## Main Menu
 
 | Testing method | Expected result | Actual result |
 |:-------------:|:---------------:|:-------------:|
@@ -190,25 +237,62 @@ To inform the user of possible mistakes, every menu input is secured by catching
 | TEXT | TEXT | TEXT |
 | TEXT | TEXT | TEXT |
 
-![Screenshot ---------------------------------](docs/---------------------------------.jpg)
+## Customer Management
+
+| Testing method | Expected result | Actual result |
+|:-------------:|:---------------:|:-------------:|
+| TEXT | TEXT | TEXT |
+| TEXT | TEXT | TEXT |
+| TEXT | TEXT | TEXT |
+
+## Tables / Bookings
+
+| Testing method | Expected result | Actual result |
+|:-------------:|:---------------:|:-------------:|
+| TEXT | TEXT | TEXT |
+| TEXT | TEXT | TEXT |
+| TEXT | TEXT | TEXT |
+
+## Sales / Carts
+
+| Testing method | Expected result | Actual result |
+|:-------------:|:---------------:|:-------------:|
+| TEXT | TEXT | TEXT |
+| TEXT | TEXT | TEXT |
+| TEXT | TEXT | TEXT |
+
+## Products
+
+| Testing method | Expected result | Actual result |
+|:-------------:|:---------------:|:-------------:|
+| TEXT | TEXT | TEXT |
+| TEXT | TEXT | TEXT |
+| TEXT | TEXT | TEXT |
 
 ---
 
 ## **VALIDATOR TESTING**
 
-### PEP8 Linter
-* The code was checked for errors using PEP8 Linter. No errors occured while testing.
+### Flake8
+* The code was checked for errors using the Flake8 extension for Visual Studio Code as a PEP8 control tool. No errors occured while testing the final product.
 
 <br>
 
-![Screenshot ---------------------------------](docs/---------------------------------.jpg)
+![Screenshot of the Flake8 testing](docs/flake8-validation.jpg)
+
+### Pycodestyle (Former PEP8)
+* After erasing all bugs pointed out from Flake8, the document was again checked using Pycodestyle. No errors occured.
+
+<br>
+
+![Screenshot of the Pycodestyle testing](docs/pycodestyle-validation.jpg)
 
 ---
 
 ## **BUGS**
 
 ## Unfixed bugs
-* PH
+* When accessing the list of scrollable data, the user first needs to enter 0 to cancel the scrolling before the value can be provided. Many versions were tried but no solution was found to that problem at the time of deployment. This issue needs to be addressed in the future.
 
 ---
 
@@ -247,8 +331,11 @@ PH ---------------------------------
 ## [Techsini](https://techsini.com/multi-mockup/index.php)
 * Used to create the mockup in the readme file.
 
-## [PEP8 Linter](https://pypi.org/project/pep8/)
+## [Pycodestyle (Former PEP8)](https://pypi.org/project/pycodestyle/)
 * Used to verify Python code.
+
+## [Black](https://pypi.org/project/black/)
+* Used to format the Python code.
 
 ## [drawsql](https://drawsql.app/)
 * Used to create the database diagram.

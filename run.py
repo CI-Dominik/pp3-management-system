@@ -1459,8 +1459,8 @@ def remove_product_from_cart(cart):
             print(
                 Fore.GREEN +
                 f"""Product ID: {item['product_id']}, """ +
-                """Product name: {item['name']}, Product """ +
-                """amount: {item['product_amount']}"""
+                f"""Product name: {item['name']}, Product """ +
+                f"""amount: {item['product_amount']}"""
             )
             item_ids.append(item["product_id"])
 
