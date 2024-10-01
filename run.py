@@ -1478,10 +1478,11 @@ def add_product_to_cart(cart, product):
                     (amount_input, product["product_id"]),
                 )
                 connection.commit()
+                os.system("clear")
                 print(
                     Fore.GREEN +
                     f"""{product['name']} was added {amount_input} """ +
-                    f"""times to cart {cart['cart_id']}."""
+                    f"""times to cart {cart['cart_id']}.\n"""
                 )
                 break
 
