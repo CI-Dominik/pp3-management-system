@@ -740,6 +740,7 @@ def bookings_tables_menu():
                 continue
 
         elif response == 3:
+            os.system("cls" if os.name == "nt" else "clear")
             check_bookings()
 
         elif response == 4:
@@ -933,6 +934,8 @@ def table_booking(customer, table_select, number_of_people):
         )
         connection.commit()
 
+    os.system("cls" if os.name == "nt" else "clear")
+
     print(
         Fore.GREEN +
         f"""Booking successfully created for {number_of_people} people. """ +
@@ -1011,8 +1014,6 @@ def check_bookings():
 
     if len(bookings) > 0:
 
-        os.system("cls" if os.name == "nt" else "clear")
-
         print("The following bookings are currently open:\n")
 
         for booking in bookings:
@@ -1039,10 +1040,9 @@ def check_bookings():
 def sales_carts_menu():
     """Display the Sales / Carts Management Menu"""
 
-    print("You entered the Sales / Carts Management System.\n")
-    print("")
-
     while True:
+
+        print("You entered the Sales / Carts Management System.\n")
 
         print("+------- SALES / CARTS -------+")
         print("|                             |")
@@ -1053,8 +1053,7 @@ def sales_carts_menu():
         print("| 5. View Sales               |")
         print("| 6. Main Menu                |")
         print("|                             |")
-        print("-------------------------------")
-        print("")
+        print("-------------------------------\n")
 
         """ Get input and check for errors and invalid numbers """
 
@@ -1062,37 +1061,45 @@ def sales_carts_menu():
             response = int(input("Please select a topic: \n"))
 
         except ValueError:
+            os.system("cls" if os.name == "nt" else "clear")
             print(Fore.RED + "Please only enter numbers.\n")
             continue
 
         if response == 1:
 
+            os.system("cls" if os.name == "nt" else "clear")
+
             cart = select_cart()
             if cart is not None:
+                os.system("cls" if os.name == "nt" else "clear")
                 product = get_product_list()
                 if product is not None:
                     if product["available_amount"] > 0:
                         add_product_to_cart(cart, product)
                     else:
+                        os.system("cls" if os.name == "nt" else "clear")
                         print(Fore.RED + "Not enough products left.")
                         continue
                 else:
                     continue
             else:
-                print(Fore.RED + "No cart selected.")
+                os.system("cls" if os.name == "nt" else "clear")
+                print(Fore.RED + "No cart selected.\n")
                 continue
 
         elif response == 2:
+
+            os.system("cls" if os.name == "nt" else "clear")
 
             while True:
 
                 print(
                     """Do you want to create a new walk-in """
-                    """cart or remove an exisiting one?"""
+                    """cart or remove an exisiting one?\n"""
                 )
                 print("1. Create new walk-in cart")
                 print("2. Remove exisiting walk-in cart")
-                print("3. Cancel")
+                print("3. Cancel\n")
 
                 try:
                     walk_input = int(input("Please select a number:\n"))
@@ -1114,6 +1121,7 @@ def sales_carts_menu():
                         LIMIT 1"""
                     )
                     last_cart = cursor.fetchone()
+                    os.system("cls" if os.name == "nt" else "clear")
                     print(
                         Fore.GREEN +
                         """Successfully created cart """ +
@@ -1124,6 +1132,7 @@ def sales_carts_menu():
                     break
 
                 elif walk_input == 2:
+
                     connection.ping(reconnect=True)
                     cursor.execute(
                         """SELECT SQL_NO_CACHE *
@@ -1137,17 +1146,20 @@ def sales_carts_menu():
 
                     if len(walk_in_carts) > 0:
 
-                        print(
-                            "The following walk-in carts are currently open:\n"
-                        )
-
-                        for cart in walk_in_carts:
-                            print(Fore.GREEN + f"Cart ID: {cart['cart_id']}")
-                            walk_in_ids.append(cart["cart_id"])
-
-                        print("")
-
                         while True:
+
+                            print(
+                                """The following walk-in carts are """
+                                """currently open:\n"""
+                            )
+
+                            for cart in walk_in_carts:
+                                print(Fore.GREEN + """Cart ID: """ +
+                                      f"""{cart['cart_id']}""")
+                                walk_in_ids.append(cart["cart_id"])
+
+                            print("")
+
                             try:
                                 selection = int(
                                     input(
@@ -1161,6 +1173,7 @@ def sales_carts_menu():
                                 continue
 
                             if selection == 0:
+                                os.system("cls" if os.name == "nt" else "clear")
                                 break
 
                             elif selection in walk_in_ids:
@@ -1172,13 +1185,15 @@ def sales_carts_menu():
                                 continue
 
                     else:
+                        os.system("cls" if os.name == "nt" else "clear")
                         print(
                             Fore.RED
-                            + "There are currently no open walk-in carts."
+                            + "There are currently no open walk-in carts.\n"
                         )
                         continue
 
                 elif walk_input == 3:
+                    os.system("cls" if os.name == "nt" else "clear")
                     break
 
                 else:
@@ -1186,23 +1201,26 @@ def sales_carts_menu():
                     continue
 
         elif response == 3:
-
+            os.system("cls" if os.name == "nt" else "clear")
             cart = select_cart()
             if cart is not None:
                 remove_product_from_cart(cart)
                 break
             else:
+                os.system("cls" if os.name == "nt" else "clear")
                 print(Fore.RED + "No cart selected.")
                 continue
 
         elif response == 4:
 
             while True:
+                os.system("cls" if os.name == "nt" else "clear")
 
-                print("Do you want to finish a booking or a walk-in purchase?")
+                print("""Do you want to finish a booking or """
+                      """a walk-in purchase?\n""")
                 print("1. Booking purchase")
                 print("2. Walk-in purchase")
-                print("3. Cancel")
+                print("3. Cancel\n")
 
                 try:
                     purchase_selection = int(
@@ -1214,14 +1232,17 @@ def sales_carts_menu():
                     continue
 
                 if purchase_selection == 1:
+                    os.system("cls" if os.name == "nt" else "clear")
                     complete_purchase("booking")
                     break
 
                 elif purchase_selection == 2:
+                    os.system("cls" if os.name == "nt" else "clear")
                     complete_purchase("walk-in")
                     break
 
                 elif purchase_selection == 3:
+                    os.system("cls" if os.name == "nt" else "clear")
                     break
 
                 else:
@@ -1239,6 +1260,7 @@ def sales_carts_menu():
             break
 
         else:
+            os.system("cls" if os.name == "nt" else "clear")
             print(Fore.RED + "Please insert a valid number.\n")
 
 
@@ -1256,28 +1278,32 @@ def select_cart():
             selection_input = int(input("Please enter a number: \n"))
 
         except ValueError:
+            os.system("cls" if os.name == "nt" else "clear")
             print(Fore.RED + "Please only enter numbers.\n")
             continue
 
         if selection_input == 1:
+            os.system("cls" if os.name == "nt" else "clear")
             search_type = "booking_id"
             search_value = select_cart_by_value("booking ID")
             break
 
-        if selection_input == 2:
+        elif selection_input == 2:
+            os.system("cls" if os.name == "nt" else "clear")
             search_type = "table_id"
             search_value = select_cart_by_value("table ID")
             break
 
-        if selection_input == 3:
+        elif selection_input == 3:
             search_type = "walk_in"
             search_value = 1
             break
 
-        if selection_input == 4:
+        elif selection_input == 4:
             break
 
         else:
+            os.system("cls" if os.name == "nt" else "clear")
             print(Fore.RED + "Invalid value.")
             continue
 
@@ -1304,6 +1330,8 @@ def select_cart():
 
         while True:
 
+            os.system("cls" if os.name == "nt" else "clear")
+
             print("The following carts are currently open:\n")
 
             for cart in open_carts:
@@ -1325,6 +1353,7 @@ def select_cart():
                 )
 
             except ValueError:
+                os.system("cls" if os.name == "nt" else "clear")
                 print(Fore.RED + "Please only enter numbers.\n")
                 continue
 
@@ -1340,11 +1369,13 @@ def select_cart():
                 return selected_cart
 
             else:
+                os.system("cls" if os.name == "nt" else "clear")
                 print(Fore.RED + "Invalid input.")
                 continue
 
     else:
-        print(Fore.RED + "No carts found.")
+        os.system("cls" if os.name == "nt" else "clear")
+        print(Fore.RED + "No carts found.\n")
         sales_carts_menu()
 
 
@@ -1362,6 +1393,7 @@ def add_product_to_cart(cart, product):
             )
 
         except ValueError:
+            os.system("cls" if os.name == "nt" else "clear")
             print(Fore.RED + "Please only use numbers.\n")
             continue
 
@@ -1369,10 +1401,12 @@ def add_product_to_cart(cart, product):
             break
 
         elif amount_input < 0:
-            print(Fore.RED + "Amount cannot be negative.")
+            os.system("cls" if os.name == "nt" else "clear")
+            print(Fore.RED + "Amount cannot be negative.\n")
             continue
 
         elif amount_input > product["available_amount"]:
+            os.system("cls" if os.name == "nt" else "clear")
             print(
                 Fore.RED +
                 """Not enough items left. The amount of the product """ +
@@ -1415,10 +1449,11 @@ def add_product_to_cart(cart, product):
                     (amount_input, product["product_id"]),
                 )
                 connection.commit()
+                os.system("cls" if os.name == "nt" else "clear")
                 print(
                     Fore.GREEN
                     + f"""{product['name']} was added {amount_input} """ +
-                    f"""times to cart {cart['cart_id']}."""
+                    f"""times to cart {cart['cart_id']}.\n"""
                 )
                 break
 
@@ -1466,20 +1501,25 @@ def remove_product_from_cart(cart):
 
     if len(items_in_cart) > 0:
 
-        item_ids = []
-
-        print(f"Inside cart {cart['cart_id']}, there are the following items:")
-
-        for item in items_in_cart:
-            print(
-                Fore.GREEN +
-                f"""Product ID: {item['product_id']}, """ +
-                f"""Product name: {item['name']}, Product """ +
-                f"""amount: {item['product_amount']}"""
-            )
-            item_ids.append(item["product_id"])
+        os.system("cls" if os.name == "nt" else "clear")
 
         while True:
+
+            item_ids = []
+
+            print(f"""Inside cart {cart['cart_id']}, """ +
+                  """there are the following items:\n""")
+
+            for item in items_in_cart:
+                print(
+                    Fore.GREEN +
+                    f"""Product ID: {item['product_id']}, """ +
+                    f"""Product name: {item['name']}, Product """ +
+                    f"""amount: {item['product_amount']}"""
+                )
+                item_ids.append(item["product_id"])
+
+            print("")
 
             try:
 
@@ -1491,7 +1531,8 @@ def remove_product_from_cart(cart):
                 )
 
             except ValueError:
-                print("Please use only numbers.\n")
+                os.system("cls" if os.name == "nt" else "clear")
+                print(Fore.RED + "Please use only numbers.\n")
                 continue
 
             if remove_input == 0:
@@ -1502,11 +1543,12 @@ def remove_product_from_cart(cart):
                 break
 
             else:
+                os.system("cls" if os.name == "nt" else "clear")
                 print(Fore.RED + "Invalid input.")
                 continue
 
     else:
-
+        os.system("cls" if os.name == "nt" else "clear")
         print(Fore.RED + "Cart is empty.")
         sales_carts_menu()
 
@@ -1545,12 +1587,7 @@ def remove_item(cart, product_id):
             """ Check the amount of products to remove """
 
         elif amount_input > product_in_cart["product_amount"]:
-            print(
-                Fore.RED
-                + f"""You tried to remove {amount_input} items, """ +
-                f"""but only {product_in_cart['product_amount']} """ +
-                """are available."""
-            )
+
             connection.ping(reconnect=True)
             cursor.execute(
                 """UPDATE products
@@ -1563,10 +1600,11 @@ def remove_item(cart, product_id):
                 (product_id, cart["cart_id"]),
             )
             connection.commit()
+            os.system("cls" if os.name == "nt" else "clear")
             print(
                 Fore.GREEN +
                 """Removed all products with ID """ +
-                f"""{product_id} from cart {cart['cart_id']}."""
+                f"""{product_id} from cart {cart['cart_id']}.\n"""
             )
             break
 
@@ -1583,10 +1621,11 @@ def remove_item(cart, product_id):
                 (product_id, cart["cart_id"]),
             )
             connection.commit()
+            os.system("cls" if os.name == "nt" else "clear")
             print(
                 Fore.GREEN +
                 f"""Removed all products with ID {product_id} """ +
-                f"""from cart {cart['cart_id']}."""
+                f"""from cart {cart['cart_id']}.\n"""
             )
             break
 
@@ -1606,10 +1645,11 @@ def remove_item(cart, product_id):
                 (amount_input, product_id, cart["cart_id"]),
             )
             connection.commit()
+            os.system("cls" if os.name == "nt" else "clear")
             print(
                 Fore.GREEN
                 + f"""Removed item {product_id} {amount_input} """ +
-                """times from cart {cart['cart_id']}."""
+                f"""times from cart {cart['cart_id']}.\n"""
             )
             break
 
@@ -1618,12 +1658,16 @@ def select_cart_by_value(callable_value):
     """Function to search cart by a specific attribute"""
 
     while True:
+
+        check_bookings()
+
         try:
             value_input = int(
                 input("Please input a " + callable_value + " to search by:\n")
             )
 
         except ValueError:
+            os.system("cls" if os.name == "nt" else "clear")
             print(Fore.RED + "Please only enter numbers.\n")
             continue
 
@@ -1654,6 +1698,7 @@ def add_walk_in_items(cart_id):
                 continue
 
         elif decision.lower() == "n":
+            os.system("cls" if os.name == "nt" else "clear")
             break
 
         else:
@@ -1719,9 +1764,9 @@ def complete_purchase(purchase_type):
         cursor.execute(
             """SELECT SQL_NO_CACHE *
             FROM cart
-            WHERE walk_in=%s
+            WHERE walk_in=%s AND payed=%s
             ORDER BY cart_id ASC""",
-            (1,),
+            (1, 0),
         )
         walk_in_carts = cursor.fetchall()
         walk_in_ids = []
@@ -1730,16 +1775,18 @@ def complete_purchase(purchase_type):
 
         if len(walk_in_carts) > 0:
 
-            print(
-                """The following walk-in carts are currently """
-                """open(newst entry on bottom):"""
-            )
-
-            for cart in walk_in_carts:
-                print(Fore.GREEN + f"Cart ID: {cart['cart_id']}")
-                walk_in_ids.append(cart["cart_id"])
-
             while True:
+
+                print(
+                    """The following walk-in carts are currently """
+                    """open(newst entry on bottom):\n"""
+                )
+
+                for cart in walk_in_carts:
+                    print(Fore.GREEN + f"Cart ID: {cart['cart_id']}")
+                    walk_in_ids.append(cart["cart_id"])
+
+                print("")
 
                 try:
                     decision = int(
@@ -1750,6 +1797,7 @@ def complete_purchase(purchase_type):
                     )
 
                 except ValueError:
+                    os.system("cls" if os.name == "nt" else "clear")
                     print(Fore.RED + "Please only use numbers.\n")
                     continue
 
@@ -1757,11 +1805,13 @@ def complete_purchase(purchase_type):
                     break
 
                 elif decision in walk_in_ids:
+                    os.system("cls" if os.name == "nt" else "clear")
                     complete_purchase_by_cart_id(decision)
                     break
 
                 else:
-                    print(Fore.RED + "Invalid input.")
+                    os.system("cls" if os.name == "nt" else "clear")
+                    print(Fore.RED + "Invalid input.\n")
                     continue
 
         else:
@@ -1778,26 +1828,28 @@ def complete_purchase(purchase_type):
             (1,),
         )
         bookings = cursor.fetchall()
-        booking_ids = []
 
         """ Check if there are open bookings """
 
         if len(bookings) > 0:
 
-            print("The following bookings are currently open:\n")
-
-            for booking in bookings:
-                print(
-                    Fore.GREEN
-                    + f"""Booking ID: {booking['booking_id']}, """ +
-                    f"""Customer ID: {booking['customer_id']}, """ +
-                    f"""Table ID: {booking['table_id']}, """ +
-                    f"""Amount of people: {booking['amount_of_people']}, """ +
-                    f"""Date: {booking['date']}\n"""
-                )
-                booking_ids.append(booking["booking_id"])
-
             while True:
+
+                booking_ids = []
+
+                print("The following bookings are currently open:\n")
+
+                for booking in bookings:
+                    print(
+                        Fore.GREEN
+                        + f"""Booking ID: {booking['booking_id']}, """ +
+                        f"""Customer ID: {booking['customer_id']}, """ +
+                        f"""Table ID: {booking['table_id']}, """ +
+                        """Amount of people: """ +
+                        f"""{booking['amount_of_people']}, """ +
+                        f"""Date: {booking['date']}\n"""
+                    )
+                    booking_ids.append(booking["booking_id"])
 
                 try:
 
@@ -1806,11 +1858,12 @@ def complete_purchase(purchase_type):
                     )
 
                 except ValueError:
-
+                    os.system("cls" if os.name == "nt" else "clear")
                     print(Fore.RED + "Please only use numbers.\n")
                     continue
 
                 if decision == 0:
+                    os.system("cls" if os.name == "nt" else "clear")
                     break
 
                 if decision in booking_ids:
@@ -1818,11 +1871,13 @@ def complete_purchase(purchase_type):
                     break
 
                 else:
-                    print(Fore.RED + "Invalid input.")
+                    os.system("cls" if os.name == "nt" else "clear")
+                    print(Fore.RED + "Invalid input.\n")
                     continue
 
         else:
-            print(Fore.RED + "There are currently no open bookings.")
+            os.system("cls" if os.name == "nt" else "clear")
+            print(Fore.RED + "There are currently no open bookings.\n")
 
 
 def complete_purchase_by_cart_id(cart):
@@ -1839,44 +1894,52 @@ def complete_purchase_by_cart_id(cart):
         (cart,),
     )
     purchase_data = cursor.fetchall()
-    total_price = 0
 
     if len(purchase_data) > 0:
 
-        print(f"The following items are in cart {cart}:\n")
-
-        for item in purchase_data:
-            print(
-                Fore.GREEN
-                + f"""Product ID: {item['product_id']}, """ +
-                f"""Product name: {item['name']}, """ +
-                f"""Amount: {item['product_amount']}, """ +
-                f"""Price: ${item['price']}"""
-            )
-            total_price += item["price"] * item["product_amount"]
-
-        print(Fore.YELLOW + f"The total price is: ${total_price:.2f}.")
-
         while True:
+
+            total_price = 0
+
+            print(f"The following items are in cart {cart}:\n")
+
+            for item in purchase_data:
+                print(
+                    Fore.GREEN +
+                    f"""Product ID: {item['product_id']}, """ +
+                    f"""Product name: {item['name']}, """ +
+                    f"""Amount: {item['product_amount']}, """ +
+                    f"""Price: ${item['price']}"""
+                )
+                total_price += item["price"] * item["product_amount"]
+
+            print("")
+
+            print(Fore.YELLOW + f"The total price is: ${total_price:.2f}.\n")
+
             try:
                 received = float(
                     input("Please insert money received or 0 to cancel: \n")
                 )
 
             except ValueError:
+                os.system("cls" if os.name == "nt" else "clear")
                 print(Fore.RED + "Please only use numbers.\n")
                 continue
 
             if received == 0:
+                os.system("cls" if os.name == "nt" else "clear")
                 break
 
             elif received < 0:
-                print(Fore.RED + "Amount cannot be negative.")
+                os.system("cls" if os.name == "nt" else "clear")
+                print(Fore.RED + "Amount cannot be negative.\n")
                 continue
 
             elif received < total_price:
+                os.system("cls" if os.name == "nt" else "clear")
                 print(Fore.RED + """Not enough money. """ +
-                      f"""The sum is {total_price:.2f}""")
+                      f"""The sum is ${total_price:.2f}\n""")
                 continue
 
             elif received >= total_price:
@@ -1893,20 +1956,22 @@ def complete_purchase_by_cart_id(cart):
                     "UPDATE cart SET payed=%s WHERE cart_id=%s", (1, cart)
                 )
                 connection.commit()
+                os.system("cls" if os.name == "nt" else "clear")
                 print(
                     Fore.GREEN
                     + f"""Cart {cart} successfully payed. """ +
-                    f"""The return money is ${return_amount:.2f}."""
+                    f"""The return money is ${return_amount:.2f}.\n"""
                 )
 
                 break
 
             else:
-                print(Fore.RED + "Invalid input.")
+                os.system("cls" if os.name == "nt" else "clear")
+                print(Fore.RED + "Invalid input.\n")
                 continue
     else:
         os.system("cls" if os.name == "nt" else "clear")
-        print(Fore.RED + "There are no items in this cart.")
+        print(Fore.RED + "There are no items in this cart.\n")
         sales_carts_menu()
 
 
@@ -1982,10 +2047,12 @@ def complete_purchase_booking(booking_id):
             )
 
         else:
-            print(Fore.RED + "Nobody bought anything.")
+            os.system("cls" if os.name == "nt" else "clear")
+            print(Fore.RED + "Nobody bought anything.\n")
 
     else:
-        print(Fore.RED + "No carts found.")
+        os.system("cls" if os.name == "nt" else "clear")
+        print(Fore.RED + "No carts found.\n")
 
 
 def get_money(price, ids, customer_id, table_id, booking_id):
@@ -2052,15 +2119,15 @@ def get_money(price, ids, customer_id, table_id, booking_id):
                 (1, table_id),
             )
             connection.commit()
-
+            os.system("cls" if os.name == "nt" else "clear")
             print(
                 Fore.GREEN +
                 f"""Booking {booking_id} successfully payed. """ +
-                f"""The return money is ${return_amount:.2f}."""
+                f"""The return money is ${return_amount:.2f}\n."""
             )
             print(
                 Fore.GREEN +
-                f"Table {table_id} is now again available for guests."
+                f"Table {table_id} is now again available for guests.\n"
             )
 
             break
@@ -2083,7 +2150,9 @@ def get_sales():
 
     if len(sales_data) > 0:
 
-        print("The following sales were found:")
+        os.system("cls" if os.name == "nt" else "clear")
+
+        print("The following sales were found:\n")
 
         for sale in sales_data:
             print(
@@ -2095,7 +2164,8 @@ def get_sales():
             )
 
     else:
-        print(Fore.RED + "There are no sales.")
+        os.system("cls" if os.name == "nt" else "clear")
+        print(Fore.RED + "There are no sales.\n")
 
 
 """ Sale Functions End """
@@ -2295,6 +2365,7 @@ def get_product_list(view_only=False):
             product_input = int(input("Please insert a number: \n"))
 
         except ValueError:
+            os.system("cls" if os.name == "nt" else "clear")
             print(Fore.RED + "Please only use numbers.\n")
             continue
 
@@ -2332,7 +2403,9 @@ def get_product_list(view_only=False):
             break
 
         else:
+            os.system("cls" if os.name == "nt" else "clear")
             print(Fore.RED + "Invalid input.")
+            continue
 
 
 def get_product_by_category(value, callable_value, view_only):
@@ -2414,6 +2487,7 @@ def get_product_by_category(value, callable_value, view_only):
                     break
 
                 elif selection in product_ids:
+                    os.system("cls" if os.name == "nt" else "clear")
                     connection.ping(reconnect=True)
                     cursor.execute(
                         """SELECT SQL_NO_CACHE *
@@ -2428,11 +2502,13 @@ def get_product_by_category(value, callable_value, view_only):
                     return product_return
 
                 else:
-                    print(Fore.RED + "No product with that number available.")
+                    print(Fore.RED + """No product with that """
+                          """number available.\n""")
                     continue
 
     else:
-        print(Fore.RED + "No product has been found in that category.")
+        os.system("cls" if os.name == "nt" else "clear")
+        print(Fore.RED + "No product has been found in that category.\n")
         return None
 
 
