@@ -1130,8 +1130,10 @@ def sales_carts_menu():
                         )
 
                         for cart in walk_in_carts:
-                            print(f"Cart ID: {cart['cart_id']}")
+                            print(Fore.GREEN + f"Cart ID: {cart['cart_id']}")
                             walk_in_ids.append(cart["cart_id"])
+
+                        print("")
 
                         while True:
                             try:
@@ -1808,7 +1810,7 @@ def complete_purchase(purchase_type):
                     continue
 
         else:
-            print("There are currently no open bookings.")
+            print(Fore.RED + "There are currently no open bookings.")
 
 
 def complete_purchase_by_cart_id(cart):
@@ -1827,64 +1829,73 @@ def complete_purchase_by_cart_id(cart):
     purchase_data = cursor.fetchall()
     total_price = 0
 
-    print(f"The following items are in cart {cart}:\n")
+    if len(purchase_data) > 0:
 
-    for item in purchase_data:
-        print(
-            Fore.GREEN
-            + f"""Product ID: {item['product_id']}, """ +
-            f"""Product name: {item['name']}, """ +
-            f"""Amount: {item['product_amount']}, """ +
-            f"""Price: ${item['price']}"""
-        )
-        total_price += item["price"] * item["product_amount"]
+        print(f"The following items are in cart {cart}:\n")
 
-    print(Fore.YELLOW + f"The total price is: ${total_price:.2f}.")
-
-    while True:
-        try:
-            received = float(
-                input("Please insert money received or 0 to cancel: \n")
-            )
-
-        except ValueError:
-            print(Fore.RED + "Please only use numbers.\n")
-            continue
-
-        if received == 0:
-            break
-
-        elif received < 0:
-            print(Fore.RED + "Amount cannot be negative.")
-            continue
-
-        elif received < total_price:
-            print(Fore.RED + f"Not enough money. The sum is {total_price:.2f}")
-            continue
-
-        elif received >= total_price:
-            return_amount = received - total_price
-            connection.ping(reconnect=True)
-            cursor.execute(
-                "INSERT INTO sold_products (cart_id, date) VALUES (%s, %s)",
-                (cart, datetime.today().strftime("%Y-%m-%d")),
-            )
-            cursor.execute("DELETE FROM cart_items WHERE cart_id=%s", (cart,))
-            cursor.execute(
-                "UPDATE cart SET payed=%s WHERE cart_id=%s", (1, cart)
-            )
-            connection.commit()
+        for item in purchase_data:
             print(
                 Fore.GREEN
-                + f"""Cart {cart} successfully payed. """ +
-                f"""The return money is ${return_amount:.2f}."""
+                + f"""Product ID: {item['product_id']}, """ +
+                f"""Product name: {item['name']}, """ +
+                f"""Amount: {item['product_amount']}, """ +
+                f"""Price: ${item['price']}"""
             )
+            total_price += item["price"] * item["product_amount"]
 
-            break
+        print(Fore.YELLOW + f"The total price is: ${total_price:.2f}.")
 
-        else:
-            print(Fore.RED + "Invalid input.")
-            continue
+        while True:
+            try:
+                received = float(
+                    input("Please insert money received or 0 to cancel: \n")
+                )
+
+            except ValueError:
+                print(Fore.RED + "Please only use numbers.\n")
+                continue
+
+            if received == 0:
+                break
+
+            elif received < 0:
+                print(Fore.RED + "Amount cannot be negative.")
+                continue
+
+            elif received < total_price:
+                print(Fore.RED + """Not enough money. """ +
+                      f"""The sum is {total_price:.2f}""")
+                continue
+
+            elif received >= total_price:
+                return_amount = received - total_price
+                connection.ping(reconnect=True)
+                cursor.execute(
+                    """INSERT INTO sold_products (cart_id, date)
+                    VALUES (%s, %s)""",
+                    (cart, datetime.today().strftime("%Y-%m-%d")),
+                )
+                cursor.execute("""DELETE FROM cart_items
+                               WHERE cart_id=%s""", (cart,))
+                cursor.execute(
+                    "UPDATE cart SET payed=%s WHERE cart_id=%s", (1, cart)
+                )
+                connection.commit()
+                print(
+                    Fore.GREEN
+                    + f"""Cart {cart} successfully payed. """ +
+                    f"""The return money is ${return_amount:.2f}."""
+                )
+
+                break
+
+            else:
+                print(Fore.RED + "Invalid input.")
+                continue
+    else:
+        os.system("cls" if os.name == "nt" else "clear")
+        print(Fore.RED + "There are no items in this cart.")
+        sales_carts_menu()
 
 
 def complete_purchase_booking(booking_id):
@@ -2438,21 +2449,25 @@ def update_product(product):
             update_product_by_value(product, "name", "name")
             break
 
-        if update_input == 2:
+        elif update_input == 2:
             update_product_by_value(product, "category", "category")
             break
 
-        if update_input == 3:
+        elif update_input == 3:
             update_product_by_value(product, "price", "price")
             break
 
-        if update_input == 4:
+        elif update_input == 4:
             update_product_by_value(product, "available_amount", "amount")
             break
 
-        if update_input == 5:
+        elif update_input == 5:
             products_menu()
             break
+
+        else:
+            print(Fore.RED + "Invalid input.")
+            continue
 
 
 def update_product_by_value(product, value, callable_value):
