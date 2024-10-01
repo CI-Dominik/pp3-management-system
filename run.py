@@ -969,6 +969,7 @@ def table_booking(customer, table_select, number_of_people):
                 VALUES (%s, %s, %s, %s)""",
                 (last_booking["booking_id"], seat_counter, table_select, 0),
             )
+            seat_counter += 1
             connection.commit()
 
     bookings_tables_menu()
@@ -1651,7 +1652,7 @@ def remove_walk_in_cart(cart_id):
 
     connection.ping(reconnect=True)
     cursor.execute(
-        "SELECT SQL_NO_CACHE * FROM cart_items WHERE cart_id=%s AND payed=%s",
+        "SELECT SQL_NO_CACHE * FROM cart WHERE cart_id=%s AND payed=%s",
         (cart_id, 0),
     )
     cart_data = cursor.fetchall()
