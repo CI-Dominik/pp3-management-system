@@ -3,8 +3,6 @@ This restaurant management system was designed to manage the data of customers, 
 
 The live system can be viewed here: [Link to the Restaurant Management System](https://pp3-management-system-30090303934b.herokuapp.com/ "Link to the live website")
 
-![Mockup image of the Restaurant Management System](docs/mockup.jpg)
-
 ---
 
 ## **TABLE OF CONTENTS**
@@ -34,7 +32,10 @@ The live system can be viewed here: [Link to the Restaurant Management System](h
   * [Bookings / Tables Menu](#bookings--tables-menu)
   * [Sales / Carts Menu](#sales--carts-menu)
   * [Products Menu](#products-menu)
+
+[**STRUCTURING**](#structuring)
   * [Database Structure](#database-structure)
+  * [Flowchart Structure](#flowchart-structure)
     
 <br>
 
@@ -42,6 +43,9 @@ The live system can be viewed here: [Link to the Restaurant Management System](h
   * [Python](#python)
   * [MySQL](#mysql)
   * [MySQL Connector](#mysql-connector)
+  * [Pycodestyle (Former PEP8)](#pycodestyle-former-pep8)
+  * [Flake8](#flake8)
+  * [Black](#black)
   * [OS module](#os-module)
   * [RE module](#re-module)
   * [dotenv](#dotenv)
@@ -54,12 +58,17 @@ The live system can be viewed here: [Link to the Restaurant Management System](h
 <br>
 
 [**TESTING**](#testing)
-  * [Flake8](#flake8)
+  * [General Testing](#general-testing)
+  * [Main Menu Testing](#main-menu-testing)
+  * [Customer Management Menu Testing](#customer-management-menu-testing)
+  * [Tables / Bookings Menu Testing](#tables--bookings-menu-testing)
+  * [Sales / Carts Menu Testing](#sales--carts-menu-testing)
+  * [Products Menu Testing](#products-menu-testing)
     
 <br>
 
 [**VALIDATOR TESTING**](#validator-testing)
-  * [PEP8 Linter](#pep8-linter)
+  * [Pycodestyle (Former PEP8)](#pycodestyle-former-pep8-1)
 
 <br>
 
@@ -74,12 +83,21 @@ The live system can be viewed here: [Link to the Restaurant Management System](h
     * [Cloning, committing and pushing via Visual Studio Code](#cloning-committing-and-pushing-via-visual-studio-code)
     * [Deployed page on GitHub](#deployed-page-on-github)
   * [Heroku](#heroku)
+    * [Creating a new app](#creating-a-new-app)
+    * [Naming the app](#naming-the-app)
+    * [Deploy the app](#deploy-the-app)
+    * [Configure possible Config Vars](#configure-possible-config-vars)
+    * [Add buildpacks to the project](#add-buildpacks-to-the-project)
+    * [Select a branch to deploy](#select-a-branch-to-deploy)
+    * [Waiting for the project to deploy](#waiting-for-the-project-to-deploy)
     
 <br>
 
 [**CREDITS**](#credits)
-  * [Techsini](#techsini)
-  * [PEP8 Linter](#pep8-linter-1)
+  * [Pycodestyle (Former PEP8)](#pycodestyle-former-pep8-2)
+  * [Black](#black-1)
+  * [drawsql](#drawsql)
+  * [Lucidchart](#lucidchart)
   * [W3Schools](#w3schools)
   * [YouTube](#youtube)
   * [ChatGPT](#chatgpt)
@@ -162,12 +180,41 @@ To inform the user of possible mistakes, every menu input is secured by catching
 
 ![Screenshot of the Products Menu](docs/menu_structure/menu_05.jpg)
 
+--- 
+
+## **STRUCTURING**
+
 ## Database Structure
 * All-Inkl was used to host a MySQL database. The structure represents the final variant of the available database for the terminal project.
 
 <br>
 
 ![Screenshot of the Database structure](docs/database.jpg)
+
+## Flowchart Structure
+* Basic flowcharts of every menu are displayed to lay out the functions of the menu items.
+
+<br>
+
+![Screenshot of Flowchart 01](docs/flowcharts/01-main-menu.jpg)
+
+<br>
+
+![Screenshot of Flowchart 02](docs/flowcharts/02-customer-menu.jpg)
+
+<br>
+
+![Screenshot of Flowchart 03](docs/flowcharts/03-bookings-tables-menu.jpg)
+
+<br>
+
+![Screenshot of Flowchart 04](docs/flowcharts/04-sales-carts-menu.jpg)
+
+<br>
+
+![Screenshot of Flowchart 05](docs/flowcharts/05-products-menu.jpg)
+
+<br>
 
 ---
 
@@ -229,7 +276,7 @@ To inform the user of possible mistakes, every menu input is secured by catching
 | Entering numbers, texts and special signs into fields that require "y" or "n" | An error should appear and return the user to the beginning of the loop | Pass |
 | Entering a wrong password when starting the program | Access should be denied | Pass |
 
-## Main Menu
+## Main Menu Testing
 
 | Testing method | Expected result | Actual result |
 |:-------------:|:---------------:|:-------------:|
@@ -237,7 +284,7 @@ To inform the user of possible mistakes, every menu input is secured by catching
 | TEXT | TEXT | TEXT |
 | TEXT | TEXT | TEXT |
 
-## Customer Management
+## Customer Management Menu Testing
 
 | Testing method | Expected result | Actual result |
 |:-------------:|:---------------:|:-------------:|
@@ -245,7 +292,7 @@ To inform the user of possible mistakes, every menu input is secured by catching
 | TEXT | TEXT | TEXT |
 | TEXT | TEXT | TEXT |
 
-## Tables / Bookings
+## Tables / Bookings Menu Testing
 
 | Testing method | Expected result | Actual result |
 |:-------------:|:---------------:|:-------------:|
@@ -253,7 +300,7 @@ To inform the user of possible mistakes, every menu input is secured by catching
 | TEXT | TEXT | TEXT |
 | TEXT | TEXT | TEXT |
 
-## Sales / Carts
+## Sales / Carts Menu Testing
 
 | Testing method | Expected result | Actual result |
 |:-------------:|:---------------:|:-------------:|
@@ -261,7 +308,7 @@ To inform the user of possible mistakes, every menu input is secured by catching
 | TEXT | TEXT | TEXT |
 | TEXT | TEXT | TEXT |
 
-## Products
+## Products Menu Testing
 
 | Testing method | Expected result | Actual result |
 |:-------------:|:---------------:|:-------------:|
@@ -322,14 +369,70 @@ Once you start Visual Studio Code with no connection, you simply need to click o
 
 ## Heroku
 
-PH ---------------------------------
+### Creating a new app
+* In the dashboard, navigate to the button *New* and *Create new app*.
+
+<br>
+
+![Screenshot of Heroku deployment 01](docs/heroku/01.jpg)
+
+### Naming the app
+* Give the app a new name and select the host region (US/EU). Then click *Create app*.
+
+<br>
+
+![Screenshot of Heroku deployment 02](docs/heroku/02.jpg)
+
+### Deploy the app
+* Click on the *Deploy* button on the top. In the bottom, select the platform on which the code is hosted, select the username and insert the name of the repository. GitHub was chosen here.
+
+<br>
+
+![Screenshot of Heroku deployment 03](docs/heroku/03.jpg)
+
+<br>
+
+![Screenshot of Heroku deployment 04](docs/heroku/04.jpg)
+
+### Configure possible Config Vars
+* Config vars are a way to securely store need information for connections like the MySQL connection used in this project. Insert a key and value pair and add it.
+
+<br>
+
+![Screenshot of Heroku deployment 05](docs/heroku/05.jpg)
+
+### Add buildpacks to the project
+* Buildpacks are needed to use the Code Institute Python Template. Node.js and Python need to be added for it to work.
+
+<br>
+
+![Screenshot of Heroku deployment 06](docs/heroku/06.jpg)
+
+<br>
+
+![Screenshot of Heroku deployment 07](docs/heroku/07.jpg)
+
+### Select a branch to deploy
+* A GitHub branch that should be deployed can be found on the *Deploy* page. Here, the main branch was used to create the project.
+
+<br>
+
+![Screenshot of Heroku deployment 08](docs/heroku/08.jpg)
+
+### Waiting for the project to deploy
+* A window with all needed pieces of information will be displayed to inform the user of the current action. After successfully deploying the app, a *View* button will appear. It contains the link to the live site.
+
+<br>
+
+![Screenshot of Heroku deployment 01](docs/heroku/09.jpg)
+
+<br>
+
+![Screenshot of Heroku deployment 10](docs/heroku/10.jpg)
 
 ---
 
 ## **CREDITS**
-
-## [Techsini](https://techsini.com/multi-mockup/index.php)
-* Used to create the mockup in the readme file.
 
 ## [Pycodestyle (Former PEP8)](https://pypi.org/project/pycodestyle/)
 * Used to verify Python code.
