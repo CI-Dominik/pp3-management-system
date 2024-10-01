@@ -906,7 +906,7 @@ def table_booking(customer, table_select, number_of_people):
     else:
         connection.ping(reconnect=True)
         cursor.execute(
-            """INSERT INTO bookings (table_id, amount_of_people, 
+            """INSERT INTO bookings (table_id, amount_of_people,
             date, active) VALUES (%s, %s, %s, %s)""",
             (
                 table_select,
@@ -1293,14 +1293,16 @@ def select_cart():
             print("The following carts are currently open:\n")
 
             for cart in open_carts:
+
                 print(
+                    Fore.GREEN +
                     f"""Seat number: {cart['seat_number']}: """ +
                     f"""Cart ID: {cart['cart_id']}, Customer ID: """ +
                     f"""{cart['customer_id']}, Booking ID: """ +
                     f"""{cart['booking_id']}"""
                 )
-            try:
 
+            try:
                 cart_input = int(
                     input(
                         """Please select a cart ID to add a """
@@ -1393,13 +1395,16 @@ def add_product_to_cart(cart, product):
                 )
                 connection.commit()
                 cursor.execute(
-                    "UPDATE products SET available_amount=available_amount - %s WHERE product_id=%s",
+                    """UPDATE products
+                    SET available_amount=available_amount - %s
+                    WHERE product_id=%s""",
                     (amount_input, product["product_id"]),
                 )
                 connection.commit()
                 print(
                     Fore.GREEN
-                    + f"{product['name']} was added {amount_input} times to cart {cart['cart_id']}."
+                    + f"""{product['name']} was added {amount_input} """ +
+                    f"""times to cart {cart['cart_id']}."""
                 )
                 break
 
@@ -1407,18 +1412,23 @@ def add_product_to_cart(cart, product):
 
                 connection.ping(reconnect=True)
                 cursor.execute(
-                    "INSERT INTO cart_items (cart_id, product_id, product_amount) VALUES (%s, %s, %s)",
+                    """INSERT INTO cart_items (cart_id, product_id,
+                    product_amount)
+                    VALUES (%s, %s, %s)""",
                     (cart["cart_id"], product["product_id"], amount_input),
                 )
                 connection.commit()
                 cursor.execute(
-                    "UPDATE products SET available_amount=available_amount - %s WHERE product_id=%s",
+                    """UPDATE products
+                    SET available_amount=available_amount - %s
+                    WHERE product_id=%s""",
                     (amount_input, product["product_id"]),
                 )
                 connection.commit()
                 print(
-                    Fore.GREEN
-                    + f"{product['name']} was added {amount_input} times to cart {cart['cart_id']}."
+                    Fore.GREEN +
+                    f"""{product['name']} was added {amount_input} """ +
+                    f"""times to cart {cart['cart_id']}."""
                 )
                 break
 
@@ -1428,7 +1438,12 @@ def remove_product_from_cart(cart):
 
     connection.ping(reconnect=True)
     cursor.execute(
-        "SELECT SQL_NO_CACHE cart_items.cart_id, cart_items.product_id, cart_items.product_amount, products.name FROM cart_items LEFT JOIN products ON cart_items.product_id = products.product_id WHERE cart_items.cart_id=%s",
+        """SELECT SQL_NO_CACHE cart_items.cart_id, cart_items.product_id,
+        cart_items.product_amount, products.name
+        FROM cart_items
+        LEFT JOIN products
+        ON cart_items.product_id = products.product_id
+        WHERE cart_items.cart_id=%s""",
         (cart["cart_id"],),
     )
     items_in_cart = cursor.fetchall()
@@ -1443,8 +1458,10 @@ def remove_product_from_cart(cart):
 
         for item in items_in_cart:
             print(
-                Fore.GREEN
-                + f"Product ID: {item['product_id']}, Product name: {item['name']}, Product amount: {item['product_amount']}"
+                Fore.GREEN +
+                f"""Product ID: {item['product_id']}, """ +
+                """Product name: {item['name']}, Product """ +
+                """amount: {item['product_amount']}"""
             )
             item_ids.append(item["product_id"])
 
@@ -1454,7 +1471,8 @@ def remove_product_from_cart(cart):
 
                 remove_input = int(
                     input(
-                        "Please select the item ID of the product to remove or 0 to cancel:\n"
+                        """Please select the item ID of the """
+                        """product to remove or 0 to cancel:\n"""
                     )
                 )
 
@@ -1484,7 +1502,10 @@ def remove_item(cart, product_id):
 
     connection.ping(reconnect=True)
     cursor.execute(
-        "SELECT SQL_NO_CACHE * FROM cart_items WHERE product_id=%s AND cart_id=%s",
+        """SELECT SQL_NO_CACHE *
+        FROM cart_items
+        WHERE product_id=%s
+        AND cart_id=%s""",
         (product_id, cart["cart_id"]),
     )
     product_in_cart = cursor.fetchone()
@@ -1512,11 +1533,15 @@ def remove_item(cart, product_id):
         elif amount_input > product_in_cart["product_amount"]:
             print(
                 Fore.RED
-                + f"You tried to remove {amount_input} items, but only {product_in_cart['product_amount']} are available."
+                + f"""You tried to remove {amount_input} items, """ +
+                f"""but only {product_in_cart['product_amount']} """ +
+                """are available."""
             )
             connection.ping(reconnect=True)
             cursor.execute(
-                "UPDATE products SET available_amount = available_amount + %s WHERE product_id=%s",
+                """UPDATE products
+                SET available_amount = available_amount + %s
+                WHERE product_id=%s""",
                 (product_in_cart["product_amount"], product_id),
             )
             cursor.execute(
@@ -1525,15 +1550,18 @@ def remove_item(cart, product_id):
             )
             connection.commit()
             print(
-                Fore.GREEN
-                + f"Removed all products with ID {product_id} from cart {cart['cart_id']}."
+                Fore.GREEN +
+                """Removed all products with ID """ +
+                f"""{product_id} from cart {cart['cart_id']}."""
             )
             break
 
         elif amount_input == product_in_cart["product_amount"]:
             connection.ping(reconnect=True)
             cursor.execute(
-                "UPDATE products SET available_amount = available_amount + %s WHERE product_id=%s",
+                """UPDATE products
+                SET available_amount = available_amount + %s
+                WHERE product_id=%s""",
                 (product_in_cart["product_amount"], product_id),
             )
             cursor.execute(
@@ -1542,25 +1570,32 @@ def remove_item(cart, product_id):
             )
             connection.commit()
             print(
-                Fore.GREEN
-                + f"Removed all products with ID {product_id} from cart {cart['cart_id']}."
+                Fore.GREEN +
+                f"""Removed all products with ID {product_id} """ +
+                f"""from cart {cart['cart_id']}."""
             )
             break
 
         else:
             connection.ping(reconnect=True)
             cursor.execute(
-                "UPDATE products SET available_amount = available_amount + %s WHERE product_id=%s",
+                """UPDATE products
+                SET available_amount = available_amount + %s
+                WHERE product_id=%s""",
                 (amount_input, product_id),
             )
             cursor.execute(
-                "UPDATE cart_items SET product_amount = product_amount - %s WHERE product_id=%s AND cart_id=%s",
+                """UPDATE cart_items
+                SET product_amount = product_amount - %s
+                WHERE product_id=%s
+                AND cart_id=%s""",
                 (amount_input, product_id, cart["cart_id"]),
             )
             connection.commit()
             print(
                 Fore.GREEN
-                + f"Removed item {product_id} {amount_input} times from cart {cart['cart_id']}."
+                + f"""Removed item {product_id} {amount_input} """ +
+                """times from cart {cart['cart_id']}."""
             )
             break
 
@@ -1586,12 +1621,14 @@ def select_cart_by_value(callable_value):
 
 
 def add_walk_in_items(cart_id):
-    """Function to add items to cart of walk-in customer / Ask repeatatly for more additions"""
+    """Function to add items to cart of walk-in customer / """
+    """Ask repeatatly for more additions"""
 
     while True:
 
         decision = input(
-            f"Do you want to add a product to cart {cart_id['cart_id']}? [y/n]\n"
+            """Do you want to add a product to cart """ +
+            f"""{cart_id['cart_id']}? [y/n]\n"""
         )
 
         if decision.lower() == "y":
@@ -1628,7 +1665,8 @@ def remove_walk_in_cart(cart_id):
 
             choice = input(
                 Fore.RED
-                + f"There are still items in cart {cart_id}. Do you still want to continue? [y/n]\n"
+                + f"""There are still items in cart {cart_id}. """ +
+                """Do you still want to continue? [y/n]\n"""
             )
 
             if choice.lower() == "y":
@@ -1640,7 +1678,8 @@ def remove_walk_in_cart(cart_id):
                 connection.commit()
                 print(
                     Fore.GREEN
-                    + f"Cart {cart_id} and all of the items inside have been removed."
+                    + f"""Cart {cart_id} and all of the items """ +
+                    """inside have been removed."""
                 )
                 break
 
@@ -1664,7 +1703,10 @@ def complete_purchase(purchase_type):
     if purchase_type == "walk-in":
         connection.ping(reconnect=True)
         cursor.execute(
-            "SELECT SQL_NO_CACHE * FROM cart WHERE walk_in=%s ORDER BY cart_id ASC",
+            """SELECT SQL_NO_CACHE *
+            FROM cart
+            WHERE walk_in=%s
+            ORDER BY cart_id ASC""",
             (1,),
         )
         walk_in_carts = cursor.fetchall()
@@ -1675,7 +1717,8 @@ def complete_purchase(purchase_type):
         if len(walk_in_carts) > 0:
 
             print(
-                "The following walk-in carts are currently open(newst entry on bottom):"
+                """The following walk-in carts are currently """
+                """open(newst entry on bottom):"""
             )
 
             for cart in walk_in_carts:
@@ -1687,7 +1730,8 @@ def complete_purchase(purchase_type):
                 try:
                     decision = int(
                         input(
-                            "Please enter a cart ID to complete or 0 to cancel:\n"
+                            """Please enter a cart ID to complete or"""
+                            """ 0 to cancel:\n"""
                         )
                     )
 
@@ -1713,7 +1757,10 @@ def complete_purchase(purchase_type):
 
         connection.ping(reconnect=True)
         cursor.execute(
-            "SELECT SQL_NO_CACHE * FROM bookings WHERE active = %s ORDER BY table_id ASC",
+            """SELECT SQL_NO_CACHE *
+            FROM bookings
+            WHERE active = %s
+            ORDER BY table_id ASC""",
             (1,),
         )
         bookings = cursor.fetchall()
