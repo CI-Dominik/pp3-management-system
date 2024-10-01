@@ -166,13 +166,12 @@ def search_customer_attribute(type=None, callable_type=None):
 
         """If no attribute is provided, choose one here"""
 
-        print("")
-        print("Please choose attribute to get customer by:")
+        print("Please choose attribute to get customer by:\n")
         print("1. Name (Possible duplicates)")
         print("2. Email address")
         print("3. Phone number")
         print("4. Customer ID")
-        print("5. Cancel")
+        print("5. Cancel\n")
 
         while True:
 
@@ -637,47 +636,54 @@ def show_customers():
     result_list = [result[i: i + 10] for i in range(0, len(result), 10)]
     index = 0
 
-    while True:
+    if len(result_list) > 0:
 
-        print("+------- CUSTOMER OVERVIEW -------+\n")
+        while True:
 
-        print(Fore.YELLOW + f"Page {index + 1} / {len(result_list)}\n")
+            print("+------- CUSTOMER OVERVIEW -------+\n")
 
-        for i in result_list[index]:
+            print(Fore.YELLOW + f"Page {index + 1} / {len(result_list)}\n")
 
-            print(
-                Fore.GREEN
-                + f"""ID: {i['customer_id']}, Name: {i['first_name']} """ +
-                f"""{i['last_name']}, Email: {i['email']},""" +
-                f""" Phone: {i['phone_number']}"""
+            for i in result_list[index]:
+
+                print(
+                    Fore.GREEN
+                    + f"""ID: {i['customer_id']}, Name: {i['first_name']} """ +
+                    f"""{i['last_name']}, Email: {i['email']},""" +
+                    f""" Phone: {i['phone_number']}"""
+                )
+
+            scroll = input(
+                """Enter '<' to scroll left, '>' to scroll right """
+                """or '0' to cancel:\n"""
             )
 
-        scroll = input(
-            "Enter '<' to scroll left, '>' to scroll right or '0' to cancel:\n"
-        )
+            if scroll == ">":
+                os.system("clear")
+                index += 1
+                if index > len(result_list) - 1:
+                    index = 0
+                continue
 
-        if scroll == ">":
-            os.system("clear")
-            index += 1
-            if index > len(result_list) - 1:
-                index = 0
-            continue
+            elif scroll == "<":
+                os.system("clear")
+                index -= 1
+                if index < 0:
+                    index = len(result_list) - 1
+                continue
 
-        elif scroll == "<":
-            os.system("clear")
-            index -= 1
-            if index < 0:
-                index = len(result_list) - 1
-            continue
+            elif scroll == "0":
+                os.system("clear")
+                break
 
-        elif scroll == "0":
-            os.system("clear")
-            break
+            else:
+                os.system("clear")
+                print(Fore.RED + "Invalid input.\n")
+                continue
 
-        else:
-            os.system("clear")
-            print(Fore.RED + "Invalid input.\n")
-            continue
+    else:
+        os.system("clear")
+        print(Fore.RED + "There are no customers to show.\n")
 
 
 """ Customer Functions End """
@@ -733,7 +739,7 @@ def bookings_tables_menu():
                 continue
             else:
                 os.system("clear")
-                print(Fore.RED + "There are currently no tables available.")
+                print(Fore.RED + "There are currently no tables available.\n")
                 continue
 
         elif response == 3:
@@ -879,7 +885,7 @@ def book_table():
             print(
                 Fore.RED
                 + """There are currently no tables available """
-                """for your entered amount of people."""
+                """for your entered amount of people.\n"""
             )
             bookings_tables_menu()
 
@@ -1813,7 +1819,7 @@ def complete_purchase(purchase_type):
                     continue
 
         else:
-            print(Fore.RED + "There are currently no walk-in carts open.")
+            print(Fore.RED + "There are currently no walk-in carts open.\n")
 
     elif purchase_type == "booking":
 
@@ -2146,11 +2152,11 @@ def get_sales():
 
     """ Check if there are any sales """
 
+    os.system("clear")
+
+    print("The following sales were found:\n")
+
     if len(sales_data) > 0:
-
-        os.system("clear")
-
-        print("The following sales were found:\n")
 
         for sale in sales_data:
             print(
