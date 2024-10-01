@@ -732,6 +732,7 @@ def bookings_tables_menu():
                 print("")
                 continue
             else:
+                os.system("clear")
                 print(Fore.RED + "There are currently no tables available.")
                 continue
 
@@ -874,6 +875,7 @@ def book_table():
                 bookings_tables_menu()
 
         else:
+            os.system("clear")
             print(
                 Fore.RED
                 + """There are currently no tables available """
