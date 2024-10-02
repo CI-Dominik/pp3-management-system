@@ -1385,6 +1385,7 @@ def select_cart():
             break
 
         elif selection_input == 4:
+            os.system("clear")
             break
 
         else:

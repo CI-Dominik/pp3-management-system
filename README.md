@@ -45,6 +45,7 @@ The live system can be viewed here: [Link to the Restaurant Management System](h
   * [MySQL Connector](#mysql-connector)
   * [Pycodestyle (Former PEP8)](#pycodestyle-former-pep8)
   * [Flake8](#flake8)
+  * [maskpass](#maskpass)
   * [Black](#black)
   * [OS module](#os-module)
   * [RE module](#re-module)
@@ -234,6 +235,9 @@ To inform the user of possible mistakes, every menu input is secured by catching
 
 ### Flake8
 * The Flake8 extension of Visual Studio Code was used to get a constant feedback about pythonic style.
+
+### maskpass
+* The maskpass module was used to hide the entered password when starting the program.
 
 ### Black
 * The black module was used to format some of the code.
