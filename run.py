@@ -445,6 +445,7 @@ def add_customer():
             email_pattern = r"^[a-z0-9]+[\._-]?[a-z0-9]+[@]\w+[.]\w+$"
 
             if re.match(email_pattern, email_input) is None:
+                os.system("clear")
                 print(
                     Fore.RED + "Wrong email format. Example: value@mail.com.\n"
                 )
@@ -457,7 +458,7 @@ def add_customer():
                 + """Customer's email address already exists. """
                 """Creation cancelled.\n"""
             )
-            break
+            continue
 
         # Check phone number format
 
@@ -498,9 +499,9 @@ def add_customer():
             os.system("clear")
             print(
                 Fore.RED
-                + "Customer's phone number already exists. Cancelled.\n"
+                + "Customer's phone number already exists.\n"
             )
-            break
+            continue
 
         # Add customer to database
 
@@ -599,10 +600,11 @@ def update_customer_data(customer, value, callable_value):
             email_pattern = r"^[a-z0-9]+[\._-]?[a-z0-9]+[@]\w+[.]\w+$"
 
             if re.match(email_pattern, value_input) is None:
+                os.system("clear")
                 print(
                     Fore.RED + "Wrong email format. Example: value@mail.com.\n"
                 )
-                break
+                continue
 
         # Check phone numnber format
 
@@ -614,11 +616,12 @@ def update_customer_data(customer, value, callable_value):
             )
 
             if re.match(phone_pattern, value_input) is None:
+                os.system("clear")
                 print(
                     Fore.RED
                     + "Wrong format. Please use a UK formatted number.\n"
                 )
-                break
+                continue
 
             value_input = value_input.replace(" ", "")
 
@@ -641,6 +644,7 @@ def update_customer_data(customer, value, callable_value):
             value_input in database_check_email
             or value_input in database_check_phone_number
         ):
+            os.system("clear")
             print(
                 Fore.RED + "Entry already in database. No duplicates allowed."
             )
