@@ -282,6 +282,7 @@ To inform the user of possible mistakes, every menu input is secured by catching
 | Testing method | Expected result | Actual result |
 |:-------------:|:---------------:|:-------------:|
 | Enter all available menus | Access should be granted via numbers | Pass |
+| Trying to shut down the program | A message should appear and close the program | Pass |
 
 ## Customer Management Menu Testing
 
@@ -316,25 +317,74 @@ To inform the user of possible mistakes, every menu input is secured by catching
 
 | Testing method | Expected result | Actual result |
 |:-------------:|:---------------:|:-------------:|
-| TEXT | TEXT | TEXT |
-| TEXT | TEXT | TEXT |
-| TEXT | TEXT | TEXT |
+| Enter menu | Menu should appear | TEXT |
+| Try to book a table | Question how many people attend should appear | Pass |
+| Enter amount of people | Free tables should be displayed if free | Pass |
+| Enter amount of people with no free tables | A warning that no table is free should appear | Pass |
+| Select table | The program should ask if it is for a new person, an exsiting one or a guest | Pass |
+| Enter values for new customer | Person should be written into database and table should be booked | Pass |
+| Search for an exisiting person | Booking should be written into database | Pass |
+| Book table as a guest | Booking should be immediately be written into database | Pass |
+| | | |
+| Select to see open tables | Open tables or a warning when none are avabilable should appear | Pass |
+| | | |
+| Select to see open bookings | Open bookings or a warning when none are avabilable should appear | Pass |
 
 ## Sales / Carts Menu Testing
 
 | Testing method | Expected result | Actual result |
 |:-------------:|:---------------:|:-------------:|
-| TEXT | TEXT | TEXT |
-| TEXT | TEXT | TEXT |
-| TEXT | TEXT | TEXT |
+| Try to add a product to a cart | The search method should appear, asking for booking ID or table ID | Pass |
+| Searching by booking ID or table ID | Open bookings and tables shoud appear | Pass |
+| Select a booking | Open carts for that table should appear | Pass |
+| Select a cart | Product search should appear | Pass |
+| Select a product by ID | A question for how many items should appear | Pass |
+| Selecting the number of items | A message should appear that states how many items were added | Pass |
+| Selecting to look for guest bookings | The same procedure should be present | Pass |
+| | | |
+| Starting walk-in purchase | Selection for a new walk-in customer or removal of cart should appear | Pass |
+| Creating a new walk-in cart | The cart should be created and the program should ask for products | Pass |
+| Accepting addition to cart | Product search should appear and products should be addable like in bookings | Pass |
+| Denying addition to cart | Sales menu should open | Pass |
+| Trying to remove a walk-in cart | A list of carts should appear | Pass |
+| Selecting a cart | The cart should be removed if there are no items inside | Pass |
+| Selecting a cart with items | A warning that there are still items inside should appear | Pass |
+| Deleting a cart with items | The items should be removed and the cart should be removed | Pass |
+| | | |
+| Select to delete an item from cart | A selection to search by booking ID, table ID or guests should appear | Pass |
+| Starting the removal process | The same process like when adding an item to a cart should start | Pass |
+| | | |
+| Select to complete a purchase | A question for a booking or guest should appear | Pass |
+| Select a booking purchase | A list of bookings should appear | Pass |
+| Select a booking by ID with no items | A warning that no items are present should appear and open the sales menu | Pass |
+| Selecting a booking ID with items | A summary of all items and the final price should be visible and the program should ask to insert gotten money | Pass |
+| Entering money value | Return money should be calculated and the table should be free again, acompanied with a message for that | Pass |
+| Select to complete a walk-in purchase | When there are any, they should be displayed, otherwise, a warning should appear | Pass |
+| Completing a walk-in purchase | The same payment process like with a booking should start | Pass |
+| | | |
+| Select to view sales | A list of the recent sales should be displayed in ascending order | Pass |
 
 ## Products Menu Testing
 
 | Testing method | Expected result | Actual result |
 |:-------------:|:---------------:|:-------------:|
-| TEXT | TEXT | TEXT |
-| TEXT | TEXT | TEXT |
-| TEXT | TEXT | TEXT |
+| Select to add a new product | The category should be asked | Pass |
+| Select a category | The insertion of data should start | Pass |
+| Entering a name | The name should be used for further processing and the ask for stock amount should appear | Pass |
+| Entering the stock amount | A warning with negative or false values should appear or the number should be accepted if otherwise | Pass |
+| Entering a price | A warning should appear if the format is wrong, otherwise, the item should be written into the database | Pass |
+| | | |
+| Trying to update a product | A selection of the category should appear | Pass |
+| Selecting a category | A list of items should appear | Pass |
+| Selecting an item | A question which attribute should be changed should appear | Pass |
+| Trying to change the name | A warning should appear if the product is already in the database or it should be changed if otherwise | Pass |
+| Trying to change the category | A warning should appear when choosing a wrong category or the product should be changed otherwise | Pass |
+| Trying to change the price | A warning for a false format should appear in case of a wrong input, otherwise, the price should be changed | Pass |
+| Trying to set the amount for an item | Negative numbers should create a warning, right numbers change the amount | Pass |
+| | | |
+| Select to check wares | A question for the category should appear | Pass |
+| Select a category | A scrollable list of all items in that category should appear | Pass |
+| Trying to scroll with too less sites | No scrolling should start and the page should renew | Pass |
 
 ---
 

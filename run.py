@@ -1791,7 +1791,7 @@ def remove_walk_in_cart(cart_id):
     if len(cart_data) > 0:
 
         while True:
-
+            os.system("clear")
             choice = input(
                 Fore.RED
                 + f"""There are still items in cart {cart_id}. """ +
@@ -1805,6 +1805,7 @@ def remove_walk_in_cart(cart_id):
                 )
                 cursor.execute("DELETE FROM cart WHERE cart_id=%s", (cart_id,))
                 connection.commit()
+                os.system("clear")
                 print(
                     Fore.GREEN
                     + f"""Cart {cart_id} and all of the items """ +
