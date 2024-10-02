@@ -3,6 +3,7 @@
 import os
 import mysql.connector
 import re
+import maskpass
 from mysql.connector import Error
 from dotenv import load_dotenv
 from colorama import Fore, Style, init
@@ -2843,13 +2844,10 @@ def main():
     # Password check
 
     while True:
-        pw_input = input(
-            Fore.YELLOW
-            + "Please enter password to access management program:\n"
-        )
-        print("")
+        pwd = maskpass.askpass(prompt=Fore.YELLOW + """Please insert """
+                               """password:\n""", mask="#")
 
-        if pw_input == admin_access:
+        if pwd == admin_access:
             os.system("clear")
             main_menu()
             break
