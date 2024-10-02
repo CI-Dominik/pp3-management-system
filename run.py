@@ -67,6 +67,7 @@ def main_menu():
             response = int(input("Please select a topic: \n"))
 
         except ValueError:
+            os.system("clear")
             print(Fore.RED + "Please only enter numbers.\n")
             continue
 
