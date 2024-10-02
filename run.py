@@ -1353,11 +1353,11 @@ def select_cart():
 
     while True:
 
-        print("Please select a table ID or booking ID to find open carts.")
+        print("Please select a table ID or booking ID to find open carts.\n")
         print("1. Booking ID")
         print("2. Table ID")
         print("3. Guest payments")
-        print("4. Cancel")
+        print("4. Cancel\n")
 
         try:
             selection_input = int(input("Please enter a number: \n"))
