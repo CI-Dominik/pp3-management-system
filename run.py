@@ -98,6 +98,7 @@ def main_menu():
             exit()
 
         else:
+            os.system("clear")
             print(Fore.RED + "Please insert a valid number.\n")
 
 
@@ -390,6 +391,17 @@ def add_customer():
             os.system("clear")
             break
 
+        elif f_name_input.strip() == "":
+            os.system("clear")
+            print(Fore.RED + "Name cannot be empty.\n")
+            continue
+
+        elif len(f_name_input) < 3:
+            os.system("clear")
+            print(Fore.RED + """Name input should at least """
+                  """be three characters long.\n""")
+            continue
+
         l_name_input = input(
             "Please insert the customer's last name or enter 0 to exit: \n"
         )
@@ -397,6 +409,17 @@ def add_customer():
         if l_name_input == "0":
             os.system("clear")
             break
+
+        elif l_name_input.strip() == "":
+            os.system("clear")
+            print(Fore.RED + "Name cannot be empty.\n")
+            continue
+
+        elif len(l_name_input) < 3:
+            os.system("clear")
+            print(Fore.RED + """Name input should at least """
+                  """be three characters long.\n""")
+            continue
 
         # Check email address format
 
@@ -424,7 +447,7 @@ def add_customer():
                 print(
                     Fore.RED + "Wrong email format. Example: value@mail.com.\n"
                 )
-                break
+                continue
 
         else:
             os.system("clear")
@@ -1305,7 +1328,7 @@ def sales_carts_menu():
         # Show list of last sales
 
         elif response == 5:
-
+            os.system("clear")
             get_sales()
 
         elif response == 6:
@@ -2238,8 +2261,8 @@ def get_sales():
 
         for sale in sales_data:
             print(
-                Fore.GREEN
-                + f"""Sale ID: {sale['sale_id']}, """ +
+                Fore.GREEN +
+                f"""Sale ID: {sale['sale_id']}, """ +
                 f"""Cart ID: {sale['cart_id']}, """ +
                 f"""Customer ID: {sale['customer_id']}, """ +
                 f"""Date: {sale['date']}"""
@@ -2248,6 +2271,8 @@ def get_sales():
     else:
         os.system("clear")
         print(Fore.RED + "There are no sales.\n")
+
+    sales_data = None
 
 
 # Sale Functions End
@@ -2267,7 +2292,7 @@ def products_menu():
         print("|                              |")
         print("| 1. Add product               |")
         print("| 2. Update product            |")
-        print("| 3. Check wares               |")
+        print("| 3. Check stock               |")
         print("| 4. Main menu                 |")
         print("|                              |")
         print("--------------------------------\n")
