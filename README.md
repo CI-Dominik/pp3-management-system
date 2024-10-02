@@ -58,7 +58,7 @@ The live system can be viewed here: [Link to the Restaurant Management System](h
 <br>
 
 [**TESTING**](#testing)
-  * [General Testing](#general-testing)
+  * [General testing (Used in every input)](#general-testing-used-in-every-input)
   * [Main Menu Testing](#main-menu-testing)
   * [Customer Management Menu Testing](#customer-management-menu-testing)
   * [Tables / Bookings Menu Testing](#tables--bookings-menu-testing)
@@ -112,7 +112,7 @@ The live system can be viewed here: [Link to the Restaurant Management System](h
 * Happy Life, a local coffee shop reached out regarding their plan to implement a management system for their business. As their business is growing, they want to decrease their workload for bureaucratic affairs. Several topics were mentioned that needed improvement.
 
 ### Management of customers
-* People regularly contact Happy Life to book tables and the company wants to simplify the process. When a potential customer contacts them, they want to be able to register a new customer and edit their information. It should also be possible to assign a person to a table and give the process a booking ID.
+* People regularly contact Happy Life to book tables, and the company wants to simplify the process. When a potential customer contacts them, they want to be able to register a new customer and edit their information. It should also be possible to assign a person to a table and give the process a booking ID.
 
 ### Bookings
 * Happy Life's booking system should be able to book a table for a registered customer or guests. It should also take the amount of customers in consideration and reply with open tables for the given amount. The team should always be able to get an overview over the amount of tables available and the bookings made in their system that are not yet finished.
@@ -128,7 +128,7 @@ The live system can be viewed here: [Link to the Restaurant Management System](h
 ## **PLANNING**
 
 ## The needs for Happy Life's management system
-* The company has needs that need to be fulfilled, so a strategical planning process was made. The platform will be used by coffee staff only, so the interface should include only management topics as customers will not operate the system. Several categories will simplify and divide the menu into controllable, user-friendly chunks.<br>
+* The company has needs that need to be fulfilled, so a strategical planning process was made. The platform will be used by coffee staff only, so the interface should include only management topics, as customers will not operate the system. Several categories will simplify and divide the menu into controllable, user-friendly chunks.<br>
 A database will save all needed pieces of information as a reliable and secure source. MySQL will be used, as it provides the ability to separate the data into clear columns that have the ability of being nullable or not.<br>
 A password should protect the system, in case a customer gets access to the terminal.
 
@@ -139,7 +139,7 @@ A password should protect the system, in case a customer gets access to the term
 ## Easy access and clear division
 * The user will immediately be able to complete their needed task without unnecessary pieces of information. A menu with all categories welcomes them. With the help of numbers, the user will be able to navigate through the several menus.<br>
 The structure is divided into management for customers, bookings, sales and products. Each of those menus will have their own set of bullet points. For example, in the customer panel, it is possible to add a new customer, edit their data or search for a specific person, based on provided pieces of information like a name, email address or phone number.<br>
-To inform the user of possible mistakes, every menu input is secured by catching wrong inputs or wrong types of inputs like texts instead of a whole number.
+To inform the user of possible mistakes, every menu input is secured by catching wrong inputs or wrong types of inputs, like texts instead of a whole number.
 
 ---
 
@@ -153,21 +153,21 @@ To inform the user of possible mistakes, every menu input is secured by catching
 ![Screenshot of the Main Menu](docs/menu_structure/menu_01.jpg)
 
 ## Customers menu
-* The customers menu is used to search for a customer using data like the name (with possible duplicates but a listing of all customers with that name to choose one), email address, phone number or ID. The user can also insert new data, update them or show a scrollable list of all customers. Deletion of data is prohibited, as all employees get access to the terminal. Such data need to be erased in the MySQL management tool.
+* The customer management menu is used to search for a customer using data like the name (with possible duplicates but a listing of all customers with that name to choose one), email address, phone number or ID. The user can also insert new data, update them or show a scrollable list of all customers. Deletion of data is prohibited, as all employees get access to the terminal. Such data need to be erased in the MySQL management tool.
 
 <br>
 
 ![Screenshot of the Customers menu](docs/menu_structure/menu_02.jpg)
 
 ## Bookings / Tables Menu
-* In the menu for bookings and tables, the user is able to book a table for either a new customer, an exisiting one or just a guest who does not want to be inside the database. An overview over the available tables is present and open bookings can be displayed. Tables are free again after the purchase is complete.
+* In the menu for bookings and tables, the user is able to book a table for either a new customer, an existingone or just a guest who does not want to be inside the database. An overview over the available tables is present and open bookings can be displayed. Tables are free again after the purchase is complete.
 
 <br>
 
 ![Screenshot of the Bookings and Tables menu](docs/menu_structure/menu_03.jpg)
 
 ## Sales / Carts Menu
-* The sales and carts menu is used to add a product to an already exisiting cart, walk-in purchases can be completed without the need for a booking, products can be removed from an exisiting cart (also from walk-in carts), purchases can be completed and a list of all sales can be viewed in ascending order.
+* The sales and carts menu is used to add a product to an already existingcart, walk-in purchases can be completed without the need for a booking, products can be removed from an existingcart (also from walk-in carts), purchases can be completed and a list of all sales can be viewed in ascending order.
 
 <br>
 
@@ -292,7 +292,7 @@ To inform the user of possible mistakes, every menu input is secured by catching
 | Searching for names that are unique | Only one entry should appear formatted | Pass |
 | Searching for names that are duplicates | All available options should be listed | Pass |
 | Accessing options given | A question if the given information is right | Pass |
-| Searching for email addresses, phone numbers and customer IDs | Only unique entries should be displyed | Pass |
+| Searching for email addresses, phone numbers and customer IDs | Only unique entries should be displayed | Pass |
 | | | |
 | Entering add customer menu | Menu should open | Pass |
 | Enter first and last names | Entry should lead to next point | Pass |
@@ -303,7 +303,7 @@ To inform the user of possible mistakes, every menu input is secured by catching
 | | | |
 | Entering update customer menu | Menu should appear | Pass |
 | Entering customer data to search | Customers should be listed | Pass |
-| Choosing a customer | Approvement message should appear | Pass |
+| Choosing a customer | Approval message should appear | Pass |
 | Changing first or last name | Entry should be written into database | Pass |
 | Trying to update email address with right format | Address should be written into database | Pass |
 | Trying to update email address with wrong format | An error should appear and lead back | Pass |
@@ -317,25 +317,25 @@ To inform the user of possible mistakes, every menu input is secured by catching
 
 | Testing method | Expected result | Actual result |
 |:-------------:|:---------------:|:-------------:|
-| Enter menu | Menu should appear | TEXT |
+| Enter menu | Menu should appear | Pass |
 | Try to book a table | Question how many people attend should appear | Pass |
 | Enter amount of people | Free tables should be displayed if free | Pass |
 | Enter amount of people with no free tables | A warning that no table is free should appear | Pass |
-| Select table | The program should ask if it is for a new person, an exsiting one or a guest | Pass |
+| Select table | The program should ask if it is for a new person, an existing one or a guest | Pass |
 | Enter values for new customer | Person should be written into database and table should be booked | Pass |
-| Search for an exisiting person | Booking should be written into database | Pass |
+| Search for an existing person | Booking should be written into database | Pass |
 | Book table as a guest | Booking should be immediately be written into database | Pass |
 | | | |
-| Select to see open tables | Open tables or a warning when none are avabilable should appear | Pass |
+| Select to see open tables | Open tables or a warning when none are available should appear | Pass |
 | | | |
-| Select to see open bookings | Open bookings or a warning when none are avabilable should appear | Pass |
+| Select to see open bookings | Open bookings or a warning when none are available should appear | Pass |
 
 ## Sales / Carts Menu Testing
 
 | Testing method | Expected result | Actual result |
 |:-------------:|:---------------:|:-------------:|
 | Try to add a product to a cart | The search method should appear, asking for booking ID or table ID | Pass |
-| Searching by booking ID or table ID | Open bookings and tables shoud appear | Pass |
+| Searching by booking ID or table ID | Open bookings and tables should appear | Pass |
 | Select a booking | Open carts for that table should appear | Pass |
 | Select a cart | Product search should appear | Pass |
 | Select a product by ID | A question for how many items should appear | Pass |
@@ -343,22 +343,22 @@ To inform the user of possible mistakes, every menu input is secured by catching
 | Selecting to look for guest bookings | The same procedure should be present | Pass |
 | | | |
 | Starting walk-in purchase | Selection for a new walk-in customer or removal of cart should appear | Pass |
-| Creating a new walk-in cart | The cart should be created and the program should ask for products | Pass |
+| Creating a new walk-in cart | The cart should be created, and the program should ask for products | Pass |
 | Accepting addition to cart | Product search should appear and products should be addable like in bookings | Pass |
 | Denying addition to cart | Sales menu should open | Pass |
 | Trying to remove a walk-in cart | A list of carts should appear | Pass |
 | Selecting a cart | The cart should be removed if there are no items inside | Pass |
 | Selecting a cart with items | A warning that there are still items inside should appear | Pass |
-| Deleting a cart with items | The items should be removed and the cart should be removed | Pass |
+| Deleting a cart with items | The items should be removed, and the cart should be removed | Pass |
 | | | |
 | Select to delete an item from cart | A selection to search by booking ID, table ID or guests should appear | Pass |
-| Starting the removal process | The same process like when adding an item to a cart should start | Pass |
+| Starting the removal process | The same process as when adding an item to a cart should start | Pass |
 | | | |
 | Select to complete a purchase | A question for a booking or guest should appear | Pass |
 | Select a booking purchase | A list of bookings should appear | Pass |
 | Select a booking by ID with no items | A warning that no items are present should appear and open the sales menu | Pass |
-| Selecting a booking ID with items | A summary of all items and the final price should be visible and the program should ask to insert gotten money | Pass |
-| Entering money value | Return money should be calculated and the table should be free again, acompanied with a message for that | Pass |
+| Selecting a booking ID with items | A summary of all items and the final price should be visible, and the program should ask to insert gotten money | Pass |
+| Entering money value | Return money should be calculated, and the table should be free again, accompanied with a message for that | Pass |
 | Select to complete a walk-in purchase | When there are any, they should be displayed, otherwise, a warning should appear | Pass |
 | Completing a walk-in purchase | The same payment process like with a booking should start | Pass |
 | | | |
@@ -371,34 +371,34 @@ To inform the user of possible mistakes, every menu input is secured by catching
 | Select to add a new product | The category should be asked | Pass |
 | Select a category | The insertion of data should start | Pass |
 | Entering a name | The name should be used for further processing and the ask for stock amount should appear | Pass |
-| Entering the stock amount | A warning with negative or false values should appear or the number should be accepted if otherwise | Pass |
+| Entering the stock amount | A warning with negative or false values should appear, or the number should be accepted if otherwise | Pass |
 | Entering a price | A warning should appear if the format is wrong, otherwise, the item should be written into the database | Pass |
 | | | |
 | Trying to update a product | A selection of the category should appear | Pass |
 | Selecting a category | A list of items should appear | Pass |
 | Selecting an item | A question which attribute should be changed should appear | Pass |
-| Trying to change the name | A warning should appear if the product is already in the database or it should be changed if otherwise | Pass |
+| Trying to change the name | A warning should appear if the product is already in the database, or it should be changed if otherwise | Pass |
 | Trying to change the category | A warning should appear when choosing a wrong category or the product should be changed otherwise | Pass |
 | Trying to change the price | A warning for a false format should appear in case of a wrong input, otherwise, the price should be changed | Pass |
 | Trying to set the amount for an item | Negative numbers should create a warning, right numbers change the amount | Pass |
 | | | |
 | Select to check wares | A question for the category should appear | Pass |
 | Select a category | A scrollable list of all items in that category should appear | Pass |
-| Trying to scroll with too less sites | No scrolling should start and the page should renew | Pass |
+| Trying to scroll with too few sites | No scrolling should start, and the page should renew | Pass |
 
 ---
 
 ## **VALIDATOR TESTING**
 
 ### Flake8
-* The code was checked for errors using the Flake8 extension for Visual Studio Code as a PEP8 control tool. No errors occured while testing the final product.
+* The code was checked for errors using the Flake8 extension for Visual Studio Code as a PEP8 control tool. No errors occurred while testing the final product.
 
 <br>
 
 ![Screenshot of the Flake8 testing](docs/flake8-validation.jpg)
 
 ### Pycodestyle (Former PEP8)
-* After erasing all bugs pointed out from Flake8, the document was again checked using Pycodestyle. No errors occured.
+* After erasing all bugs pointed out from Flake8, the document was again checked using Pycodestyle. No errors occurred.
 
 <br>
 
@@ -409,8 +409,8 @@ To inform the user of possible mistakes, every menu input is secured by catching
 ## **BUGS**
 
 ## Unfixed bugs
-* When accessing the list of scrollable data, the user first needs to enter 0 to cancel the scrolling before the value can be provided. Many versions were tried but no solution was found to that problem at the time of deployment. This issue needs to be addressed in the future.
-* When left unattented for a long time, the Heroku window freezes and needs to be restarted. No fix has been found at the moment of deployment.
+* When accessing the list of scrollable data, the user first needs to enter 0 to cancel the scrolling before the value can be provided. Many versions were tried, but no solution was found to that problem at the time of deployment. This issue needs to be addressed in the future.
+* When left unattended for a long time, the Heroku window freezes and needs to be restarted. No fix has been found at the moment of deployment.
 
 ---
 
