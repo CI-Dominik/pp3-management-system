@@ -411,6 +411,7 @@ To inform the user of possible mistakes, every menu input is secured by catching
 ## Unfixed bugs
 * When accessing the list of scrollable data, the user first needs to enter 0 to cancel the scrolling before the value can be provided. Many versions were tried, but no solution was found to that problem at the time of deployment. This issue needs to be addressed in the future.
 * When left unattended for a long time, the Heroku window freezes and needs to be restarted. No fix has been found at the moment of deployment.
+* When viewing sales in the sales menu, a part of the last input remains in the terminal, even though the whole screen gets cleared beforehand. No Fix was found at the time of deployment.
 
 ---
 
